@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palora | Thoughtful Handmade Gifting</title>
+  <meta name="description"
+    content="Customizable, handmade gifts that turn simple moments into lasting memories. Order directly via WhatsApp.">
+
+  <!-- Google Fonts: Cormorant Garamond (Serif Headings) & Plus Jakarta Sans (Clean Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Global Sticky Header (Integrated on Dusty Rose Hero) -->
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <!-- Navigation Links (Left) -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#occasions" class="nav-link">Collections</a></li>
+          <li><a href="#products" class="nav-link">Personalizations</a></li>
+        </ul>
+      </nav>
+
+      <!-- Brand Logo (Centered) -->
+      <a href="#" class="brand-logo" aria-label="Palora Home">
+        <span class="brand-name">Palora</span>
+      </a>
+
+      <!-- Header Action Controls (Right) -->
+      <div class="header-actions">
+        <!-- Search Button -->
+        <button class="icon-btn search-btn" id="searchBtn" aria-label="Search collection">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <!-- Cart Trigger Button with Dynamic Counter Badge -->
+        <button class="cart-btn" id="cartBtn" aria-label="Open shopping bag">
+          <svg class="bag-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false"
+          aria-controls="mobileDrawer">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu Navigation -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+    <div class="mobile-drawer-header">
+      <span class="mobile-drawer-title">Explore Palora</span>
+      <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close menu">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#hero" class="mobile-link">Home</a></li>
+      <li><a href="#occasions" class="mobile-link">Shop by Occasion</a></li>
+      <li><a href="#products" class="mobile-link">All Products</a></li>
+      <li><a href="#about" class="mobile-link">Our Story</a></li>
+    </ul>
+    <div class="mobile-drawer-footer">
+      <p class="drawer-contact-note">Have a custom gifting inquiry?</p>
+      <a href="https://wa.me/919876543210?text=Hi%20Palora!%20I'd%20like%20to%20discuss%20a%20custom%20gift."
+        target="_blank" rel="noopener noreferrer" class="btn btn-burgundy btn-block">Chat with Us on WhatsApp</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Hero Section (Full Dusty Rose Canvas matching Reference Image) -->
+    <section class="hero-section" id="hero">
+      <div class="hero-wrapper">
+        <div class="hero-text-content">
+          <div class="hero-tagline-row">
+            <span class="hero-tagline">THOUGHTFUL GIFTS FOR EVERY OCCASION</span>
+            <span class="tagline-dash" aria-hidden="true"></span>
+          </div>
+          <h1 class="hero-heading">
+            Make Every<br>
+            Moment <em>Special.</em>
+          </h1>
+          <p class="hero-subheading">Customizable, handmade gifts that turn simple moments into lasting memories.</p>
+          <div class="hero-cta-wrapper">
+            <a href="#products" class="btn btn-burgundy hero-btn">
+              <span>Explore Our Collections</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Side: Clean Space Reserved for User's Hero Image -->
+        <div class="hero-image-content">
+          <div class="hero-visual-frame" id="heroVisualFrame">
+            <!-- Subtle ambient satin glow; user can drop hero image directly here later -->
+            <div class="hero-ambient-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Proposition Bar (Directly Below Hero Section) -->
+    <section class="value-bar" aria-label="Value Propositions">
+      <div class="value-bar-container">
+        <!-- Prop 1: Customizable Gift -->
+        <div class="value-item">
+          <div class="value-icon" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 12 20 22 4 22 4 12"></polyline>
+              <rect x="2" y="7" width="20" height="5" rx="1"></rect>
+              <line x1="12" y1="22" x2="12" y2="7"></line>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+          </div>
+          <div class="value-text">
+            <h3 class="value-title">Customizable Gift</h3>
+            <p class="value-desc">Add a personal touch to every gift.</p>
+          </div>
+        </div>
+
+        <div class="value-divider" aria-hidden="true"></div>
+
+        <!-- Prop 2: Handmade Gifts -->
+        <div class="value-item">
+          <div class="value-icon" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4.5c1.8-2 4.8-1.5 6 0.8 1 2 0 4.2-2.5 6.2L12 14.5l-3.5-3C6 9.5 5 7.3 6 5.3c1.2-2.3 4.2-2.8 6-0.8z"></path>
+              <path d="M3 15c2-1 4.5-0.5 6.5 0.5l4 2c2 1 4.5 0.5 6.5-1"></path>
+              <path d="M2 19c2.5-0.5 5 0 7 1l4.5 1.5c2.5 0.5 5.5-0.5 7.5-2"></path>
+            </svg>
+          </div>
+          <div class="value-text">
+            <h3 class="value-title">Handmade Gifts</h3>
+            <p class="value-desc">Crafted with care and attention.</p>
+          </div>
+        </div>
+
+        <div class="value-divider" aria-hidden="true"></div>
+
+        <!-- Prop 3: Pan India Shipping -->
+        <div class="value-item">
+          <div class="value-icon" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="2" y1="9" x2="6" y2="9"></line>
+              <line x1="1" y1="13" x2="5" y2="13"></line>
+              <line x1="3" y1="17" x2="7" y2="17"></line>
+              <rect x="7" y="6" width="10" height="11" rx="1"></rect>
+              <path d="M17 9h3.5l2.5 4v4h-6V9z"></path>
+              <circle cx="10" cy="18" r="2"></circle>
+              <circle cx="19" cy="18" r="2"></circle>
+            </svg>
+          </div>
+          <div class="value-text">
+            <h3 class="value-title">Pan India Shipping</h3>
+            <p class="value-desc">Delivering happiness to your doorstep.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    </section>
+
+    <!-- Shop by Occasion Section -->
+    <section class="occasions-section" id="occasions">
+      <div class="occasions-container">
+        <div class="ornate-heading-wrapper">
+          <span class="ornate-line"></span>
+          <h2 class="ornate-title">Shop by Occasion</h2>
+          <span class="ornate-line"></span>
+        </div>
+
+        <div class="occasions-grid">
+          <!-- Card 1: Birthdays -->
+          <div class="occasion-card" onclick="filterCategory('birthdays')">
+            <div class="occasion-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=500&q=80"
+                alt="Birthday gifts" loading="lazy">
+              <div class="occasion-label-bar">
+                <span class="occasion-icon">🎂</span>
+                <span class="occasion-title">Birthdays</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Anniversaries -->
+          <div class="occasion-card" onclick="filterCategory('anniversaries')">
+            <div class="occasion-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80"
+                alt="Anniversary gifts" loading="lazy">
+              <div class="occasion-label-bar">
+                <span class="occasion-icon">🤍</span>
+                <span class="occasion-title">Anniversaries</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Festivals -->
+          <div class="occasion-card" onclick="filterCategory('festivals')">
+            <div class="occasion-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=500&q=80"
+                alt="Festival celebrations" loading="lazy">
+              <div class="occasion-label-bar">
+                <span class="occasion-icon">🪔</span>
+                <span class="occasion-title">Festivals</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Thank You -->
+          <div class="occasion-card" onclick="filterCategory('thankyou')">
+            <div class="occasion-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=500&q=80"
+                alt="Thank You appreciation gifts" loading="lazy">
+              <div class="occasion-label-bar">
+                <span class="occasion-icon">💌</span>
+                <span class="occasion-title">Thank You</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Just Because -->
+          <div class="occasion-card" onclick="filterCategory('justbecause')">
+            <div class="occasion-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=500&q=80"
+                alt="Just because spontaneous gifts" loading="lazy">
+              <div class="occasion-label-bar">
+                <span class="occasion-icon">🌸</span>
+                <span class="occasion-title">Just Because</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Gallery Section -->
+    <section class="products-section" id="products">
+      <div class="products-container">
+        <div class="section-title-box">
+          <span class="section-subtitle">HANDCRAFTED WITH SOUL</span>
+          <h2 class="section-heading">Our Handcrafted Collection</h2>
+          <p class="section-intro">Every piece is individually handcrafted and customized. Type your custom message,
+            name, or color preference into any card before adding to cart.</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="category-tabs" role="tablist">
+          <button class="tab-btn active" data-filter="all">All Products</button>
+          <button class="tab-btn" data-filter="crochet">Crochet Crafts</button>
+          <button class="tab-btn" data-filter="resin">Resin Keepsakes</button>
+          <button class="tab-btn" data-filter="floral">Floral &amp; Decor</button>
+          <button class="tab-btn" data-filter="frames">Frames &amp; Letters</button>
+          <button class="tab-btn" data-filter="hampers">Luxe Hampers</button>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="products-grid" id="productsGrid" aria-live="polite">
+          <!-- Populated dynamically by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Artisan Story & Quality Section -->
+    <section class="about-section" id="about">
+      <div class="about-container">
+        <div class="about-card">
+          <div class="about-content">
+            <span class="about-tag">Boutique Craftsmanship</span>
+            <h2 class="about-title">Why Palora Gifts Feel Different</h2>
+            <p class="about-paragraph">In a world of mass-produced goods, Palora focuses on creating unique, artisanal
+              items that carry genuine emotional weight. Each bouquet is crocheted petal by petal, each resin keepsake
+              is hand-cast with real dried petals, and each letter is pressed with an authentic wax seal.</p>
+            <p class="about-paragraph">When you place an order, our WhatsApp checkout connects you straight to the
+              artisan who prepares your gift, ensuring every customized detail is handled with personal care.</p>
+
+            <div class="about-badges">
+              <div class="about-badge-item">
+                <span class="badge-icon">🌿</span>
+                <span>Non-Toxic &amp; Eco-Safe</span>
+              </div>
+              <div class="about-badge-item">
+                <span class="badge-icon">✍️</span>
+                <span>Free Handwritten Notes</span>
+              </div>
+              <div class="about-badge-item">
+                <span class="badge-icon">🎁</span>
+                <span>Gift-Ready Packing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart Modal / Slide-Out Drawer (Mobile Bottom Sheet / Desktop Right Drawer) -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+  <aside class="cart-modal" id="cartModal" aria-label="Shopping Cart" aria-hidden="true">
+    <div class="cart-header">
+      <div class="cart-header-title">
+        <h2 class="cart-heading">Your Gift Bag</h2>
+        <span class="cart-count-chip" id="cartHeaderCount">0 items</span>
+      </div>
+      <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="cart-empty" id="cartEmpty">
+      <div class="cart-empty-art">🌸</div>
+      <h3 class="cart-empty-title">Your Gift Bag is Empty</h3>
+      <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
+      <button class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</button>
+    </div>
+
+    <!-- Cart Filled Content -->
+    <div class="cart-body" id="cartBody">
+      <ul class="cart-items-list" id="cartItemsList">
+        <!-- Rendered dynamically -->
+      </ul>
+
+      <!-- Optional Recipient Details for Seamless WhatsApp Message -->
+      <div class="cart-recipient-details">
+        <h4 class="recipient-heading">Optional Delivery Details</h4>
+        <div class="input-row">
+          <input type="text" id="orderCustomerName" class="cart-text-input" placeholder="Your Name (e.g. Aditi)"
+            aria-label="Your Name">
+          <input type="text" id="orderDeliveryCity" class="cart-text-input" placeholder="Delivery City / Pincode"
+            aria-label="Delivery City">
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Footer & Grand Total -->
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total-row">
+        <span class="total-label">Grand Total:</span>
+        <span class="total-amount" id="cartGrandTotal">₹0</span>
+      </div>
+      <p class="total-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+
+      <!-- Primary Action: Proceed to WhatsApp Button -->
+      <button class="btn btn-whatsapp proceed-whatsapp-btn" id="proceedWhatsAppBtn">
+        <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.196 8.196 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.24 8.24-1.44 0-2.85-.38-4.08-1.1l-.29-.17-3.03.8 1.21-2.95-.19-.3a8.156 8.156 0 0 1-1.25-4.32c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.49-1.4-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z" />
+        </svg>
+        <span>Proceed to WhatsApp</span>
+      </button>
+
+      <p class="cart-subnote">Direct chat handoff with Palora artisan (+91 98765 43210)</p>
+    </div>
+  </aside>
+
+  <!-- Notification Toast Container -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-box">
+        <span class="footer-logo">Palora</span>
+        <p class="footer-tagline">Thoughtful, personalized handmade gifts turning simple moments into lasting memories.
+        </p>
+      </div>
+      <div class="footer-quick-links">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-menu">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#occasions">Shop by Occasion</a></li>
+          <li><a href="#products">Personalized Gifts</a></li>
+          <li><a href="#about">Our Story</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact-box">
+        <h4 class="footer-title">Handmade Direct</h4>
+        <p>Talk to our artisan directly for custom colors or bulk hamper requests:</p>
+        <a href="https://wa.me/919876543210" class="footer-wa-link" target="_blank" rel="noopener noreferrer">
+          <span>WhatsApp: +91 98765 43210</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <p>&copy; 2026 Palora. All rights reserved. Handcrafted with care.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-# 🌸 Palora
+# Palora
 
 **Thoughtful, personalized handmade gifts that turn simple moments into lasting memories.**
 
@@ -30,8 +30,8 @@ This digital storefront was custom-engineered to provide a warm, frictionless sh
 ## 📂 Repository Structure
 
 ```text
-├── index.html       # The main storefront markup and layout
-├── style.css        # Mobile-first CSS, responsive grids, and "Thoughtful Pink" theme
-├── script.js        # Cart state logic and WhatsApp API formatting integration
-└── assets/          # Directory for Palora's product photography and hero images
+├── index.html       
+├── style.css        
+├── script.js        
+└── assets/         
 ```
