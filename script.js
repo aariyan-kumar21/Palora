@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dom.mobileDrawerOverlay) dom.mobileDrawerOverlay.addEventListener("click", closeMobileDrawer);
 
   // Close mobile drawer when clicking a link
-  document.querySelectorAll(".mobile-link").forEach(link => {
+  document.querySelectorAll(".mobile-link, .drawer-cat-link").forEach(link => {
     link.addEventListener("click", closeMobileDrawer);
   });
 
@@ -578,9 +578,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Sticky header scroll shadow
+  // Sticky header scroll background switch (> 40px)
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 20) {
+    if (window.scrollY > 40) {
       dom.header.classList.add("scrolled");
     } else {
       dom.header.classList.remove("scrolled");

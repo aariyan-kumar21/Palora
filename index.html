@@ -8,11 +8,11 @@
   <meta name="description"
     content="Customizable, handmade gifts that turn simple moments into lasting memories. Order directly via WhatsApp.">
 
-  <!-- Google Fonts: Cormorant Garamond (Serif Headings) & Plus Jakarta Sans (Clean Body) -->
+  <!-- Google Fonts: Cormorant Garamond (400, 500, 600, 700 & italic 500, 600) & Jost (500) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@500&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
@@ -20,9 +20,9 @@
 
 <body>
 
-  <!-- Global Sticky Header (Integrated on Dusty Rose Hero) -->
+  <!-- Global Sticky Header (Transparent over Hero on load) -->
   <header class="site-header" id="header">
-    <div class="header-inner">
+    <div class="container header-inner">
       <!-- Navigation Links (Left) -->
       <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
         <ul class="nav-list">
@@ -32,17 +32,15 @@
         </ul>
       </nav>
 
-      <!-- Brand Logo (Centered) -->
-      <a href="#" class="brand-logo" aria-label="Palora Home">
-        <span class="brand-name">Palora</span>
-      </a>
+      <!-- Visually Hidden Brand for SEO & Screen Readers -->
+      <a href="#" class="brand sr-only" aria-label="Palora Home">Palora</a>
 
       <!-- Header Action Controls (Right) -->
       <div class="header-actions">
         <!-- Search Button -->
-        <button class="icon-btn search-btn" id="searchBtn" aria-label="Search collection">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-            stroke-linecap="round" stroke-linejoin="round">
+        <button class="icon-btn search-btn" id="searchBtn" aria-label="Search">
+          <svg class="nav-svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -50,8 +48,8 @@
 
         <!-- Cart Trigger Button with Dynamic Counter Badge -->
         <button class="cart-btn" id="cartBtn" aria-label="Open shopping bag">
-          <svg class="bag-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="nav-svg-icon bag-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -59,30 +57,49 @@
           <span class="cart-badge" id="cartBadge">0</span>
         </button>
 
-        <!-- Mobile Hamburger Toggle -->
-        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu" aria-expanded="false"
-          aria-controls="mobileDrawer">
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
+        <!-- Hamburger Toggle Button (2 Thin Lines, 28px wide) -->
+        <button class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
+          aria-expanded="false" aria-controls="mobileDrawer">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Drawer Menu Navigation -->
+  <!-- Slide-In Drawer Navigation (Mobile & Desktop) -->
   <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
-  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Navigation Drawer">
     <div class="mobile-drawer-header">
-      <span class="mobile-drawer-title">Explore Palora</span>
+      <span class="mobile-drawer-title">Navigation</span>
       <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close menu">&times;</button>
     </div>
-    <ul class="mobile-nav-links">
-      <li><a href="#hero" class="mobile-link">Home</a></li>
-      <li><a href="#occasions" class="mobile-link">Shop by Occasion</a></li>
-      <li><a href="#products" class="mobile-link">All Products</a></li>
-      <li><a href="#about" class="mobile-link">Our Story</a></li>
-    </ul>
+    <div class="drawer-scroll-content">
+      <ul class="mobile-nav-links">
+        <li><a href="#hero" class="mobile-link">Home</a></li>
+        <li><a href="#occasions" class="mobile-link">Collections</a></li>
+        <li><a href="#products" class="mobile-link">Personalizations</a></li>
+      </ul>
+
+      <div class="drawer-categories-divider" aria-hidden="true"></div>
+
+      <div class="drawer-categories-block">
+        <h4 class="drawer-cat-heading">Explore Categories</h4>
+        <ul class="drawer-cat-list">
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('resin')">Keychains</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('floral')">Home decor</a></li>
+          <li><a href="#occasions" class="drawer-cat-link" onclick="filterCategory('birthdays')">Birthdays</a></li>
+          <li><a href="#occasions" class="drawer-cat-link" onclick="filterCategory('anniversaries')">Anniversaries</a></li>
+          <li><a href="#occasions" class="drawer-cat-link" onclick="filterCategory('justbecause')">Just because</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('floral')">Bouquets &amp; flowers</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('crochet')">Crochet items</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('frames')">Designed frames</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('frames')">Letters and cards</a></li>
+          <li><a href="#products" class="drawer-cat-link" onclick="filterCategory('hampers')">Hampers</a></li>
+          <li><a href="#occasions" class="drawer-cat-link" onclick="filterCategory('festivals')">Festivals</a></li>
+        </ul>
+      </div>
+    </div>
     <div class="mobile-drawer-footer">
       <p class="drawer-contact-note">Have a custom gifting inquiry?</p>
       <a href="https://wa.me/919876543210?text=Hi%20Palora!%20I'd%20like%20to%20discuss%20a%20custom%20gift."
@@ -91,45 +108,49 @@
   </aside>
 
   <main>
-    <!-- Hero Section (Full Dusty Rose Canvas matching Reference Image) -->
-    <section class="hero-section" id="hero">
-      <div class="hero-wrapper">
-        <div class="hero-text-content">
-          <div class="hero-tagline-row">
-            <span class="hero-tagline">THOUGHTFUL GIFTS FOR EVERY OCCASION</span>
-            <span class="tagline-dash" aria-hidden="true"></span>
+    <!-- Hero Section (Left-aligned text, image slot on right) -->
+    <section class="hero" id="hero">
+      <div class="container hero__content">
+        <div class="hero__text-inner">
+          <div class="hero__eyebrow-wrap">
+            <span class="hero__eyebrow">THOUGHTFUL GIFTS FOR EVERY OCCASION</span>
+            <span class="hero__eyebrow-line" aria-hidden="true"></span>
           </div>
           <h1 class="hero-heading">
             Make Every<br>
             Moment <em>Special.</em>
           </h1>
-          <p class="hero-subheading">Customizable, handmade gifts that turn simple moments into lasting memories.</p>
+          <p class="hero-subtext">
+            Customizable, handmade gifts that turn<br class="desktop-only">
+            simple moments into lasting memories.
+          </p>
           <div class="hero-cta-wrapper">
-            <a href="#products" class="btn btn-burgundy hero-btn">
+            <a href="#occasions" class="hero__btn btn">
               <span>Explore Our Collections</span>
-              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+              <svg class="hero__btn-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
           </div>
         </div>
-
-        <!-- Right Side: Clean Space Reserved for User's Hero Image -->
-        <div class="hero-image-content">
-          <div class="hero-visual-frame" id="heroVisualFrame">
-            <!-- Subtle ambient satin glow; user can drop hero image directly here later -->
-            <div class="hero-ambient-glow" aria-hidden="true"></div>
-          </div>
-        </div>
       </div>
+
+      <!-- Hero Background Image (Gift box, candle, flowers on right) -->
+      <img class="hero__bg" src="assets/hero.png"
+        alt="Gift box with a burgundy satin ribbon beside a candle and baby's breath flowers"
+        onerror="this.remove()">
     </section>
 
-    <!-- Value Proposition Bar (Directly Below Hero Section) -->
+    <!-- Value Proposition Bar (Directly below Hero, flush, no gap) -->
     <section class="value-bar" aria-label="Value Propositions">
-      <div class="value-bar-container">
+      <div class="container value-bar-container">
         <!-- Prop 1: Customizable Gift -->
         <div class="value-item">
-          <div class="value-icon" aria-hidden="true">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-              stroke-linecap="round" stroke-linejoin="round">
+          <div class="value-icon">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="20 12 20 22 4 22 4 12"></polyline>
               <rect x="2" y="7" width="20" height="5" rx="1"></rect>
               <line x1="12" y1="22" x2="12" y2="7"></line>
@@ -147,10 +168,12 @@
 
         <!-- Prop 2: Handmade Gifts -->
         <div class="value-item">
-          <div class="value-icon" aria-hidden="true">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 4.5c1.8-2 4.8-1.5 6 0.8 1 2 0 4.2-2.5 6.2L12 14.5l-3.5-3C6 9.5 5 7.3 6 5.3c1.2-2.3 4.2-2.8 6-0.8z"></path>
+          <div class="value-icon">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path
+                d="M12 4.2c1.8-2 4.8-1.5 6 0.8 1 2 0 4.2-2.5 6.2L12 14.2l-3.5-3C6 9.2 5 7 6 5c1.2-2.3 4.2-2.8 6-0.8z">
+              </path>
               <path d="M3 15c2-1 4.5-0.5 6.5 0.5l4 2c2 1 4.5 0.5 6.5-1"></path>
               <path d="M2 19c2.5-0.5 5 0 7 1l4.5 1.5c2.5 0.5 5.5-0.5 7.5-2"></path>
             </svg>
@@ -165,13 +188,13 @@
 
         <!-- Prop 3: Pan India Shipping -->
         <div class="value-item">
-          <div class="value-icon" aria-hidden="true">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="2" y1="9" x2="6" y2="9"></line>
-              <line x1="1" y1="13" x2="5" y2="13"></line>
-              <line x1="3" y1="17" x2="7" y2="17"></line>
-              <rect x="7" y="6" width="10" height="11" rx="1"></rect>
+          <div class="value-icon">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="1" y1="9" x2="5" y2="9"></line>
+              <line x1="2" y1="13" x2="6" y2="13"></line>
+              <line x1="1" y1="17" x2="5" y2="17"></line>
+              <rect x="6" y="6" width="11" height="11" rx="1"></rect>
               <path d="M17 9h3.5l2.5 4v4h-6V9z"></path>
               <circle cx="10" cy="18" r="2"></circle>
               <circle cx="19" cy="18" r="2"></circle>
@@ -184,77 +207,148 @@
         </div>
       </div>
     </section>
-    </section>
 
     <!-- Shop by Occasion Section -->
     <section class="occasions-section" id="occasions">
-      <div class="occasions-container">
-        <div class="ornate-heading-wrapper">
-          <span class="ornate-line"></span>
-          <h2 class="ornate-title">Shop by Occasion</h2>
-          <span class="ornate-line"></span>
+      <div class="container occasions-container">
+        <div class="occasions__header">
+          <span class="occasions__line" aria-hidden="true"></span>
+          <h2 class="occasions__title">Shop by Occasion</h2>
+          <span class="occasions__line" aria-hidden="true"></span>
         </div>
 
-        <div class="occasions-grid">
+        <div class="occasions__grid">
           <!-- Card 1: Birthdays -->
-          <div class="occasion-card" onclick="filterCategory('birthdays')">
-            <div class="occasion-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=500&q=80"
-                alt="Birthday gifts" loading="lazy">
-              <div class="occasion-label-bar">
-                <span class="occasion-icon">🎂</span>
-                <span class="occasion-title">Birthdays</span>
-              </div>
+          <a href="#occasion-birthdays" class="occasion-card occasion-card--birthdays"
+            onclick="filterCategory('birthdays')">
+            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+              <path d="M4 16s2-1.5 4 0 4 0 4 0 2-1.5 4 0 4 0 4 0"></path>
+              <path d="M2 21h20"></path>
+              <path d="M7 8v3"></path>
+              <path d="M12 8v3"></path>
+              <path d="M17 8v3"></path>
+              <circle cx="7" cy="4" r="1" fill="#FFF7F2"></circle>
+              <circle cx="12" cy="4" r="1" fill="#FFF7F2"></circle>
+              <circle cx="17" cy="4" r="1" fill="#FFF7F2"></circle>
+            </svg>
+            <img class="occasion-card__img" src="assets/occasions/birthdays.jpg" alt="Birthday gifts" loading="lazy"
+              onerror="this.remove()">
+            <div class="occasion-card__strip">
+              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+                <path d="M4 16s2-1.5 4 0 4 0 4 0 2-1.5 4 0 4 0 4 0"></path>
+                <path d="M2 21h20"></path>
+                <path d="M7 8v3"></path>
+                <path d="M12 8v3"></path>
+                <path d="M17 8v3"></path>
+                <circle cx="7" cy="4" r="1" fill="#FFF7F2"></circle>
+                <circle cx="12" cy="4" r="1" fill="#FFF7F2"></circle>
+                <circle cx="17" cy="4" r="1" fill="#FFF7F2"></circle>
+              </svg>
+              <span class="occasion-card__label">Birthdays</span>
             </div>
-          </div>
+          </a>
 
           <!-- Card 2: Anniversaries -->
-          <div class="occasion-card" onclick="filterCategory('anniversaries')">
-            <div class="occasion-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80"
-                alt="Anniversary gifts" loading="lazy">
-              <div class="occasion-label-bar">
-                <span class="occasion-icon">🤍</span>
-                <span class="occasion-title">Anniversaries</span>
-              </div>
+          <a href="#occasion-anniversaries" class="occasion-card occasion-card--anniversaries"
+            onclick="filterCategory('anniversaries')">
+            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path
+                d="M16.5 13.5c1.8-1.8 3.5-3.3 3.5-5.5a4 4 0 0 0-6.8-2.8L12 6.4l-1.2-1.2A4 4 0 0 0 4 8c0 2.2 1.7 3.7 3.5 5.5l4.5 4.5 1.5-1.5">
+              </path>
+              <path d="M12.5 18.5l4-4c1.5-1.5 2.5-2.8 2.5-4.5a3 3 0 0 0-5.1-2.1L13 8.8"></path>
+            </svg>
+            <img class="occasion-card__img" src="assets/occasions/anniversaries.jpg" alt="Anniversary gifts" loading="lazy"
+              onerror="this.remove()">
+            <div class="occasion-card__strip">
+              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path
+                  d="M16.5 13.5c1.8-1.8 3.5-3.3 3.5-5.5a4 4 0 0 0-6.8-2.8L12 6.4l-1.2-1.2A4 4 0 0 0 4 8c0 2.2 1.7 3.7 3.5 5.5l4.5 4.5 1.5-1.5">
+                </path>
+                <path d="M12.5 18.5l4-4c1.5-1.5 2.5-2.8 2.5-4.5a3 3 0 0 0-5.1-2.1L13 8.8"></path>
+              </svg>
+              <span class="occasion-card__label">Anniversaries</span>
             </div>
-          </div>
+          </a>
 
           <!-- Card 3: Festivals -->
-          <div class="occasion-card" onclick="filterCategory('festivals')">
-            <div class="occasion-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=500&q=80"
-                alt="Festival celebrations" loading="lazy">
-              <div class="occasion-label-bar">
-                <span class="occasion-icon">🪔</span>
-                <span class="occasion-title">Festivals</span>
-              </div>
+          <a href="#occasion-festivals" class="occasion-card occasion-card--festivals"
+            onclick="filterCategory('festivals')">
+            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 4c-1 3-2 6-2 9a4 4 0 0 0 4 0c0-3-1-6-2-9z"></path>
+              <path d="M10 13c-2-2-5-3-7-1 0 4 3 6 7 6"></path>
+              <path d="M14 13c2-2 5-3 7-1 0 4-3 6-7 6"></path>
+              <path d="M6 18c2 2 4 2 6 2s4 0 6-2"></path>
+            </svg>
+            <img class="occasion-card__img" src="assets/occasions/festivals.jpg" alt="Festival gifts" loading="lazy"
+              onerror="this.remove()">
+            <div class="occasion-card__strip">
+              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 4c-1 3-2 6-2 9a4 4 0 0 0 4 0c0-3-1-6-2-9z"></path>
+                <path d="M10 13c-2-2-5-3-7-1 0 4 3 6 7 6"></path>
+                <path d="M14 13c2-2 5-3 7-1 0 4-3 6-7 6"></path>
+                <path d="M6 18c2 2 4 2 6 2s4 0 6-2"></path>
+              </svg>
+              <span class="occasion-card__label">Festivals</span>
             </div>
-          </div>
+          </a>
 
           <!-- Card 4: Thank You -->
-          <div class="occasion-card" onclick="filterCategory('thankyou')">
-            <div class="occasion-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=500&q=80"
-                alt="Thank You appreciation gifts" loading="lazy">
-              <div class="occasion-label-bar">
-                <span class="occasion-icon">💌</span>
-                <span class="occasion-title">Thank You</span>
-              </div>
+          <a href="#occasion-thank-you" class="occasion-card occasion-card--thankyou"
+            onclick="filterCategory('thankyou')">
+            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+              </path>
+            </svg>
+            <img class="occasion-card__img" src="assets/occasions/thank-you.jpg" alt="Thank You gifts" loading="lazy"
+              onerror="this.remove()">
+            <div class="occasion-card__strip">
+              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                </path>
+              </svg>
+              <span class="occasion-card__label">Thank You</span>
             </div>
-          </div>
+          </a>
 
           <!-- Card 5: Just Because -->
-          <div class="occasion-card" onclick="filterCategory('justbecause')">
-            <div class="occasion-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=500&q=80"
-                alt="Just because spontaneous gifts" loading="lazy">
-              <div class="occasion-label-bar">
-                <span class="occasion-icon">🌸</span>
-                <span class="occasion-title">Just Because</span>
-              </div>
+          <a href="#occasion-just-because" class="occasion-card occasion-card--justbecause"
+            onclick="filterCategory('justbecause')">
+            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="2.5"></circle>
+              <path d="M12 9.5a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+              <path d="M14.38 10.27a2.5 2.5 0 0 0 4.76-1.55 2.5 2.5 0 0 0-4.76 1.55z"></path>
+              <path d="M13.47 13.98a2.5 2.5 0 0 0 2.94 4.05 2.5 2.5 0 0 0-2.94-4.05z"></path>
+              <path d="M10.53 13.98a2.5 2.5 0 0 0-2.94 4.05 2.5 2.5 0 0 0 2.94-4.05z"></path>
+              <path d="M9.62 10.27a2.5 2.5 0 0 0-4.76-1.55 2.5 2.5 0 0 0 4.76 1.55z"></path>
+            </svg>
+            <img class="occasion-card__img" src="assets/occasions/just-because.jpg" alt="Just Because gifts" loading="lazy"
+              onerror="this.remove()">
+            <div class="occasion-card__strip">
+              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="2.5"></circle>
+                <path d="M12 9.5a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                <path d="M14.38 10.27a2.5 2.5 0 0 0 4.76-1.55 2.5 2.5 0 0 0-4.76 1.55z"></path>
+                <path d="M13.47 13.98a2.5 2.5 0 0 0 2.94 4.05 2.5 2.5 0 0 0-2.94-4.05z"></path>
+                <path d="M10.53 13.98a2.5 2.5 0 0 0-2.94 4.05 2.5 2.5 0 0 0 2.94-4.05z"></path>
+                <path d="M9.62 10.27a2.5 2.5 0 0 0-4.76-1.55 2.5 2.5 0 0 0 4.76 1.55z"></path>
+              </svg>
+              <span class="occasion-card__label">Just Because</span>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
