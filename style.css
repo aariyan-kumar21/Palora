@@ -1347,7 +1347,8 @@ input::placeholder {
   gap: 12px;
 }
 
-/* Card Shape & Base */
+/* Card Shape & Base (Applies to both .category-card and .occasion-card) */
+.category-card,
 .occasion-card {
   position: relative;
   aspect-ratio: 4 / 3;
@@ -1358,19 +1359,25 @@ input::placeholder {
   display: block;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
+.category-card:hover,
 .occasion-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 24px rgba(114, 47, 55, 0.2);
 }
 
+.category-card:focus-visible,
 .occasion-card:focus-visible {
   outline: 2px solid var(--burgundy);
   outline-offset: 3px;
 }
 
 /* Faint cream watermark icon centered behind image */
+.category-card__watermark,
 .occasion-card__watermark {
   position: absolute;
   top: 35%;
@@ -1382,27 +1389,33 @@ input::placeholder {
   stroke: #FFF7F2;
 }
 
-/* Unique Soft Pink Gradient Placeholders */
+/* Unique Soft Pink Gradient Placeholders (Cycled across 11 cards) */
+.category-card--tone-1,
 .occasion-card--birthdays {
   background: linear-gradient(145deg, #F5D2D7 0%, #EAAAB3 100%);
 }
 
+.category-card--tone-2,
 .occasion-card--anniversaries {
   background: linear-gradient(145deg, #F3CCD2 0%, #E39EA8 100%);
 }
 
+.category-card--tone-3,
 .occasion-card--festivals {
   background: linear-gradient(145deg, #F7D8DC 0%, #E5A5AE 100%);
 }
 
+.category-card--tone-4,
 .occasion-card--thankyou {
   background: linear-gradient(145deg, #F1C4CC 0%, #DF949F 100%);
 }
 
+.category-card--tone-5,
 .occasion-card--justbecause {
   background: linear-gradient(145deg, #F6D5DA 0%, #E8A8B1 100%);
 }
 
+.category-card__img,
 .occasion-card__img {
   position: absolute;
   inset: 0;
@@ -1411,13 +1424,16 @@ input::placeholder {
   object-fit: cover;
   transition: transform 0.5s ease;
   z-index: 1;
+  pointer-events: none;
 }
 
+.category-card:hover .category-card__img,
 .occasion-card:hover .occasion-card__img {
   transform: scale(1.04);
 }
 
 /* Bottom Label Strip pinned to bottom ~28-30% */
+.category-card__strip,
 .occasion-card__strip {
   position: absolute;
   bottom: 0;
@@ -1434,6 +1450,7 @@ input::placeholder {
   z-index: 2;
 }
 
+.category-card__strip::before,
 .occasion-card__strip::before {
   content: '';
   position: absolute;
@@ -1445,11 +1462,13 @@ input::placeholder {
   pointer-events: none;
 }
 
+.category-icon-svg,
 .occasion-icon-svg {
   flex-shrink: 0;
   stroke: #FFF7F2;
 }
 
+.category-card__label,
 .occasion-card__label {
   font-family: var(--font-serif);
   font-weight: 600;
@@ -1458,46 +1477,58 @@ input::placeholder {
   line-height: 1;
 }
 
-/* Responsive Grid Rules */
-/* <640px: 2 cards per row, last card centered at same width */
-@media (max-width: 639px) {
-  .occasions__grid > :last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    width: calc(50% - 6px);
-    margin: 0 auto;
-  }
+/* Category Slider Base (Mobile / Tablet baseline) */
+.slider {
+  position: relative;
+  width: 100%;
 }
 
-/* 640px - 1099px: flex-wrap, 3 cards on top, 2 centered below */
-@media (min-width: 640px) and (max-width: 1099px) {
-  .occasions__grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .occasion-card {
-    width: calc(33.333% - 12px);
-    max-width: 340px;
-  }
+.slider__track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 8px 4px 28px;
+  margin: -8px -4px -28px;
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
 }
 
-/* >=1100px: 5 cards in 1 row (equal width) */
-@media (min-width: 1100px) {
-  .occasions__grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-
-  .occasion-card {
-    width: auto;
-    max-width: none;
-  }
+.slider__track::-webkit-scrollbar {
+  display: none;
 }
 
-/* Occasions First-Screen Budget on Laptop (>=1024px) */
+.slider__track.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+}
+
+.slider__track.is-dragging .category-card {
+  pointer-events: none;
+}
+
+.category-card {
+  flex: 0 0 calc((100% - 12px) / 2.2);
+  min-width: 140px;
+  scroll-snap-align: start;
+}
+
+.slider__btn {
+  display: none;
+}
+
+/* Occasions / Category Slider on Laptop (>=1024px) */
 @media (min-width: 1024px) {
+  :root,
+  .slider {
+    --cards-visible: 4.5;
+  }
+
   .occasions-section {
     padding: 28px 0 28px;
   }
@@ -1508,6 +1539,79 @@ input::placeholder {
 
   .occasions__title {
     font-size: 2.4rem;
+  }
+
+  .category-card {
+    flex: 0 0 calc((100% - 4 * 12px) / var(--cards-visible));
+    min-width: unset;
+    scroll-snap-align: start;
+  }
+
+  /* Round Navigation Arrow Buttons (48x48px, overlapping edges by 24px) */
+  .slider__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 36%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FAF0E9;
+    border: 1px solid rgba(114, 47, 55, 0.25);
+    color: #6A1F2C;
+    box-shadow: 0 6px 16px rgba(114, 47, 55, 0.18);
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+    outline: none;
+    transition: background-color 200ms ease, color 200ms ease, opacity 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .slider__btn--prev {
+    left: -24px;
+  }
+
+  .slider__btn--next {
+    right: -24px;
+  }
+
+  .slider__btn:hover {
+    background: #722F37;
+    color: #FFF7F2;
+    box-shadow: 0 8px 20px rgba(114, 47, 55, 0.28);
+  }
+
+  .slider__btn:focus-visible {
+    outline: 2px solid #722F37;
+    outline-offset: 3px;
+    background: #722F37;
+    color: #FFF7F2;
+  }
+
+  .slider__btn:disabled,
+  .slider__btn[disabled] {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  .slider__btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slider__track {
+      scroll-behavior: auto !important;
+    }
+    .category-card:hover {
+      transform: none !important;
+    }
   }
 }
 

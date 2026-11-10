@@ -188,147 +188,27 @@
       </div>
     </section>
 
-    <!-- Shop by Occasion Section -->
-    <section class="occasions-section" id="occasions">
+    <!-- Shop by Category Section -->
+    <section class="categories occasions-section" id="occasions">
       <div class="container occasions-container">
         <div class="occasions__header">
           <span class="occasions__line" aria-hidden="true"></span>
-          <h2 class="occasions__title">Shop by Occasion</h2>
+          <h2 class="occasions__title">Shop by Category</h2>
           <span class="occasions__line" aria-hidden="true"></span>
         </div>
 
-        <div class="occasions__grid">
-          <!-- Card 1: Birthdays -->
-          <a href="#occasion-birthdays" class="occasion-card occasion-card--birthdays"
-            onclick="filterCategory('birthdays')">
-            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
-              <path d="M4 16s2-1.5 4 0 4 0 4 0 2-1.5 4 0 4 0 4 0"></path>
-              <path d="M2 21h20"></path>
-              <path d="M7 8v3"></path>
-              <path d="M12 8v3"></path>
-              <path d="M17 8v3"></path>
-              <circle cx="7" cy="4" r="1" fill="#FFF7F2"></circle>
-              <circle cx="12" cy="4" r="1" fill="#FFF7F2"></circle>
-              <circle cx="17" cy="4" r="1" fill="#FFF7F2"></circle>
-            </svg>
-            <img class="occasion-card__img" src="assets/occasions/birthdays.jpg" alt="Birthday gifts" loading="lazy"
-              onerror="this.remove()">
-            <div class="occasion-card__strip">
-              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
-                <path d="M4 16s2-1.5 4 0 4 0 4 0 2-1.5 4 0 4 0 4 0"></path>
-                <path d="M2 21h20"></path>
-                <path d="M7 8v3"></path>
-                <path d="M12 8v3"></path>
-                <path d="M17 8v3"></path>
-                <circle cx="7" cy="4" r="1" fill="#FFF7F2"></circle>
-                <circle cx="12" cy="4" r="1" fill="#FFF7F2"></circle>
-                <circle cx="17" cy="4" r="1" fill="#FFF7F2"></circle>
-              </svg>
-              <span class="occasion-card__label">Birthdays</span>
-            </div>
-          </a>
+        <div class="slider" role="region" aria-roledescription="carousel" aria-label="Shop by category">
+          <button type="button" class="slider__btn slider__btn--prev" aria-label="Previous categories" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
 
-          <!-- Card 2: Anniversaries -->
-          <a href="#occasion-anniversaries" class="occasion-card occasion-card--anniversaries"
-            onclick="filterCategory('anniversaries')">
-            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path
-                d="M16.5 13.5c1.8-1.8 3.5-3.3 3.5-5.5a4 4 0 0 0-6.8-2.8L12 6.4l-1.2-1.2A4 4 0 0 0 4 8c0 2.2 1.7 3.7 3.5 5.5l4.5 4.5 1.5-1.5">
-              </path>
-              <path d="M12.5 18.5l4-4c1.5-1.5 2.5-2.8 2.5-4.5a3 3 0 0 0-5.1-2.1L13 8.8"></path>
-            </svg>
-            <img class="occasion-card__img" src="assets/occasions/anniversaries.jpg" alt="Anniversary gifts" loading="lazy"
-              onerror="this.remove()">
-            <div class="occasion-card__strip">
-              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path
-                  d="M16.5 13.5c1.8-1.8 3.5-3.3 3.5-5.5a4 4 0 0 0-6.8-2.8L12 6.4l-1.2-1.2A4 4 0 0 0 4 8c0 2.2 1.7 3.7 3.5 5.5l4.5 4.5 1.5-1.5">
-                </path>
-                <path d="M12.5 18.5l4-4c1.5-1.5 2.5-2.8 2.5-4.5a3 3 0 0 0-5.1-2.1L13 8.8"></path>
-              </svg>
-              <span class="occasion-card__label">Anniversaries</span>
-            </div>
-          </a>
+          <div class="slider__track" id="categorySliderTrack" tabindex="0">
+            <!-- Rendered dynamically by js/categories.js -->
+          </div>
 
-          <!-- Card 3: Festivals -->
-          <a href="#occasion-festivals" class="occasion-card occasion-card--festivals"
-            onclick="filterCategory('festivals')">
-            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 4c-1 3-2 6-2 9a4 4 0 0 0 4 0c0-3-1-6-2-9z"></path>
-              <path d="M10 13c-2-2-5-3-7-1 0 4 3 6 7 6"></path>
-              <path d="M14 13c2-2 5-3 7-1 0 4-3 6-7 6"></path>
-              <path d="M6 18c2 2 4 2 6 2s4 0 6-2"></path>
-            </svg>
-            <img class="occasion-card__img" src="assets/occasions/festivals.jpg" alt="Festival gifts" loading="lazy"
-              onerror="this.remove()">
-            <div class="occasion-card__strip">
-              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 4c-1 3-2 6-2 9a4 4 0 0 0 4 0c0-3-1-6-2-9z"></path>
-                <path d="M10 13c-2-2-5-3-7-1 0 4 3 6 7 6"></path>
-                <path d="M14 13c2-2 5-3 7-1 0 4-3 6-7 6"></path>
-                <path d="M6 18c2 2 4 2 6 2s4 0 6-2"></path>
-              </svg>
-              <span class="occasion-card__label">Festivals</span>
-            </div>
-          </a>
-
-          <!-- Card 4: Thank You -->
-          <a href="#occasion-thank-you" class="occasion-card occasion-card--thankyou"
-            onclick="filterCategory('thankyou')">
-            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path
-                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-              </path>
-            </svg>
-            <img class="occasion-card__img" src="assets/occasions/thank-you.jpg" alt="Thank You gifts" loading="lazy"
-              onerror="this.remove()">
-            <div class="occasion-card__strip">
-              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                </path>
-              </svg>
-              <span class="occasion-card__label">Thank You</span>
-            </div>
-          </a>
-
-          <!-- Card 5: Just Because -->
-          <a href="#occasion-just-because" class="occasion-card occasion-card--justbecause"
-            onclick="filterCategory('justbecause')">
-            <svg class="occasion-card__watermark" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="2.5"></circle>
-              <path d="M12 9.5a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
-              <path d="M14.38 10.27a2.5 2.5 0 0 0 4.76-1.55 2.5 2.5 0 0 0-4.76 1.55z"></path>
-              <path d="M13.47 13.98a2.5 2.5 0 0 0 2.94 4.05 2.5 2.5 0 0 0-2.94-4.05z"></path>
-              <path d="M10.53 13.98a2.5 2.5 0 0 0-2.94 4.05 2.5 2.5 0 0 0 2.94-4.05z"></path>
-              <path d="M9.62 10.27a2.5 2.5 0 0 0-4.76-1.55 2.5 2.5 0 0 0 4.76 1.55z"></path>
-            </svg>
-            <img class="occasion-card__img" src="assets/occasions/just-because.jpg" alt="Just Because gifts" loading="lazy"
-              onerror="this.remove()">
-            <div class="occasion-card__strip">
-              <svg class="occasion-icon-svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="2.5"></circle>
-                <path d="M12 9.5a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
-                <path d="M14.38 10.27a2.5 2.5 0 0 0 4.76-1.55 2.5 2.5 0 0 0-4.76 1.55z"></path>
-                <path d="M13.47 13.98a2.5 2.5 0 0 0 2.94 4.05 2.5 2.5 0 0 0-2.94-4.05z"></path>
-                <path d="M10.53 13.98a2.5 2.5 0 0 0-2.94 4.05 2.5 2.5 0 0 0 2.94-4.05z"></path>
-                <path d="M9.62 10.27a2.5 2.5 0 0 0-4.76-1.55 2.5 2.5 0 0 0 4.76 1.55z"></path>
-              </svg>
-              <span class="occasion-card__label">Just Because</span>
-            </div>
-          </a>
+          <button type="button" class="slider__btn slider__btn--next" aria-label="Next categories">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -484,6 +364,7 @@
     </div>
   </footer>
 
+  <script src="js/categories.js"></script>
   <script src="script.js"></script>
 </body>
 
