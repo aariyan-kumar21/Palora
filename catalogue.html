@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue | Palora</title>
+  <meta name="description"
+    content="Explore our handcrafted collection of personalized handmade gifts. Order directly via WhatsApp.">
+
+  <!-- Google Fonts: Cormorant Garamond & Jost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-catalogue">
+
+  <!-- Global Header (Solid state on Catalogue page) -->
+  <header class="site-header scrolled" id="header">
+    <div class="container header-inner">
+      <!-- Navigation Links (Left) -->
+      <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="index.html#occasions" class="nav-link">Collections</a></li>
+          <li><a href="catalogue.html" class="nav-link active">Catalogue</a></li>
+        </ul>
+      </nav>
+
+      <!-- Center Wordmark (Link to Home) -->
+      <a href="index.html" class="site-wordmark" aria-label="Palora Home">
+        <span class="wordmark-title">PALORA</span>
+        <span class="wordmark-tagline">HANDMADE GIFTS</span>
+      </a>
+
+      <!-- Header Action Controls (Right) -->
+      <div class="header-actions">
+        <!-- Search Button -->
+        <button class="icon-btn search-btn" id="searchBtn" aria-label="Search">
+          <svg class="nav-svg-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <!-- Cart Trigger Button with Dynamic Counter Badge -->
+        <button class="cart-btn" id="cartBtn" aria-label="Open shopping bag">
+          <svg class="nav-svg-icon bag-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+
+        <!-- Hamburger Toggle Button -->
+        <button class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
+          aria-expanded="false" aria-controls="mobileDrawer">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide-In Drawer Navigation (Mobile & Desktop) -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-label="Navigation Drawer">
+    <div class="mobile-drawer-header">
+      <span class="mobile-drawer-title">Navigation</span>
+      <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-scroll-content">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="mobile-link">Home</a></li>
+        <li><a href="index.html#occasions" class="mobile-link">Collections</a></li>
+        <li><a href="catalogue.html" class="mobile-link">Catalogue</a></li>
+      </ul>
+    </div>
+    <div class="mobile-drawer-footer">
+      <p class="drawer-contact-note">Have a custom gifting inquiry?</p>
+      <a href="https://wa.me/919876543210?text=Hi%20Palora!%20I'd%20like%20to%20discuss%20a%20custom%20gift."
+        target="_blank" rel="noopener noreferrer" class="btn btn-burgundy btn-block">Chat with Us on WhatsApp</a>
+    </div>
+  </aside>
+
+  <!-- Main Content (Catalogue Placeholder) -->
+  <main class="catalogue-main">
+    <div class="container">
+      <div class="catalogue-hero">
+        <span class="catalogue-eyebrow">THE COLLECTION</span>
+        <h1 class="catalogue-title">Our Catalogue</h1>
+        <p class="catalogue-desc">Every handmade piece will be listed here very soon.</p>
+        <a href="index.html" class="catalogue-back-link">&larr; Back to home</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sliding Cart Drawer / Modal -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartHeading">
+    <div class="cart-header">
+      <div class="cart-header-title">
+        <h2 class="cart-heading" id="cartHeading">Your Gift Bag</h2>
+        <span class="cart-count-chip" id="cartHeaderCount">0 items</span>
+      </div>
+      <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="cart-empty" id="cartEmpty">
+      <div class="cart-empty-art">🌸</div>
+      <h3 class="cart-empty-title">Your Gift Bag is Empty</h3>
+      <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
+      <a href="index.html" class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</a>
+    </div>
+
+    <!-- Cart Filled Content -->
+    <div class="cart-body" id="cartBody">
+      <ul class="cart-items-list" id="cartItemsList">
+        <!-- Rendered dynamically -->
+      </ul>
+
+      <!-- Optional Recipient Details for Seamless WhatsApp Message -->
+      <div class="cart-recipient-details">
+        <h4 class="recipient-heading">Optional Delivery Details</h4>
+        <div class="input-row">
+          <input type="text" id="orderCustomerName" class="cart-text-input" placeholder="Your Name (e.g. Aditi)"
+            aria-label="Your Name">
+          <input type="text" id="orderDeliveryCity" class="cart-text-input" placeholder="Delivery City / Pincode"
+            aria-label="Delivery City">
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Footer & Grand Total -->
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total-row">
+        <span class="total-label">Grand Total:</span>
+        <span class="total-amount" id="cartGrandTotal">₹0</span>
+      </div>
+      <p class="total-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+
+      <!-- Primary Action: Proceed to WhatsApp Button -->
+      <button class="btn btn-whatsapp proceed-whatsapp-btn" id="proceedWhatsAppBtn">
+        <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.196 8.196 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.24 8.24-1.44 0-2.85-.38-4.08-1.1l-.29-.17-3.03.8 1.21-2.95-.19-.3a8.156 8.156 0 0 1-1.25-4.32c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.49-1.4-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z" />
+        </svg>
+        <span>Proceed to WhatsApp</span>
+      </button>
+
+      <p class="cart-subnote">Direct chat handoff with Palora artisan (+91 98765 43210)</p>
+    </div>
+  </aside>
+
+  <!-- Notification Toast Container -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-box">
+        <span class="footer-logo">Palora</span>
+        <p class="footer-tagline">Thoughtful, personalized handmade gifts turning simple moments into lasting memories.
+        </p>
+      </div>
+      <div class="footer-quick-links">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-menu">
+          <li><a href="index.html#hero">Home</a></li>
+          <li><a href="index.html#occasions">Shop by Category</a></li>
+          <li><a href="index.html#bestsellers">Bestselling Collection</a></li>
+          <li><a href="catalogue.html">Catalogue</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact-box">
+        <h4 class="footer-title">Handmade Direct</h4>
+        <p>Talk to our artisan directly for custom colors or bulk hamper requests:</p>
+        <a href="https://wa.me/919876543210" class="footer-wa-link" target="_blank" rel="noopener noreferrer">
+          <span>WhatsApp: +91 98765 43210</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <p>&copy; 2026 Palora. All rights reserved. Handcrafted with care.</p>
+    </div>
+  </footer>
+
+  <script src="js/categories.js"></script>
+  <script src="js/products.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

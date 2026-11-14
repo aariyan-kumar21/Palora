@@ -92,17 +92,23 @@ function renderCategoryCards() {
 }
 
 // -----------------------------------------------------------------------------
-// 4. Slider Navigation, Gestures & Events
+// 4. Shared Generic Slider Function
 // -----------------------------------------------------------------------------
-function initCategorySlider() {
-  const slider = document.querySelector('.slider');
-  const track = document.getElementById('categorySliderTrack');
-  const prevBtn = document.querySelector('.slider__btn--prev');
-  const nextBtn = document.querySelector('.slider__btn--next');
+/**
+ * Generic horizontal slider initializer for both Category and Bestsellers sliders
+ * @param {HTMLElement} rootEl - The outer slider container (.slider, .bestsellers__slider)
+ * @param {Object} options - Configuration options { step: 3, cardSelector: '.category-card' }
+ */
+function initSlider(rootEl, options = {}) {
+  if (!rootEl) return null;
+  const track = rootEl.querySelector('.slider__track, .bestsellers__track') || rootEl.querySelector('[class*="track"]');
+  const prevBtn = rootEl.querySelector('.slider__btn--prev, .bestseller-nav-btn--prev') || rootEl.querySelector('[class*="--prev"]');
+  const nextBtn = rootEl.querySelector('.slider__btn--next, .bestseller-nav-btn--next') || rootEl.querySelector('[class*="--next"]');
+  const step = options.step || 2;
+  const cardSelector = options.cardSelector || ':scope > *';
 
-  if (!slider || !track) return;
+  if (!track) return null;
 
-  // Update button disabled state
   function updateButtons() {
     if (!prevBtn || !nextBtn) return;
     const maxScroll = track.scrollWidth - track.clientWidth;
@@ -117,7 +123,6 @@ function initCategorySlider() {
     nextBtn.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
   }
 
-  // Scroll listener throttled with requestAnimationFrame
   let ticking = false;
   track.addEventListener('scroll', () => {
     if (!ticking) {
@@ -131,12 +136,11 @@ function initCategorySlider() {
 
   window.addEventListener('resize', updateButtons, { passive: true });
 
-  // Arrow button clicks: scroll by ~3 cards
   function getScrollAmount() {
-    const card = track.querySelector('.category-card');
+    const card = cardSelector ? track.querySelector(cardSelector) : track.firstElementChild;
     const cardWidth = card ? card.getBoundingClientRect().width : 280;
-    const gap = 12;
-    return (cardWidth + gap) * 3;
+    const gap = parseFloat(window.getComputedStyle(track).gap) || 12;
+    return (cardWidth + gap) * step;
   }
 
   if (prevBtn) {
@@ -153,7 +157,6 @@ function initCategorySlider() {
     });
   }
 
-  // Mouse Drag-to-Scroll (Pointer Events, mouse only)
   let isPointerDown = false;
   let isDragging = false;
   let startX = 0;
@@ -210,29 +213,51 @@ function initCategorySlider() {
   window.addEventListener('pointerup', handlePointerUp);
   window.addEventListener('pointercancel', handlePointerUp);
 
-  // Capture phase click handler: suppress click if drag happened, otherwise dispatch custom event
+  // Capture phase click handler: suppress click if drag happened
   track.addEventListener('click', (e) => {
     if (isDragging || dragThresholdPassed) {
       e.preventDefault();
       e.stopPropagation();
       return;
     }
-
-    const card = e.target.closest('.category-card');
-    if (card) {
-      const slug = card.getAttribute('data-category');
-      if (slug) {
-        document.dispatchEvent(new CustomEvent('categoryselect', { detail: { slug } }));
-      }
+    if (options.onCardClick) {
+      options.onCardClick(e);
     }
   }, true);
 
-  // Initial state check
   updateButtons();
+
+  return {
+    updateButtons,
+    track
+  };
+}
+window.initSlider = initSlider;
+
+// -----------------------------------------------------------------------------
+// 5. Category Slider Specific Setup
+// -----------------------------------------------------------------------------
+function initCategorySlider() {
+  const slider = document.querySelector('.slider');
+  if (!slider) return;
+
+  initSlider(slider, {
+    step: 3,
+    cardSelector: '.category-card',
+    onCardClick: (e) => {
+      const card = e.target.closest('.category-card');
+      if (card) {
+        const slug = card.getAttribute('data-category');
+        if (slug) {
+          document.dispatchEvent(new CustomEvent('categoryselect', { detail: { slug } }));
+        }
+      }
+    }
+  });
 }
 
 // -----------------------------------------------------------------------------
-// 5. Lifecycle Initialization
+// 6. Lifecycle Initialization
 // -----------------------------------------------------------------------------
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
@@ -243,4 +268,3 @@ if (document.readyState === 'loading') {
   renderCategoryCards();
   initCategorySlider();
 }
-

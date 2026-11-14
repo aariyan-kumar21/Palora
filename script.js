@@ -13,7 +13,7 @@
 // -----------------------------------------------------------------------------
 // 1. Product Catalog Data
 // -----------------------------------------------------------------------------
-const PRODUCTS = [
+const GALLERY_PRODUCTS = [
   {
     id: "crochet-rose-bouquet",
     name: "Handcrafted Crochet Rose & Tulip Bouquet",
@@ -167,8 +167,8 @@ function renderProducts(filterCategory = "all") {
   if (!dom.productsGrid) return;
 
   const filteredProducts = filterCategory === "all"
-    ? PRODUCTS
-    : PRODUCTS.filter(p => p.category === filterCategory || p.occasion === filterCategory);
+    ? GALLERY_PRODUCTS
+    : GALLERY_PRODUCTS.filter(p => p.category === filterCategory || p.occasion === filterCategory);
 
   dom.productsGrid.innerHTML = "";
 
@@ -238,22 +238,18 @@ function renderProducts(filterCategory = "all") {
 // -----------------------------------------------------------------------------
 
 /**
- * Captures product details and specific personalization input text
+ * Global method to add any customized item (from QuickView or Product Card) into the cart
  */
-function handleAddToCart(productId) {
-  const product = PRODUCTS.find(p => p.id === productId);
-  if (!product) return;
-
-  const noteInput = document.getElementById(`custom-note-${productId}`);
-  const customNote = noteInput ? noteInput.value.trim() : "";
-
+window.addCustomItemToCart = function(product, quantity = 1, note = "") {
+  const customNote = (note && note.trim()) ? note.trim() : "Standard (No custom text requested)";
+  
   // Check if an item with identical product ID AND identical personalization already exists
   const existingItemIndex = cart.findIndex(
-    item => item.id === productId && item.note === (customNote || "Standard Handcrafted")
+    item => item.id === product.id && item.note === customNote
   );
 
   if (existingItemIndex > -1) {
-    cart[existingItemIndex].quantity += 1;
+    cart[existingItemIndex].quantity += quantity;
   } else {
     cart.push({
       cartItemId: Date.now() + Math.random().toString(36).substring(2, 6),
@@ -261,20 +257,41 @@ function handleAddToCart(productId) {
       name: product.name,
       price: product.price,
       image: product.image,
-      note: customNote || "Standard (No custom text requested)",
-      quantity: 1
+      note: customNote,
+      quantity: quantity
     });
-  }
-
-  // Clear input for fresh future additions
-  if (noteInput) {
-    noteInput.value = "";
   }
 
   saveCartToStorage();
   updateCartUI();
   triggerBadgeBump();
-  showToast(`Added "${product.name}" to your gift bag! 🌸`);
+  showToast("Added to cart");
+};
+
+// Fallback custom event listener
+document.addEventListener("palora:addtocart", (e) => {
+  if (e.detail && e.detail.product) {
+    window.addCustomItemToCart(e.detail.product, e.detail.quantity || 1, e.detail.note || "");
+  }
+});
+
+/**
+ * Captures product details and specific personalization input text
+ */
+function handleAddToCart(productId) {
+  const product = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).find(p => p.id === productId)
+    || GALLERY_PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+
+  const noteInput = document.getElementById(`custom-note-${productId}`);
+  const customNote = noteInput ? noteInput.value.trim() : "";
+
+  window.addCustomItemToCart(product, 1, customNote);
+
+  // Clear input for fresh future additions
+  if (noteInput) {
+    noteInput.value = "";
+  }
 }
 
 /**
@@ -490,7 +507,7 @@ function showToast(message) {
   if (toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     dom.toast.classList.remove("show");
-  }, 2800);
+  }, 2500);
 }
 
 function escapeHtml(str) {
