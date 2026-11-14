@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalogue | Palora</title>
+  <title>Collections | Palora Handcrafted Gifts</title>
   <meta name="description"
-    content="Explore our handcrafted collection of personalized handmade gifts. Order directly via WhatsApp.">
+    content="Explore our curated collection of handcrafted gifts: crochet crafts, resin keepsakes, floral decor, frames, and luxe hampers.">
 
   <!-- Google Fonts: Cormorant Garamond & Jost -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,8 +27,8 @@
       <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
         <ul class="nav-list">
           <li><a href="index.html" class="nav-link">Home</a></li>
-          <li><a href="index.html#occasions" class="nav-link">Collections</a></li>
-          <li><a href="catalogue.html" class="nav-link active">Catalogue</a></li>
+          <li><a href="catalogue.html" class="nav-link active" aria-current="page">Collections</a></li>
+          <li><a href="index.html#personalize" class="nav-link">Personalizations</a></li>
         </ul>
       </nav>
 
@@ -80,8 +80,8 @@
     <div class="drawer-scroll-content">
       <ul class="mobile-nav-links">
         <li><a href="index.html" class="mobile-link">Home</a></li>
-        <li><a href="index.html#occasions" class="mobile-link">Collections</a></li>
-        <li><a href="catalogue.html" class="mobile-link">Catalogue</a></li>
+        <li><a href="catalogue.html" class="mobile-link active" aria-current="page">Collections</a></li>
+        <li><a href="index.html#personalize" class="mobile-link">Personalizations</a></li>
       </ul>
     </div>
     <div class="mobile-drawer-footer">
@@ -91,15 +91,176 @@
     </div>
   </aside>
 
-  <!-- Main Content (Catalogue Placeholder) -->
+  <!-- Main Catalogue Content -->
   <main class="catalogue-main">
-    <div class="container">
-      <div class="catalogue-hero">
-        <span class="catalogue-eyebrow">THE COLLECTION</span>
-        <h1 class="catalogue-title">Our Catalogue</h1>
-        <p class="catalogue-desc">Every handmade piece will be listed here very soon.</p>
-        <a href="index.html" class="catalogue-back-link">&larr; Back to home</a>
+    <!-- Top Hero Banner -->
+    <section class="catalogue-banner" aria-label="Collections overview">
+      <div class="catalogue-banner__inner">
+        <div class="catalogue-banner__content">
+          <span class="catalogue-banner__eyebrow">EXPLORE OUR</span>
+          <h1 class="catalogue-banner__title">Collections</h1>
+          <p class="catalogue-banner__desc">A curated range of handcrafted gifts, each<br>made with care, creativity and a personal touch.</p>
+        </div>
+        <div class="catalogue-banner__media" aria-hidden="true">
+          <img src="assets/hero.png" alt="" class="catalogue-banner__img">
+        </div>
       </div>
+    </section>
+
+    <!-- Collection Pills Filter Bar -->
+    <section class="collection-pills-bar" aria-label="Filter by collection">
+      <div class="container">
+        <div class="collection-pills" role="toolbar" aria-label="Collections">
+          <button type="button" class="pill active" data-collection="all" aria-pressed="true">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+            <span>All Collections</span>
+          </button>
+
+          <button type="button" class="pill" data-collection="crochet-crafts" aria-pressed="false">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M4.5 9c3.5 1 7 1 10.5-1"></path>
+              <path d="M7 16.5c3.5-1 7-1 10-3"></path>
+              <path d="M12 3c1 3.5 1 7-1 10.5"></path>
+              <path d="M16.5 7c-1 3.5-1 7 3 10"></path>
+            </svg>
+            <span>Crochet Crafts</span>
+          </button>
+
+          <button type="button" class="pill" data-collection="resin-keepsakes" aria-pressed="false">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2l8 10-8 10-8-10z"></path>
+              <path d="M4 12h16"></path>
+              <path d="M12 2l-3 10 3 10"></path>
+              <path d="M12 2l3 10-3 10"></path>
+            </svg>
+            <span>Resin Keepsakes</span>
+          </button>
+
+          <button type="button" class="pill" data-collection="floral-decor" aria-pressed="false">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+              <path d="M12 18a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0v-1a3 3 0 0 0-3-3z"></path>
+              <path d="M2 12a3 3 0 0 0 3-3h1a3 3 0 0 0 0 6H5a3 3 0 0 0-3-3z"></path>
+              <path d="M18 12a3 3 0 0 0 3-3h1a3 3 0 0 0 0 6h-1a3 3 0 0 0-3-3z"></path>
+            </svg>
+            <span>Floral &amp; Decor</span>
+          </button>
+
+          <button type="button" class="pill" data-collection="frames-letters" aria-pressed="false">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 20"></polyline>
+            </svg>
+            <span>Frames &amp; Letters</span>
+          </button>
+
+          <button type="button" class="pill" data-collection="luxe-hampers" aria-pressed="false">
+            <svg class="pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 12 20 22 4 22 4 12"></polyline>
+              <rect x="2" y="7" width="20" height="5"></rect>
+              <line x1="12" y1="22" x2="12" y2="7"></line>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>Luxe Hampers</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Filters & Products Grid Layout -->
+    <div class="catalogue-wrap">
+      <!-- Left Sticky Filters Sidebar -->
+      <aside class="filters" aria-label="Filters">
+        <div class="filters__header">
+          <div class="filters__title-group">
+            <svg class="filters__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            <h2 class="filters__heading">Filters</h2>
+          </div>
+          <button type="button" class="filters__clear" id="clearFiltersBtn" style="display: none;">Clear all</button>
+        </div>
+
+        <!-- Section 1: Price Range Slider -->
+        <div class="filter-group">
+          <h3 class="filter-group-title">Price Range</h3>
+          <div class="range-slider">
+            <div class="range-slider__track">
+              <div class="range-slider__fill" id="rangeFill"></div>
+            </div>
+            <input type="range" id="priceMinInput" class="range-slider__input" min="100" max="5000" step="50" value="100" aria-label="Minimum price">
+            <input type="range" id="priceMaxInput" class="range-slider__input" min="100" max="5000" step="50" value="5000" aria-label="Maximum price">
+          </div>
+          <div class="range-slider__labels">
+            <span id="priceMinLabel">₹100</span>
+            <span id="priceMaxLabel">₹5,000+</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Category Filter Checkboxes -->
+        <div class="filter-group">
+          <h3 class="filter-group-title">Category</h3>
+          <div class="filter-checkbox-list" id="categoryFilterList">
+            <!-- Dynamically populated by js/catalogue.js -->
+          </div>
+        </div>
+
+        <!-- Section 3: Personalization Filter Checkbox -->
+        <div class="filter-group">
+          <h3 class="filter-group-title">Personalization</h3>
+          <label class="filter-row">
+            <input type="checkbox" id="customizableCheck" class="filter-checkbox">
+            <span class="filter-row-label">Customizable <span class="filter-row-count" id="customizableCount">(0)</span></span>
+          </label>
+        </div>
+      </aside>
+
+      <!-- Right Products Grid & Results Section -->
+      <section class="catalogue-results" aria-labelledby="resultsCount">
+        <!-- Results Topbar: Count & Sort Select -->
+        <div class="catalogue-results-header">
+          <span class="results-count" id="resultsCount">12 Products</span>
+          <div class="sort-wrap">
+            <label for="sortSelect" class="sr-only">Sort products</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="newest">Sort by: Newest</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Name: A to Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="catalogue-grid" id="catalogueGrid" aria-live="polite">
+          <!-- Populated dynamically by js/catalogue.js -->
+        </div>
+
+        <!-- Empty State (Shown when no items match active filters) -->
+        <div class="catalogue-empty" id="catalogueEmpty" style="display: none;">
+          <div class="catalogue-empty__icon">🌸</div>
+          <h3 class="catalogue-empty__title">No gifts found</h3>
+          <p class="catalogue-empty__text">Try adjusting or clearing your filters to see more results.</p>
+          <button type="button" class="btn btn-burgundy btn-sm" id="emptyClearBtn">Clear All Filters</button>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -119,7 +280,7 @@
       <div class="cart-empty-art">🌸</div>
       <h3 class="cart-empty-title">Your Gift Bag is Empty</h3>
       <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
-      <a href="index.html" class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</a>
+      <a href="catalogue.html" class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</a>
     </div>
 
     <!-- Cart Filled Content -->
@@ -161,6 +322,43 @@
     </div>
   </aside>
 
+  <!-- Quick View Modal Dialog -->
+  <dialog class="quickview" id="quickViewDialog" aria-labelledby="qv-title">
+    <div class="quickview__inner">
+      <button type="button" class="quickview__close" id="qvCloseBtn" aria-label="Close">&times;</button>
+
+      <div class="quickview__grid">
+        <div class="quickview__media" id="qvMedia">
+          <!-- Image or blush gradient fallback populated dynamically -->
+        </div>
+
+        <div class="quickview__details">
+          <span class="product-badge-pill" id="qvBadge">Bestseller</span>
+          <h2 class="quickview__name" id="qv-title">Product Name</h2>
+          <div class="quickview__price" id="qvPrice">₹0</div>
+          <p class="quickview__desc" id="qvDesc">Handmade to order with care.</p>
+
+          <div class="quickview__personalization">
+            <label for="qv-note" class="quickview__field-label">PERSONALIZE IT</label>
+            <input type="text" id="qv-note" maxlength="120" placeholder="Name, date or a short message (optional)">
+            <div class="quickview__counter" id="qvCounter">0/120</div>
+          </div>
+
+          <div class="quickview__stepper-row">
+            <span class="quickview__field-label">QUANTITY</span>
+            <div class="quickview__stepper">
+              <button type="button" class="stepper-btn" id="qvMinusBtn" aria-label="Decrease quantity">&minus;</button>
+              <span class="stepper-value" id="qvQtyValue">1</span>
+              <button type="button" class="stepper-btn" id="qvPlusBtn" aria-label="Increase quantity">&plus;</button>
+            </div>
+          </div>
+
+          <button type="button" class="quickview__add-btn" id="qvAddBtn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Notification Toast Container -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -169,16 +367,15 @@
     <div class="footer-inner">
       <div class="footer-brand-box">
         <span class="footer-logo">Palora</span>
-        <p class="footer-tagline">Thoughtful, personalized handmade gifts turning simple moments into lasting memories.
-        </p>
+        <p class="footer-tagline">Thoughtful, personalized handmade gifts turning simple moments into lasting memories.</p>
       </div>
       <div class="footer-quick-links">
         <h4 class="footer-title">Quick Links</h4>
         <ul class="footer-menu">
           <li><a href="index.html#hero">Home</a></li>
+          <li><a href="catalogue.html">Collections</a></li>
           <li><a href="index.html#occasions">Shop by Category</a></li>
           <li><a href="index.html#bestsellers">Bestselling Collection</a></li>
-          <li><a href="catalogue.html">Catalogue</a></li>
         </ul>
       </div>
       <div class="footer-contact-box">
@@ -194,9 +391,12 @@
     </div>
   </footer>
 
+  <!-- Scripts: Data & Application Logic -->
   <script src="js/categories.js"></script>
   <script src="js/products.js"></script>
+  <script src="js/product-ui.js"></script>
   <script src="script.js"></script>
+  <script src="js/catalogue.js"></script>
 </body>
 
 </html>
