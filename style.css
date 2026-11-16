@@ -499,40 +499,6 @@ input::placeholder {
   color: var(--burgundy);
 }
 
-.drawer-categories-divider {
-  height: 1px;
-  background-color: rgba(114, 47, 55, 0.12);
-  margin: 10px 24px 16px;
-}
-
-.drawer-cat-heading {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--burgundy-deep);
-  padding: 4px 24px 10px;
-}
-
-.drawer-cat-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.drawer-cat-link {
-  display: block;
-  padding: 9px 24px;
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--text-brown);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.drawer-cat-link:hover {
-  background-color: rgba(215, 167, 177, 0.15);
-  color: var(--burgundy);
-}
-
 .mobile-drawer-footer {
   padding: 20px 24px;
   border-top: 1px solid rgba(114, 47, 55, 0.1);
@@ -556,7 +522,7 @@ input::placeholder {
   overflow: hidden;
   background: linear-gradient(135deg, #EDB9BE, #E5A5AD 60%, #D8929D);
   padding: 108px 0 32px;
-  min-height: clamp(420px, calc(100svh - 430px), 530px);
+  min-height: clamp(520px, calc(100svh - var(--benefits-h, 110px)), 820px);
 }
 
 /* Soft overlay gradient so text always stays readable against photo */
@@ -1027,7 +993,7 @@ input::placeholder {
     background: linear-gradient(180deg, #E3A8A4 0%, #E0A29E 50%, #E5A9A5 100%);
     padding-top: 96px;
     padding-bottom: 28px;
-    min-height: clamp(520px, calc(100svh - 180px), 780px);
+    min-height: clamp(520px, calc(100svh - var(--benefits-h, 110px)), 820px);
   }
 
   .hero::after {
@@ -1306,621 +1272,94 @@ input::placeholder {
 }
 
 /* --------------------------------------------------------------------------
-   9. Shop by Occasion Section
+   9. Shared Utility Styles (Lined Titles, Arrow Links, Skip Link, Section Spacing)
    -------------------------------------------------------------------------- */
-.occasions-section {
-  background-color: var(--page-bg);
-  padding: 32px 0 36px;
-}
-
-.occasions-container {
-  /* uses shared .container */
-}
-
-.occasions__header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  margin-bottom: 24px;
-}
-
-.occasions__line {
-  display: inline-block;
-  width: clamp(40px, 8vw, 155px);
-  height: 1px;
-  background-color: var(--burgundy);
-  flex-shrink: 0;
-}
-
-.occasions__title {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  font-weight: 700;
-  color: var(--burgundy-deep);
-  text-align: center;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-@media (max-width: 639px) {
-  .occasions__header {
-    gap: 16px;
-  }
-}
-
-.occasions__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-/* Card Shape & Base (Applies to both .category-card and .occasion-card) */
-.category-card,
-.occasion-card {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(114, 47, 55, 0.12);
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background-color: #FAF0E9;
+  color: #5A1623;
+  font-family: var(--font-jost);
+  font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
-  display: block;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  outline: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
+  border-radius: 4px;
+  outline: 2px solid #722F37;
+  transition: top 150ms ease;
 }
 
-.category-card:hover,
-.occasion-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(114, 47, 55, 0.2);
+.skip-link:focus {
+  top: 16px;
 }
 
-.category-card:focus-visible,
-.occasion-card:focus-visible {
-  outline: 2px solid var(--burgundy);
-  outline-offset: 3px;
+.title-lined {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
 }
 
-/* Faint cream watermark icon centered behind image */
-.category-card__watermark,
-.occasion-card__watermark {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.25;
-  pointer-events: none;
-  z-index: 0;
-  stroke: #FFF7F2;
+.title-lined::before,
+.title-lined::after {
+  content: "";
+  width: 155px;
+  height: 1px;
+  background: rgba(106, 31, 44, 0.85);
+  flex-shrink: 0;
 }
 
-/* Unique Soft Pink Gradient Placeholders (Cycled across 11 cards) */
-.category-card--tone-1,
-.occasion-card--birthdays {
-  background: linear-gradient(145deg, #F5D2D7 0%, #EAAAB3 100%);
-}
-
-.category-card--tone-2,
-.occasion-card--anniversaries {
-  background: linear-gradient(145deg, #F3CCD2 0%, #E39EA8 100%);
-}
-
-.category-card--tone-3,
-.occasion-card--festivals {
-  background: linear-gradient(145deg, #F7D8DC 0%, #E5A5AE 100%);
-}
-
-.category-card--tone-4,
-.occasion-card--thankyou {
-  background: linear-gradient(145deg, #F1C4CC 0%, #DF949F 100%);
-}
-
-.category-card--tone-5,
-.occasion-card--justbecause {
-  background: linear-gradient(145deg, #F6D5DA 0%, #E8A8B1 100%);
-}
-
-.category-card__img,
-.occasion-card__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.category-card:hover .category-card__img,
-.occasion-card:hover .occasion-card__img {
-  transform: scale(1.04);
-}
-
-/* Bottom Label Strip pinned to bottom ~28-30% */
-.category-card__strip,
-.occasion-card__strip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28%;
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-jost);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: #5A1623;
+  text-decoration: none;
   min-height: 44px;
-  background-color: var(--burgundy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 8px;
-  z-index: 2;
+  transition: color 250ms ease;
 }
 
-.category-card__strip::before,
-.occasion-card__strip::before {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  right: 0;
-  height: 24px;
-  background: linear-gradient(to bottom, transparent, var(--burgundy));
-  pointer-events: none;
-}
-
-.category-icon-svg,
-.occasion-icon-svg {
+.link-arrow svg {
+  margin-left: 14px;
+  stroke: currentColor;
   flex-shrink: 0;
-  stroke: #FFF7F2;
+  transition: transform 250ms ease;
 }
 
-.category-card__label,
-.occasion-card__label {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: clamp(1.05rem, 1.6vw, 1.5rem);
-  color: #FFF7F2;
-  line-height: 1;
+.link-arrow:hover {
+  color: #722F37;
 }
 
-/* Category Slider Base (Mobile / Tablet baseline) */
-.slider {
-  position: relative;
-  width: 100%;
+.link-arrow:hover svg {
+  transform: translateX(6px);
 }
 
-.slider__track {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 8px 4px 28px;
-  margin: -8px -4px -28px;
-  touch-action: pan-y pinch-zoom;
-  cursor: grab;
+.link-arrow:focus-visible {
+  outline: 2px solid #722F37;
+  outline-offset: 4px;
+  color: #722F37;
 }
 
-.slider__track::-webkit-scrollbar {
-  display: none;
+.link-arrow:focus-visible svg {
+  transform: translateX(6px);
 }
 
-.slider__track.is-dragging {
-  scroll-snap-type: none;
-  scroll-behavior: auto;
-  cursor: grabbing;
-}
-
-.slider__track.is-dragging .category-card {
-  pointer-events: none;
-}
-
-.category-card {
-  flex: 0 0 calc((100% - 12px) / 2.2);
-  min-width: 140px;
-  scroll-snap-align: start;
-}
-
-.slider__btn {
-  display: none;
-}
-
-/* Occasions / Category Slider on Laptop (>=1024px) */
-@media (min-width: 1024px) {
-
-  :root,
-  .slider {
-    --cards-visible: 4.5;
-  }
-
-  .occasions-section {
-    padding: 28px 0 28px;
-  }
-
-  .occasions__header {
-    margin-bottom: 18px;
-  }
-
-  .occasions__title {
-    font-size: 2.4rem;
-  }
-
-  .category-card {
-    flex: 0 0 calc((100% - 4 * 12px) / var(--cards-visible));
-    min-width: unset;
-    scroll-snap-align: start;
-  }
-
-  /* Round Navigation Arrow Buttons (48x48px, overlapping edges by 24px) */
-  .slider__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 36%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #FAF0E9;
-    border: 1px solid rgba(114, 47, 55, 0.25);
-    color: #6A1F2C;
-    box-shadow: 0 6px 16px rgba(114, 47, 55, 0.18);
-    cursor: pointer;
-    z-index: 10;
-    padding: 0;
-    outline: none;
-    transition: background-color 200ms ease, color 200ms ease, opacity 200ms ease, transform 200ms ease, box-shadow 200ms ease;
-  }
-
-  .slider__btn--prev {
-    left: -24px;
-  }
-
-  .slider__btn--next {
-    right: -24px;
-  }
-
-  .slider__btn:hover {
-    background: #722F37;
-    color: #FFF7F2;
-    box-shadow: 0 8px 20px rgba(114, 47, 55, 0.28);
-  }
-
-  .slider__btn:focus-visible {
-    outline: 2px solid #722F37;
-    outline-offset: 3px;
-    background: #722F37;
-    color: #FFF7F2;
-  }
-
-  .slider__btn:disabled,
-  .slider__btn[disabled] {
-    opacity: 0.35;
-    pointer-events: none;
-    cursor: not-allowed;
-  }
-
-  .slider__btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    flex-shrink: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .slider__track {
-      scroll-behavior: auto !important;
-    }
-
-    .category-card:hover {
-      transform: none !important;
-    }
-  }
-}
-
-/* --------------------------------------------------------------------------
-   10. Product Gallery Section & Personalization Requirement
-   -------------------------------------------------------------------------- */
-.products-section {
-  padding: 44px 16px 56px;
-  background-color: #FAF6EE;
-}
-
-.products-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.section-title-box {
+.bestsellers__footer {
   text-align: center;
-  margin-bottom: 24px;
+  margin-top: 8px;
 }
 
-.section-subtitle {
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-burgundy);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.section-heading {
-  font-family: var(--font-serif);
-  font-size: 2.1rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 10px;
-}
-
-.section-intro {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  max-width: 580px;
-  margin: 0 auto;
-}
-
-/* Category Filter Tabs */
-.category-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 8px 4px 18px;
-  margin-bottom: 20px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.category-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.tab-btn {
-  flex-shrink: 0;
-  padding: 8px 18px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-white);
-  border: 1px solid var(--color-blush-beige);
-  color: var(--color-text-primary);
-  font-size: 0.88rem;
-  font-weight: 600;
-  transition: all var(--transition-fast);
-}
-
-.tab-btn.active,
-.tab-btn:hover {
-  background-color: var(--color-burgundy);
-  color: var(--color-white);
-  border-color: var(--color-burgundy);
-}
-
-/* Products Grid (Mobile Default: 1 Column) */
-.products-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-}
-
-/* Product Card Component (Styling with Dusty Pink & Cream Balance) */
-.product-card {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-blush-beige);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-subtle);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.product-card:hover {
-  box-shadow: var(--shadow-card);
-}
-
-.product-img-box {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  background-color: var(--color-dusty-pink-subtle);
-  overflow: hidden;
-}
-
-.product-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.product-card:hover .product-img-box img {
-  transform: scale(1.04);
-}
-
-.product-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background-color: var(--color-dusty-pink);
-  color: var(--color-burgundy-dark);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  box-shadow: 0 2px 8px rgba(87, 46, 46, 0.1);
-}
-
-.product-info {
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.product-title-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
-}
-
-.product-title {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--color-text-primary);
-}
-
-.product-price {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-burgundy);
-  white-space: nowrap;
-}
-
-.product-desc {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  line-height: 1.45;
-  margin-bottom: 16px;
-  flex: 1;
-}
-
-/* CRITICAL REQUIREMENT: Dedicated Personalization Input & Label */
-.personalization-box {
-  margin-bottom: 14px;
-}
-
-.personalization-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 6px;
-}
-
-.personalization-label-icon {
-  font-size: 0.9rem;
-}
-
-.personalization-input {
-  /* 16px font-size to prevent iOS Safari auto-zoom */
-  font-size: 16px !important;
-  background-color: #FDFBF8;
-  border: 1px solid var(--color-blush-beige);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  transition: all var(--transition-fast);
-}
-
-.personalization-input:focus {
-  background-color: var(--color-white);
-  border-color: var(--color-burgundy);
-  box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.12);
-}
-
-/* Add to Cart Button (Mobile Touch Friendly, 100% Width) */
-.add-to-cart-btn {
-  width: 100%;
-  background-color: var(--color-burgundy);
-  color: var(--color-white);
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  min-height: var(--min-touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 10px rgba(114, 47, 55, 0.2);
-  transition: all var(--transition-fast);
-}
-
-.add-to-cart-btn:hover {
-  background-color: var(--color-burgundy-hover);
-  box-shadow: 0 6px 14px rgba(114, 47, 55, 0.3);
-}
-
-.add-to-cart-btn:active {
-  transform: scale(0.98);
-}
-
-/* --------------------------------------------------------------------------
-   11. Artisan Story Section
-   -------------------------------------------------------------------------- */
-.about-section {
-  padding: 44px 16px;
-  background-color: var(--color-cream);
-}
-
-.about-container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.about-card {
-  background-color: var(--color-dusty-pink-subtle);
-  border: 1px solid var(--color-blush-beige);
-  border-radius: var(--radius-lg);
-  padding: 28px 20px;
-  box-shadow: var(--shadow-subtle);
-}
-
-.about-tag {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--color-burgundy);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.about-title {
-  font-family: var(--font-serif);
-  font-size: 1.85rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 14px;
-}
-
-.about-paragraph {
-  font-size: 0.92rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-
-.about-badges {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--color-blush-beige);
-}
-
-.about-badge-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
+#hero,
+#benefits,
+#bestsellers,
+#personalize {
+  scroll-margin-top: 96px;
 }
 
 /* --------------------------------------------------------------------------

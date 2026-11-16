@@ -3,106 +3,23 @@
  * Pure Vanilla JavaScript (ES6+)
  * 
  * Features:
+ * - Dynamic Viewport Height & Benefits Bar Measuring
  * - Local Client-Side Cart State Management
- * - Dynamic Product Catalog & Responsive Filtering
  * - Dedicated Item-Level Personalization Input Capture
  * - Dynamic Cart Modal with Quantity Modifiers & Live Grand Total
  * - Structured WhatsApp Checkout Pipeline Hand-off
  */
 
 // -----------------------------------------------------------------------------
-// 1. Product Catalog Data
+// 1. Dynamic Benefits Bar Measurement
 // -----------------------------------------------------------------------------
-const GALLERY_PRODUCTS = [
-  {
-    id: "crochet-rose-bouquet",
-    name: "Handcrafted Crochet Rose & Tulip Bouquet",
-    category: "crochet",
-    occasion: "anniversaries",
-    price: 899,
-    image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80",
-    badge: "Bestseller",
-    description: "Everlasting hand-knitted botanical flowers with soft woolen yarn and wrapped in vintage tissue.",
-    placeholderNote: "e.g., Red roses with white tulips, gift tag: 'Happy 5th Anniversary!'"
-  },
-  {
-    id: "resin-floral-coasters",
-    name: "Custom Gold Flake & Botanical Resin Coasters",
-    category: "resin",
-    occasion: "festivals",
-    price: 649,
-    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80",
-    badge: "Hand-poured",
-    description: "Set of 2 crystal clear epoxy coasters embedded with real pressed petals and 24k gold leaf flakes.",
-    placeholderNote: "e.g., Initial 'A & R', gold rim edges, Diwali wishes"
-  },
-  {
-    id: "resin-letter-keychain",
-    name: "Personalized Initial Resin Keychain",
-    category: "resin",
-    occasion: "birthdays",
-    price: 349,
-    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
-    badge: "Personalized",
-    description: "Artisan resin letter charm with matching pastel suede tassel and gold hardware clip.",
-    placeholderNote: "e.g., Letter 'M', blush pink flowers, name: 'Meera'"
-  },
-  {
-    id: "wax-sealed-letter",
-    name: "Wax-Sealed Handwritten Calligraphy Letter",
-    category: "frames",
-    occasion: "thankyou",
-    price: 449,
-    image: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80",
-    badge: "Artisanal",
-    description: "Custom message handwritten in vintage fountain ink on archival handmade cotton deckle-edge paper.",
-    placeholderNote: "e.g., Note: 'Thank you for always believing in me, Mom.' Burgundy seal."
-  },
-  {
-    id: "dried-floral-dome",
-    name: "Preserved Lavender & Rose Glass Dome",
-    category: "floral",
-    occasion: "anniversaries",
-    price: 1499,
-    image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80",
-    badge: "Everlasting",
-    description: "Natural dried lavender sprigs, hydrangea and mini roses encased in a wooden base glass bell jar.",
-    placeholderNote: "e.g., Engraving on wooden base: 'Forever & Always, Rahul & Diya'"
-  },
-  {
-    id: "thoughtful-pink-hamper",
-    name: "“Thoughtful Pink” Luxe Gift Hamper",
-    category: "hampers",
-    occasion: "birthdays",
-    price: 2499,
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
-    badge: "Signature Box",
-    description: "Curated gift box with scented soy candle, crochet flower, wax seal card, and artisan chocolate.",
-    placeholderNote: "e.g., Birthday message for Sarah + Lavender scented candle preference"
-  },
-  {
-    id: "crochet-daisy-charm",
-    name: "Pastel Crochet Daisy Charm & Coaster Duo",
-    category: "crochet",
-    occasion: "justbecause",
-    price: 499,
-    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
-    badge: "Cute & Cozy",
-    description: "Delightful crochet floral mug rug coaster paired with a mini daisy backpack or keychain charm.",
-    placeholderNote: "e.g., Pastel yellow and lilac color combo"
-  },
-  {
-    id: "custom-polaroid-frame",
-    name: "Custom Polaroid Clip Memory Keepsake Frame",
-    category: "frames",
-    occasion: "birthdays",
-    price: 799,
-    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
-    badge: "Custom Photo",
-    description: "Solid pine wood frame with mini wooden clips, fairy twinkle lights, and personalized date plaque.",
-    placeholderNote: "e.g., Date: 12.04.2024, Bottom text: 'Best memories together'"
+function updateBenefitsHeight() {
+  const benefits = document.getElementById("benefits");
+  if (benefits) {
+    document.documentElement.style.setProperty("--benefits-h", `${benefits.offsetHeight}px`);
   }
-];
+}
+window.addEventListener("resize", updateBenefitsHeight);
 
 // -----------------------------------------------------------------------------
 // 2. Global State Management
@@ -150,8 +67,6 @@ const dom = {
   shopNowEmptyBtn: document.getElementById("shopNowEmptyBtn"),
   orderCustomerName: document.getElementById("orderCustomerName"),
   orderDeliveryCity: document.getElementById("orderDeliveryCity"),
-  productsGrid: document.getElementById("productsGrid"),
-  categoryTabs: document.querySelectorAll(".tab-btn"),
   mobileToggleBtn: document.getElementById("mobileToggleBtn"),
   closeDrawerBtn: document.getElementById("closeDrawerBtn"),
   mobileDrawer: document.getElementById("mobileDrawer"),
@@ -161,80 +76,7 @@ const dom = {
 };
 
 // -----------------------------------------------------------------------------
-// 4. Product Catalog Rendering
-// -----------------------------------------------------------------------------
-function renderProducts(filterCategory = "all") {
-  if (!dom.productsGrid) return;
-
-  const filteredProducts = filterCategory === "all"
-    ? GALLERY_PRODUCTS
-    : GALLERY_PRODUCTS.filter(p => p.category === filterCategory || p.occasion === filterCategory);
-
-  dom.productsGrid.innerHTML = "";
-
-  if (filteredProducts.length === 0) {
-    dom.productsGrid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 40px 16px;">
-        <p style="font-size: 1.1rem; color: var(--color-text-muted);">No products found in this category.</p>
-      </div>
-    `;
-    return;
-  }
-
-  filteredProducts.forEach(product => {
-    const card = document.createElement("article");
-    card.className = "product-card";
-    card.setAttribute("data-id", product.id);
-
-    card.innerHTML = `
-      <div class="product-img-box">
-        <img src="${product.image}" alt="${product.name}" loading="lazy">
-        <span class="product-badge">${product.badge}</span>
-      </div>
-      <div class="product-info">
-        <div class="product-title-row">
-          <h3 class="product-title">${product.name}</h3>
-          <span class="product-price">₹${product.price.toLocaleString("en-IN")}</span>
-        </div>
-        <p class="product-desc">${product.description}</p>
-        
-        <!-- CRITICAL REQUIREMENT: Dedicated Input field for Personalization -->
-        <div class="personalization-box">
-          <label for="custom-note-${product.id}" class="personalization-label">
-            <span class="personalization-label-icon">✍️</span>
-            <span>Add custom note, name, or color:</span>
-          </label>
-          <input 
-            type="text" 
-            id="custom-note-${product.id}" 
-            class="personalization-input" 
-            placeholder="${product.placeholderNote}"
-            autocomplete="off"
-            aria-label="Personalization for ${product.name}"
-          >
-        </div>
-
-        <!-- Add to Cart Action -->
-        <button 
-          class="add-to-cart-btn" 
-          onclick="handleAddToCart('${product.id}')"
-          aria-label="Add ${product.name} to cart"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          <span>Add to Cart</span>
-        </button>
-      </div>
-    `;
-
-    dom.productsGrid.appendChild(card);
-  });
-}
-
-// -----------------------------------------------------------------------------
-// 5. Cart Management & Logic
+// 4. Cart Management & Logic
 // -----------------------------------------------------------------------------
 
 /**
@@ -265,7 +107,7 @@ window.addCustomItemToCart = function(product, quantity = 1, note = "") {
   saveCartToStorage();
   updateCartUI();
   triggerBadgeBump();
-  showToast("Added to cart");
+  showToast("Added to cart ✨");
 };
 
 // Fallback custom event listener
@@ -279,8 +121,7 @@ document.addEventListener("palora:addtocart", (e) => {
  * Captures product details and specific personalization input text
  */
 function handleAddToCart(productId) {
-  const product = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).find(p => p.id === productId)
-    || GALLERY_PRODUCTS.find(p => p.id === productId);
+  const product = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).find(p => p.id === productId);
   if (!product) return;
 
   const noteInput = document.getElementById(`custom-note-${productId}`);
@@ -305,6 +146,7 @@ function updateCartItemQuantity(cartItemId, delta) {
 
   if (cart[itemIndex].quantity <= 0) {
     cart.splice(itemIndex, 1);
+    showToast("Item removed from gift bag");
   }
 
   saveCartToStorage();
@@ -312,164 +154,159 @@ function updateCartItemQuantity(cartItemId, delta) {
 }
 
 /**
- * Removes an item directly from the cart
+ * Removes an entire item row from the cart
  */
 function removeCartItem(cartItemId) {
   cart = cart.filter(item => item.cartItemId !== cartItemId);
   saveCartToStorage();
   updateCartUI();
-  showToast("Item removed from gift bag.");
+  showToast("Item removed from gift bag");
 }
 
 /**
- * Dynamically re-renders the Cart Modal UI, recalculating grand total
+ * Synchronizes DOM state with current cart array
  */
 function updateCartUI() {
-  const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const grandTotalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  // Update Header Badges
+  // Update Badge in header
   if (dom.cartBadge) {
-    dom.cartBadge.textContent = totalItemsCount;
+    dom.cartBadge.textContent = totalItemCount;
   }
+
+  // Update Cart Header Count
   if (dom.cartHeaderCount) {
-    dom.cartHeaderCount.textContent = `${totalItemsCount} ${totalItemsCount === 1 ? 'item' : 'items'}`;
+    dom.cartHeaderCount.textContent = `${totalItemCount} ${totalItemCount === 1 ? "item" : "items"}`;
   }
 
-  // Update Grand Total Display
+  // Update Grand Total in Cart Footer
   if (dom.cartGrandTotal) {
-    dom.cartGrandTotal.textContent = `₹${grandTotal.toLocaleString("en-IN")}`;
+    dom.cartGrandTotal.textContent = `₹${grandTotalAmount.toLocaleString("en-IN")}`;
   }
 
-  // Empty state handling
+  // Toggle Empty State vs Populated Cart List
   if (cart.length === 0) {
-    if (dom.cartEmpty) dom.cartEmpty.classList.add("active");
+    if (dom.cartEmpty) dom.cartEmpty.style.display = "flex";
     if (dom.cartBody) dom.cartBody.style.display = "none";
     if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.disabled = true;
     if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.style.opacity = "0.5";
-    return;
-  }
+  } else {
+    if (dom.cartEmpty) dom.cartEmpty.style.display = "none";
+    if (dom.cartBody) dom.cartBody.style.display = "flex";
+    if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.disabled = false;
+    if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.style.opacity = "1";
 
-  if (dom.cartEmpty) dom.cartEmpty.classList.remove("active");
-  if (dom.cartBody) dom.cartBody.style.display = "flex";
-  if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.disabled = false;
-  if (dom.proceedWhatsAppBtn) dom.proceedWhatsAppBtn.style.opacity = "1";
-
-  // Render items list
-  if (dom.cartItemsList) {
-    dom.cartItemsList.innerHTML = "";
-
-    cart.forEach(item => {
-      const li = document.createElement("li");
-      li.className = "cart-item";
-      li.innerHTML = `
-        <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
-        <div class="cart-item-details">
-          <div class="cart-item-header">
-            <h4 class="cart-item-name">${item.name}</h4>
-            <span class="cart-item-price">₹${(item.price * item.quantity).toLocaleString("en-IN")}</span>
-          </div>
-
-          <!-- Display Item's Specific Custom Personalization Note -->
-          <div class="cart-item-note">
-            <strong>Custom Note:</strong> ${escapeHtml(item.note)}
-          </div>
-
-          <div class="cart-item-controls">
-            <div class="qty-control-box">
-              <button 
-                class="qty-btn" 
-                onclick="updateCartItemQuantity('${item.cartItemId}', -1)"
-                aria-label="Decrease quantity of ${item.name}"
-              >&minus;</button>
-              <span class="qty-count">${item.quantity}</span>
-              <button 
-                class="qty-btn" 
-                onclick="updateCartItemQuantity('${item.cartItemId}', 1)"
-                aria-label="Increase quantity of ${item.name}"
-              >&plus;</button>
-            </div>
-            
-            <button 
-              class="cart-item-delete" 
-              onclick="removeCartItem('${item.cartItemId}')"
-              aria-label="Remove ${item.name} from cart"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      `;
-      dom.cartItemsList.appendChild(li);
-    });
+    renderCartItemsList();
   }
 }
 
+/**
+ * Renders HTML for each individual item inside the cart drawer
+ */
+function renderCartItemsList() {
+  if (!dom.cartItemsList) return;
+  dom.cartItemsList.innerHTML = "";
+
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.className = "cart-item";
+    const subtotal = item.price * item.quantity;
+
+    li.innerHTML = `
+      <div class="cart-item-img">
+        <img src="${item.image}" alt="${item.name}" onerror="this.src='assets/hero.png'">
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-top">
+          <span class="cart-item-name">${item.name}</span>
+          <button class="cart-remove-btn" onclick="removeCartItem('${item.cartItemId}')" aria-label="Remove ${item.name}">&times;</button>
+        </div>
+        <div class="cart-item-personalization">
+          <span class="custom-badge-pill">Note</span>
+          <span class="custom-note-preview">"${escapeHtml(item.note)}"</span>
+        </div>
+        <div class="cart-item-bottom">
+          <div class="cart-qty-controls" role="group" aria-label="Adjust quantity">
+            <button class="qty-btn" onclick="updateCartItemQuantity('${item.cartItemId}', -1)" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-value">${item.quantity}</span>
+            <button class="qty-btn" onclick="updateCartItemQuantity('${item.cartItemId}', 1)" aria-label="Increase quantity">&plus;</button>
+          </div>
+          <span class="cart-item-price">₹${subtotal.toLocaleString("en-IN")}</span>
+        </div>
+      </div>
+    `;
+
+    dom.cartItemsList.appendChild(li);
+  });
+}
+
 // -----------------------------------------------------------------------------
-// 6. WhatsApp Checkout Pipeline Hand-Off
+// 5. WhatsApp Checkout Pipeline Hand-Off
 // -----------------------------------------------------------------------------
 
 /**
- * Formats a clean, multi-line string containing each product, its specific custom note,
+ * Constructs a structured WhatsApp order breakdown including personalization,
  * individual price, and grand total, then redirects to the WhatsApp API.
  */
 function proceedToWhatsAppCheckout() {
-  if (cart.length === 0) {
-    showToast("Your gift bag is empty! Add an item first.");
-    return;
-  }
+  if (cart.length === 0) return;
 
-  const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const customerName = dom.orderCustomerName ? dom.orderCustomerName.value.trim() : "";
-  const deliveryCity = dom.orderDeliveryCity ? dom.orderDeliveryCity.value.trim() : "";
+  const customerName = dom.orderCustomerName && dom.orderCustomerName.value.trim() 
+    ? dom.orderCustomerName.value.trim() 
+    : "Gifting Guest";
 
-  // Build the structured multi-line message
-  let messageLines = [];
-  messageLines.push("🛍️ *NEW ORDER - PALORA HANDMADE GIFTS*");
-  messageLines.push("──────────────────────────");
-  messageLines.push("*Order Items:*");
+  const deliveryCity = dom.orderDeliveryCity && dom.orderDeliveryCity.value.trim() 
+    ? dom.orderDeliveryCity.value.trim() 
+    : "Not specified";
+
+  let grandTotal = 0;
+  const messageLines = [
+    `*🎁 NEW ORDER INQUIRY - PALORA HANDMADE*`,
+    `--------------------------------------`,
+    `*Customer:* ${customerName}`,
+    `*Location:* ${deliveryCity}`,
+    `*Date:* ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`,
+    `--------------------------------------`,
+    `*ORDER ITEMS:*`
+  ];
 
   cart.forEach((item, index) => {
+    const lineTotal = item.price * item.quantity;
+    grandTotal += lineTotal;
+
     messageLines.push(
-      `${index + 1}. *${item.name}* (Qty: ${item.quantity}) - ₹${(item.price * item.quantity).toLocaleString("en-IN")}`
+      `\n*${index + 1}. ${item.name}*`,
+      `• Qty: ${item.quantity} × ₹${item.price.toLocaleString("en-IN")} = ₹${lineTotal.toLocaleString("en-IN")}`,
+      `• *Personalization:* "${item.note}"`
     );
-    messageLines.push(`   📝 *Personalization:* "${item.note}"`);
   });
 
-  messageLines.push("──────────────────────────");
-  messageLines.push(`*💰 Grand Total: ₹${grandTotal.toLocaleString("en-IN")}*`);
-
-  if (customerName || deliveryCity) {
-    messageLines.push("");
-    messageLines.push("*Customer Details:*");
-    if (customerName) messageLines.push(`• Name: ${customerName}`);
-    if (deliveryCity) messageLines.push(`• Delivery City / Pin: ${deliveryCity}`);
-  }
+  messageLines.push(
+    `--------------------------------------`,
+    `*ESTIMATED TOTAL: ₹${grandTotal.toLocaleString("en-IN")}*`,
+    `_(Excluding shipping; verified via chat)_`
+  );
 
   messageLines.push("");
   messageLines.push("✨ _Hello Palora! I would like to place this handmade order. Please confirm availability and share payment details._");
 
   const fullMessage = messageLines.join("\n");
-
-  // URL-encode the formatted string
   const encodedMessage = encodeURIComponent(fullMessage);
-  const targetWhatsAppUrl = `https://wa.me/919876543210?text=${encodedMessage}`;
+  const waNumber = typeof WHATSAPP_NUMBER !== "undefined" ? WHATSAPP_NUMBER : "919876543210";
+  const targetWhatsAppUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
 
-  // Trigger the hand-off in a new tab/app window
   window.open(targetWhatsAppUrl, "_blank");
 }
 
 // -----------------------------------------------------------------------------
-// 7. UI Controls, Drawers & Modals
+// 6. UI Controls, Drawers & Modals
 // -----------------------------------------------------------------------------
 
 function openCartModal() {
   if (dom.cartModal) dom.cartModal.classList.add("open");
   if (dom.cartOverlay) dom.cartOverlay.classList.add("open");
-  document.body.style.overflow = "hidden"; // Prevent body scroll while modal is active
+  document.body.style.overflow = "hidden";
 }
 
 function closeCartModal() {
@@ -520,40 +357,20 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-// Helper to filter from Occasion Cards or Category buttons
-window.filterCategory = function (categoryOrOccasion) {
-  // Update Tab buttons visually
-  dom.categoryTabs.forEach(tab => {
-    if (tab.getAttribute("data-filter") === categoryOrOccasion) {
-      tab.classList.add("active");
-    } else {
-      tab.classList.remove("active");
-    }
-  });
-
-  renderProducts(categoryOrOccasion);
-
-  // Smooth scroll to products section
-  const section = document.getElementById("products");
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
 // Expose addToCart globally for inline onclick
 window.handleAddToCart = handleAddToCart;
 window.updateCartItemQuantity = updateCartItemQuantity;
 window.removeCartItem = removeCartItem;
 
 // -----------------------------------------------------------------------------
-// 8. Event Listeners & Initialization
+// 7. Event Listeners & Initialization
 // -----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+  // Measure benefits height to ensure hero + value bar fill the screen exactly
+  updateBenefitsHeight();
+
   // Load existing cart
   loadCartFromStorage();
-
-  // Render initial products
-  renderProducts("all");
 
   // Render initial cart state
   updateCartUI();
@@ -565,8 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dom.shopNowEmptyBtn) {
     dom.shopNowEmptyBtn.addEventListener("click", () => {
       closeCartModal();
-      const productsSection = document.getElementById("products");
-      if (productsSection) productsSection.scrollIntoView({ behavior: "smooth" });
+      window.location.href = "catalogue.html";
     });
   }
 
@@ -581,18 +397,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dom.mobileDrawerOverlay) dom.mobileDrawerOverlay.addEventListener("click", closeMobileDrawer);
 
   // Close mobile drawer when clicking a link
-  document.querySelectorAll(".mobile-link, .drawer-cat-link").forEach(link => {
+  document.querySelectorAll(".mobile-link").forEach(link => {
     link.addEventListener("click", closeMobileDrawer);
-  });
-
-  // Category filter tabs click
-  dom.categoryTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      dom.categoryTabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      const filter = tab.getAttribute("data-filter");
-      renderProducts(filter);
-    });
   });
 
   // Sticky header scroll background switch (> 40px)
@@ -604,14 +410,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: true });
 
-  // Search button quick visual feedback
+  // Search button takes to catalogue page
   if (dom.searchBtn) {
     dom.searchBtn.addEventListener("click", () => {
-      const productsSection = document.getElementById("products");
-      if (productsSection) {
-        productsSection.scrollIntoView({ behavior: "smooth" });
-        showToast("Browse our complete collection below 🌸");
-      }
+      window.location.href = "catalogue.html";
     });
   }
 
