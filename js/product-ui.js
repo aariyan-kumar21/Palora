@@ -69,6 +69,9 @@ function toggleProductWishlist(productId, btn) {
     }
   });
 
+  // Notify saved.js and other components
+  document.dispatchEvent(new CustomEvent("wishlistchange", { detail: { productId, isWishlisted: isNowWishlisted } }));
+
   // Optional toast notification
   if (typeof showToast === "function") {
     const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === productId);
@@ -409,6 +412,15 @@ function mountBestsellersSection() {
     initBestsellersSlider();
   }
 }
+
+window.renderProductCard = renderProductCardHTML;
+window.renderProductCardHTML = renderProductCardHTML;
+window.openQuickViewModal = openQuickViewModal;
+window.closeQuickViewModal = closeQuickViewModal;
+window.formatINR = formatINR;
+window.getWishlist = getWishlist;
+window.isProductWishlisted = isProductWishlisted;
+window.toggleProductWishlist = toggleProductWishlist;
 
 // Auto-mount on load
 if (document.readyState === "loading") {
