@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Palora - Story Page Stylesheet (story.css)
+   Laptop Viewport (1024px and up, primary target 1900x868)
+   ========================================================================== */
+
+/* Section 1: Why we make what we make */
+.story-why-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.story-why-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.story-section-title {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 3vw, 2.75rem);
+  color: #6A1F2C;
+  margin: 0 0 24px;
+  line-height: 1.15;
+}
+
+.story-media-placeholder {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #F8D5DC 0%, #EFBCC6 50%, #E39FAE 100%);
+  aspect-ratio: 4 / 3.2;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 32px rgba(87, 46, 46, 0.08);
+  border: 1px solid rgba(215, 167, 177, 0.4);
+}
+
+.story-media-watermark {
+  color: #FFF7F2;
+  opacity: 0.35;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.story-media-watermark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.story-media-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* Section 2: How each piece comes to life */
+.story-process-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.story-process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.story-process-card {
+  background: #FFF8F4;
+  border-radius: 18px;
+  padding: 40px 32px;
+  border: 1px solid rgba(215, 167, 177, 0.3);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(87, 46, 46, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-process-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(114, 47, 55, 0.08);
+}
+
+.story-process-num {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 3rem;
+  color: #722F37;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.story-process-card-title {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #5A1623;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.story-process-card-body {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #572E2E;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Section 3: What we believe */
+.story-beliefs-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.story-beliefs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.story-belief-card {
+  background: #FFF8F4;
+  border-radius: 18px;
+  padding: 36px 26px;
+  border: 1px solid rgba(215, 167, 177, 0.3);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(87, 46, 46, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-belief-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(114, 47, 55, 0.08);
+}
+
+.story-belief-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(239, 188, 198, 0.45);
+  color: #722F37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.story-belief-icon-box svg {
+  width: 26px;
+  height: 26px;
+}
+
+.story-belief-card-title {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #5A1623;
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+
+.story-belief-card-body {
+  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #572E2E;
+  line-height: 1.65;
+  margin: 0;
+}

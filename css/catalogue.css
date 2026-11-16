@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Palora - Collections Catalogue Stylesheet (catalogue.css)
+   Laptop Viewport (1024px and up, primary target 1900x868)
+   ========================================================================== */
+
+@import url("../style.css");
+
+/* Header adjustment on solid catalogue page */
+body[data-page="catalogue"] .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #FAF0E9 !important;
+  border-bottom: 1px solid rgba(114, 47, 55, 0.1);
+  box-shadow: 0 4px 16px rgba(114, 47, 55, 0.06);
+}
+
+body[data-page="catalogue"] .site-header .nav-link {
+  color: #6A1F2C;
+}
+
+body[data-page="catalogue"] .site-header .nav-link.active {
+  color: #5A1623 !important;
+  font-weight: 600;
+}
+
+body[data-page="catalogue"] .catalogue-main {
+  padding-top: 84px;
+}
+
+/* Fix 1: Remove the rounded outline around the price range track */
+.range-slider,
+.range-slider__track,
+.range-slider__fill,
+.range-slider__input,
+.range-slider__input:focus,
+.range-slider__input:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Fix 2: Make sure prices and product counts use lining numerals */
+.results-count,
+.filter-row-count,
+.product-card__price,
+.range-slider__labels,
+#priceMinLabel,
+#priceMaxLabel,
+.quickview__price,
+.cart-total-amount,
+.total-amount,
+.filter-row-label {
+  font-variant-numeric: lining-nums;
+}
+
+/* Fix 3: Sticky sidebar with 11 categories scrolls inside its card without overlapping the page */
+.filters {
+  position: sticky;
+  top: 108px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 47, 55, 0.25) transparent;
+}
+
+.filters::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+  background: rgba(114, 47, 55, 0.25);
+  border-radius: 9999px;
+}
+
+/* Category Filter Checkboxes Scroll / Spacing */
+.filter-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
