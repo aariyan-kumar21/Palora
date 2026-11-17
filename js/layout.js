@@ -224,10 +224,12 @@
               Thoughtful, personalized handmade gifts turning simple moments into lasting memories.
             </p>
             <div class="footer-social-row">
-              <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="footer-social-circle" aria-label="Instagram">
-                ${icon("instagram", { size: 20 })}
+              <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+                ${icon("instagram", { size: 22 })}
               </a>
-              ${footerWaCircle}
+              <a href="${waLink("Hi Palora! I'd like to inquire about your gifts.") || "https://wa.me/"}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="WhatsApp">
+                ${icon("whatsapp", { size: 22 })}
+              </a>
             </div>
           </div>
 

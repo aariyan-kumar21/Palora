@@ -29,7 +29,7 @@
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Dimensions */
-  --nav-h: 115px;
+  --nav-h: 80px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
@@ -259,7 +259,7 @@ ul, ol {
   left: 0;
   right: 0;
   width: 100%;
-  height: var(--nav-h, 115px);
+  height: var(--nav-h, 80px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -268,8 +268,10 @@ ul, ol {
 
 /* Home page transparent header when at top */
 body[data-page="home"] .site-header:not(.scrolled) {
-  background-color: transparent;
-  border-bottom: 1px solid rgba(114, 47, 55, 0.1);
+  background: transparent !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   color: #5A1623;
 }
 
@@ -430,13 +432,14 @@ body:not([data-page="home"]) .site-header {
   line-height: 1;
 }
 
-/* Hamburger 2-line button (48px circle, 2 lines) */
+/* Hamburger 2-line button (clean lines, no circle) */
 .hamburger-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(114, 47, 55, 0.25);
-  background: transparent;
+  width: 36px;
+  height: 36px;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -444,12 +447,14 @@ body:not([data-page="home"]) .site-header {
   gap: 7px;
   cursor: pointer;
   color: #5A1623;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  padding: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .hamburger-btn:hover {
-  border-color: rgba(114, 47, 55, 0.5);
-  background-color: rgba(114, 47, 55, 0.05);
+  border: none !important;
+  background-color: transparent !important;
+  opacity: 0.7;
 }
 
 .hamburger-line {
@@ -1765,22 +1770,29 @@ footer#site-footer,
   margin-top: 8px;
 }
 
+.footer-social-link,
 .footer-social-circle {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 247, 242, 0.3);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #FFF7F2;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 4px;
+  box-shadow: none !important;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
 }
 
+.footer-social-link:hover,
 .footer-social-circle:hover {
-  background-color: rgba(255, 247, 242, 0.15);
-  border-color: #FFFFFF;
+  opacity: 0.75;
+  transform: translateY(-2px);
+  background: transparent !important;
+  border: none !important;
 }
 
 /* Col 2: Categories Subgrid */
@@ -1854,11 +1866,11 @@ footer#site-footer,
   margin-top: 6px;
 }
 
-/* Faint Giant Watermark */
+/* Faint Giant Watermark (sitting directly on bottom bar horizontal line) */
 .footer-watermark {
   position: absolute;
   left: 50%;
-  bottom: 45px;
+  bottom: 72px;
   transform: translateX(-50%);
   font-family: var(--font-serif);
   font-weight: 700;
