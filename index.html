@@ -45,19 +45,28 @@
       <div class="header-actions">
         <!-- Saved items Button -->
         <button type="button" class="icon-btn saved-btn" id="savedBtn" aria-label="Saved items">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
           <span class="saved-badge" id="savedBadge" style="display:none">0</span>
         </button>
 
         <!-- Cart Trigger Button with Dynamic Counter Badge -->
         <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open shopping bag">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg>
           <span class="cart-badge" id="cartBadge">0</span>
         </button>
 
         <!-- Hamburger Toggle Button -->
-        <button type="button" class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
-          aria-expanded="false" aria-controls="mobileDrawer">
+        <button type="button" class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn"
+          aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
         </button>
@@ -75,44 +84,47 @@
   <main id="main">
     <!-- Section 1: Hero Section -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <!-- Scroll Down Indicator -->
-      <a href="#bestsellers" class="hero__scroll" aria-label="Scroll to Bestselling Collection">
-        <span class="hero__scroll-text">SCROLL</span>
-        <span class="hero__scroll-line" aria-hidden="true"></span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor"
-          stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M7 1v12M2 8l5 5 5-5" />
-        </svg>
-      </a>
+        <!-- Vertical Scroll Down Indicator (Left x~47) -->
+        <a href="#bestsellers" class="hero__scroll hero__scroll-vertical" aria-label="Scroll to Bestselling Collection">
+          <span class="hero__scroll-text">SCROLL</span>
+          <span class="hero__scroll-line" aria-hidden="true"></span>
+            <svg class="hero__scroll-arrow" width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+              stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M7 1v12M2 8l5 5 5-5" />
+            </svg>
+        </a>
 
-      <div class="container hero__content">
-        <div class="hero__text-inner">
-          <div class="hero__eyebrow-wrap">
-            <span class="hero__eyebrow">THOUGHTFUL GIFTS FOR EVERY OCCASION</span>
-            <span class="hero__eyebrow-line" aria-hidden="true"></span>
-          </div>
-          <h1 class="hero-heading" id="hero-title">
-            MAKE EVERY<br>
-            MOMENT<br>
-            <em>SPECIAL.</em>
-          </h1>
-          <p class="hero-subtext">
-            Customizable, handmade gifts that turn simple moments into lasting memories.
-          </p>
-          <div class="hero-cta-wrapper">
-            <a class="hero__cta link-arrow" href="catalogue.html">Explore Our Collections <svg width="64" height="12"
-                viewBox="0 0 64 12" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M1 6h61M57 1.5 62 6l-5 4.5" />
-              </svg></a>
-          </div>
-        </div>
-      </div>
+          <!-- Hero Background Image (Right 85% width) -->
+          <img class="hero__bg" src="assets/hero.png"
+            alt="Gift box with a burgundy satin ribbon and a Palora monogram tag, beside a candle and flowers"
+            onerror="this.remove()">
 
-      <!-- Hero Background Image -->
-      <img class="hero__bg" src="assets/hero.png"
-        alt="Gift box with a burgundy satin ribbon and a Palora monogram tag, beside a candle and flowers"
-        onerror="this.remove()">
+          <div class="hero__content">
+            <div class="hero__text-inner">
+              <div class="hero__eyebrow-wrap">
+                <span class="hero__eyebrow">HANDMADE WITH LOVE</span>
+                <span class="hero__eyebrow-line" aria-hidden="true"></span>
+              </div>
+              <h1 class="hero-heading" id="hero-title">
+                MAKE EVERY<br>
+                MOMENT<br>
+                <em>SPECIAL.</em>
+              </h1>
+              <p class="hero-subtext">
+                Customizable, handmade gifts that turn simple moments into lasting memories.
+              </p>
+              <div class="hero-cta-wrapper">
+                    <a class="hero__cta link-arrow" href="catalogue.html">
+                      <span>Explore Collections</span>
+                      <svg width="64" height="12" viewBox="0 0 64 12" fill="none" stroke="currentColor"
+                        stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                        focusable="false">
+                        <path d="M1 6h61M57 1.5 62 6l-5 4.5" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
     </section>
 
     <!-- Section 2: Value Proposition Bar (Benefits) -->
@@ -261,7 +273,8 @@
         <div class="how-it-works__col">
           <span class="how-it-works__num">03</span>
           <h3 class="how-it-works__col-title">Confirm on WhatsApp</h3>
-          <p class="how-it-works__col-text">Send your order on WhatsApp. We confirm the details, delivery time and payment with you.</p>
+          <p class="how-it-works__col-text">Send your order on WhatsApp. We confirm the details, delivery time and
+            payment with you.</p>
         </div>
       </div>
 

@@ -3,39 +3,12 @@
    Laptop Viewport (1024px and up, primary target 1900x868)
    ========================================================================== */
 
-@import url("../style.css");
-
-/* Navbar adjustment on solid pages */
-body:not([data-page="home"]) .site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #FAF0E9 !important;
-  border-bottom: 1px solid rgba(114, 47, 55, 0.1);
-  box-shadow: 0 4px 16px rgba(114, 47, 55, 0.06);
-}
-
-body:not([data-page="home"]) .site-header .nav-link {
-  color: #6A1F2C;
-}
-
-body:not([data-page="home"]) .site-header .nav-link.active {
-  color: #5A1623 !important;
-  font-weight: 600;
-}
-
-body[data-page="story"] #main,
-body[data-page="help"] #main,
-body[data-page="privacy"] #main,
-body[data-page="catalogue"] #main {
-  padding-top: 84px;
-}
+/* Header and navigation styling unified in css/base.css */
 
 /* Shared Page Banner */
 .page-banner {
   width: 100%;
-  min-height: 260px;
+  min-height: clamp(280px, 17.4vw, 340px);
   background: linear-gradient(100deg, #F6D3D9 0%, #EFBCC6 45%, #E4A2B0 100%);
   position: relative;
   overflow: hidden;
@@ -45,12 +18,14 @@ body[data-page="catalogue"] #main {
 
 .page-banner__inner {
   width: 100%;
-  min-height: 260px;
+  min-height: clamp(280px, 17.4vw, 340px);
   display: flex;
   align-items: center;
   position: relative;
-  padding-top: 36px;
-  padding-bottom: 36px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4.5vw;
+  padding-right: 4.5vw;
 }
 
 .page-banner__content {
@@ -61,35 +36,41 @@ body[data-page="catalogue"] #main {
 
 .page-banner__eyebrow {
   display: block;
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-family: var(--font-jost, 'Jost', sans-serif);
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.45em;
+  letter-spacing: 0.3em;
   color: #5A1623;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   line-height: 1.2;
 }
 
 .page-banner__heading {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
   font-style: italic;
   font-weight: 600;
-  font-size: clamp(3rem, 4.6vw, 4.5rem);
+  font-size: clamp(2.6rem, 3.6vw, 3.6rem);
   line-height: 1.05;
   color: #6A1F2C;
   margin: 0 0 14px 0;
   letter-spacing: -0.01em;
 }
 
+@media (min-width: 1100px) {
+  .page-banner__heading {
+    white-space: nowrap;
+  }
+}
+
 .page-banner__subtext {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
   font-weight: 500;
   font-size: 1.35rem;
   color: #5A1623;
-  line-height: 1.35;
+  line-height: 1.4;
   margin: 0;
-  max-width: 58ch;
+  max-width: 34rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -125,12 +106,12 @@ body[data-page="catalogue"] #main {
 .page-copy,
 .page-copy p,
 .page-text {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1.7;
   color: #572E2E;
-  max-width: 68ch;
+  max-width: 60ch;
   margin: 0 0 1.25rem;
 }
 
@@ -141,7 +122,7 @@ body[data-page="catalogue"] #main {
 /* Shared CTA Band (Rounded pink gradient panel) */
 .cta-band {
   background: linear-gradient(135deg, #F9D8DE 0%, #F3BDC8 50%, #E8A8B6 100%);
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 56px 48px;
   text-align: center;
   position: relative;
@@ -151,12 +132,12 @@ body[data-page="catalogue"] #main {
 }
 
 .cta-band__heading {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(2rem, 3vw, 2.8rem);
   color: #6A1F2C;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   line-height: 1.15;
 }
 
@@ -238,249 +219,251 @@ body[data-page="catalogue"] #main {
   box-shadow: 0 4px 18px rgba(87, 46, 46, 0.04);
 }
 
-.help-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 
-.help-nav__link {
-  display: block;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #572E2E;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
+  .help-nav,
+  .help-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-.help-nav__link:hover {
-  background: rgba(239, 188, 198, 0.35);
-  color: #6A1F2C;
-}
+  .help-nav__link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #572E2E;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
 
-.help-nav__link.active,
-.help-nav__link[aria-current="true"] {
-  background: #722F37;
-  color: #FFF8F4;
-  font-weight: 600;
-}
+  .help-nav__link:hover {
+    background: rgba(239, 188, 198, 0.35);
+    color: #6A1F2C;
+  }
 
-.help-content {
-  flex: 1;
-  min-width: 0;
-}
+  .help-nav__link.active,
+  .help-nav__link[aria-current="true"] {
+    background: #722F37;
+    color: #FFF8F4;
+    font-weight: 600;
+  }
 
-.help-section {
-  scroll-margin-top: 110px;
-  margin-bottom: 64px;
-}
+  .help-content {
+    flex: 1;
+    min-width: 0;
+  }
 
-.help-section:last-child {
-  margin-bottom: 0;
-}
+  .help-section {
+    scroll-margin-top: 110px;
+    margin-bottom: 64px;
+  }
 
-.help-section__heading {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(2rem, 2.6vw, 2.4rem);
-  color: #6A1F2C;
-  margin: 0 0 16px;
-  line-height: 1.15;
-}
+  .help-section:last-child {
+    margin-bottom: 0;
+  }
 
-.help-steps {
-  list-style: none;
-  counter-reset: help-counter;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin: 20px 0 0;
-  padding: 0;
-}
+  .help-section__heading {
+    font-family: var(--font-serif, 'Cormorant Garamond', serif);
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    color: #6A1F2C;
+    margin: 0 0 20px;
+    line-height: 1.2;
+  }
 
-.help-step {
-  counter-increment: help-counter;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  background: #FFF8F4;
-  border-radius: 14px;
-  padding: 20px 24px;
-  border: 1px solid rgba(215, 167, 177, 0.25);
-}
+  .help-steps {
+    list-style: none;
+    counter-reset: help-counter;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 20px 0 0;
+    padding: 0;
+  }
 
-.help-step__num {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: #722F37;
-  line-height: 1;
-  flex-shrink: 0;
-  width: 32px;
-}
+  .help-step {
+    counter-increment: help-counter;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: #FFF8F4;
+    border-radius: 14px;
+    padding: 20px 24px;
+    border: 1px solid rgba(215, 167, 177, 0.25);
+  }
 
-.help-step__text {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #572E2E;
-  line-height: 1.6;
-  margin: 0;
-}
+  .help-step__num {
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #722F37;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 32px;
+  }
 
-/* FAQ Details / Summary Accordion */
-.help-faqs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
+  .help-step__text {
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #572E2E;
+    line-height: 1.6;
+    margin: 0;
+  }
 
-.help-faq-item {
-  border-radius: 14px;
-  background: #FFF8F4;
-  border: 1px solid rgba(215, 167, 177, 0.35);
-  overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
+  /* FAQ Details / Summary Accordion */
+  .help-faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
 
-.help-faq-item[open] {
-  box-shadow: 0 6px 20px rgba(114, 47, 55, 0.08);
-  border-color: #D7A7B1;
-}
+  .help-faq-item {
+    border-radius: 14px;
+    background: #FFF8F4;
+    border: 1px solid rgba(215, 167, 177, 0.35);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
 
-.help-faq-summary {
-  padding: 20px 24px;
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: #5A1623;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  list-style: none;
-  user-select: none;
-  transition: color 0.15s ease;
-}
+  .help-faq-item[open] {
+    box-shadow: 0 6px 20px rgba(114, 47, 55, 0.08);
+    border-color: #D7A7B1;
+  }
 
-.help-faq-summary::-webkit-details-marker {
-  display: none;
-}
+  .help-faq-summary {
+    padding: 20px 24px;
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #5A1623;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    list-style: none;
+    user-select: none;
+    transition: color 0.15s ease;
+  }
 
-.help-faq-summary:hover {
-  color: #722F37;
-}
+  .help-faq-summary::-webkit-details-marker {
+    display: none;
+  }
 
-.help-faq-summary:focus-visible {
-  outline: 2px solid #722F37;
-  outline-offset: -2px;
-}
+  .help-faq-summary:hover {
+    color: #722F37;
+  }
 
-.help-faq-chevron {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-  stroke: #722F37;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
+  .help-faq-summary:focus-visible {
+    outline: 2px solid #722F37;
+    outline-offset: -2px;
+  }
 
-.help-faq-item[open] .help-faq-chevron {
-  transform: rotate(180deg);
-}
+  .help-faq-chevron {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    stroke: #722F37;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
 
-.help-faq-answer {
-  padding: 0 24px 22px;
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-size: 1.2rem;
-  font-weight: 500;
-  line-height: 1.7;
-  color: #572E2E;
-}
+  .help-faq-item[open] .help-faq-chevron {
+    transform: rotate(180deg);
+  }
 
-/* Contact Rows on Help and Privacy pages */
-.contact-rows-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
-}
+  .help-faq-answer {
+    padding: 0 24px 22px;
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: #572E2E;
+  }
 
-.contact-row-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 22px;
-  background: #FFF8F4;
-  border-radius: 14px;
-  border: 1px solid rgba(215, 167, 177, 0.3);
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #572E2E;
-}
+  /* Contact Rows on Help and Privacy pages */
+  .contact-rows-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
 
-.contact-row-icon {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  color: #722F37;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .contact-row-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 22px;
+    background: #FFF8F4;
+    border-radius: 14px;
+    border: 1px solid rgba(215, 167, 177, 0.3);
+    font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #572E2E;
+  }
 
-.contact-row-link {
-  color: #722F37;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  transition: color 0.15s ease;
-}
+  .contact-row-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    color: #722F37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.contact-row-link:hover {
-  color: #5E252C;
-}
+  .contact-row-link {
+    color: #722F37;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.15s ease;
+  }
 
-/* Privacy Page Specific Layout */
-.privacy-container {
-  max-width: 68ch;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .contact-row-link:hover {
+    color: #5E252C;
+  }
 
-.privacy-section {
-  margin-bottom: 44px;
-}
+  /* Privacy Page Specific Layout */
+  .privacy-container {
+    max-width: 68ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.privacy-section:last-child {
-  margin-bottom: 0;
-}
+  .privacy-section {
+    margin-bottom: 44px;
+  }
 
-.privacy-section__heading {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(1.8rem, 2.2vw, 2.15rem);
-  color: #6A1F2C;
-  margin: 0 0 12px;
-  line-height: 1.2;
-}
+  .privacy-section:last-child {
+    margin-bottom: 0;
+  }
 
-.privacy-updated {
-  margin-top: 56px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(215, 167, 177, 0.4);
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #805656;
-}
+  .privacy-section__heading {
+    font-family: var(--font-serif, 'Cormorant Garamond', serif);
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    color: #6A1F2C;
+    margin: 0 0 20px;
+    line-height: 1.2;
+  }
+
+  .privacy-updated {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(215, 167, 177, 0.4);
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #805656;
+  }

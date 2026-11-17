@@ -5,28 +5,9 @@
 
 @import url("../style.css");
 
-/* Header adjustment on solid catalogue page */
-body[data-page="catalogue"] .site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #FAF0E9 !important;
-  border-bottom: 1px solid rgba(114, 47, 55, 0.1);
-  box-shadow: 0 4px 16px rgba(114, 47, 55, 0.06);
-}
-
-body[data-page="catalogue"] .site-header .nav-link {
-  color: #6A1F2C;
-}
-
-body[data-page="catalogue"] .site-header .nav-link.active {
-  color: #5A1623 !important;
-  font-weight: 600;
-}
-
+/* Header and page spacing unified with var(--nav-h, 115px) in css/base.css */
 body[data-page="catalogue"] .catalogue-main {
-  padding-top: 84px;
+  padding-top: var(--nav-h, 115px);
 }
 
 /* Fix 1: Remove the rounded outline around the price range track */
@@ -58,20 +39,24 @@ body[data-page="catalogue"] .catalogue-main {
 /* Fix 3: Sticky sidebar with 11 categories scrolls inside its card without overlapping the page */
 .filters {
   position: sticky;
-  top: 108px;
-  max-height: calc(100vh - 130px);
+  top: 135px;
+  max-height: calc(100vh - 150px);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(114, 47, 55, 0.25) transparent;
+  scrollbar-color: rgba(114, 47, 55, 0.35) transparent;
 }
 
 .filters::-webkit-scrollbar {
   width: 6px;
 }
 
+.filters::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .filters::-webkit-scrollbar-thumb {
-  background: rgba(114, 47, 55, 0.25);
+  background: rgba(114, 47, 55, 0.35);
   border-radius: 9999px;
 }
 

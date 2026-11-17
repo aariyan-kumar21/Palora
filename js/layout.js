@@ -6,14 +6,15 @@
 (function () {
   function renderHeaderContent(headerEl) {
     if (!headerEl) return;
+    headerEl.className = "site-header";
     headerEl.innerHTML = `
       <div class="container header-inner">
         <!-- Navigation Links (Left) -->
         <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
           <ul class="nav-list">
-            <li><a href="index.html" class="nav-link">Home</a></li>
-            <li><a href="catalogue.html" class="nav-link">Collections</a></li>
-            <li><a href="story.html" class="nav-link">Our Story</a></li>
+            <li><a href="index.html" class="nav-link">HOME</a></li>
+            <li><a href="catalogue.html" class="nav-link">COLLECTIONS</a></li>
+            <li><a href="story.html" class="nav-link">OUR STORY</a></li>
           </ul>
         </nav>
 
@@ -25,19 +26,19 @@
 
         <!-- Header Action Controls (Right) -->
         <div class="header-actions">
-          <!-- Saved items Button with Dynamic Counter Badge -->
+          <!-- Saved items Button -->
           <button type="button" class="icon-btn saved-btn" id="savedBtn" aria-label="Saved items">
-            ${icon("heart", { size: 26, strokeWidth: 1.5 })}
+            ${icon("heart", { size: 24, strokeWidth: 1.5 })}
             <span class="saved-badge" id="savedBadge" style="display:none">0</span>
           </button>
 
-          <!-- Cart Trigger Button with Dynamic Counter Badge -->
+          <!-- Cart Trigger Button -->
           <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open shopping bag">
-            ${icon("bag", { size: 26, strokeWidth: 1.5 })}
+            ${icon("bag", { size: 24, strokeWidth: 1.5 })}
             <span class="cart-badge" id="cartBadge">0</span>
           </button>
 
-          <!-- Hamburger Toggle Button -->
+          <!-- Hamburger Toggle Button (48px circle, 2 lines) -->
           <button type="button" class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
             aria-expanded="false" aria-controls="mobileDrawer">
             <span class="hamburger-line"></span>
@@ -76,36 +77,57 @@
       : "";
 
     drawer.innerHTML = `
-      <div class="mobile-drawer-header">
+      <div class="drawer-header-row">
         <div class="drawer-wordmark">
           <span class="drawer-wordmark-title">PALORA</span>
           <span class="drawer-wordmark-tagline">HANDMADE GIFTS</span>
         </div>
-        <button type="button" class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close menu">&times;</button>
+        <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close menu">
+          ${icon("close", { size: 24, strokeWidth: 1.5 })}
+        </button>
       </div>
 
       <div class="drawer-scroll-content">
-        <div class="drawer-group">
-          <span class="drawer-group-label">EXPLORE</span>
-          <ul class="drawer-nav-list">
-            <li><a href="index.html" class="drawer-nav-link">Home</a></li>
-            <li><a href="catalogue.html" class="drawer-nav-link">Collections</a></li>
-            <li><a href="story.html" class="drawer-nav-link">Our Story</a></li>
-            <li><a href="index.html#bestsellers" class="drawer-nav-link">Bestsellers</a></li>
-          </ul>
+        <!-- Group MENU -->
+        <div class="drawer-group drawer-group--menu">
+          <span class="drawer-group-label">MENU</span>
+          <div class="drawer-menu-list">
+            <a href="index.html" class="drawer-menu-row" data-drawer-link="home">
+              <span class="drawer-menu-idx">01</span>
+              <span class="drawer-menu-label">Home</span>
+              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
+            </a>
+            <a href="catalogue.html" class="drawer-menu-row" data-drawer-link="catalogue">
+              <span class="drawer-menu-idx">02</span>
+              <span class="drawer-menu-label">Collections</span>
+              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
+            </a>
+            <a href="story.html" class="drawer-menu-row" data-drawer-link="story">
+              <span class="drawer-menu-idx">03</span>
+              <span class="drawer-menu-label">Our Story</span>
+              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
+            </a>
+            <a href="index.html#bestsellers" class="drawer-menu-row" data-drawer-link="bestsellers">
+              <span class="drawer-menu-idx">04</span>
+              <span class="drawer-menu-label">Bestsellers</span>
+              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
+            </a>
+          </div>
         </div>
 
-        <div class="drawer-group">
+        <!-- Group HELP -->
+        <div class="drawer-group drawer-group--help">
           <span class="drawer-group-label">HELP</span>
-          <ul class="drawer-nav-list">
-            <li><a href="help.html#how-to-order" class="drawer-nav-link">How ordering works</a></li>
-            <li><a href="help.html#shipping" class="drawer-nav-link">Shipping & delivery</a></li>
-            <li><a href="help.html#returns" class="drawer-nav-link">Returns & personalized orders</a></li>
-            <li><a href="help.html#faqs" class="drawer-nav-link">FAQs</a></li>
-            <li><a href="help.html#contact" class="drawer-nav-link">Contact</a></li>
+          <ul class="drawer-help-list">
+            <li><a href="help.html#how-to-order" class="drawer-help-link">How ordering works</a></li>
+            <li><a href="help.html#shipping" class="drawer-help-link">Shipping & delivery</a></li>
+            <li><a href="help.html#returns" class="drawer-help-link">Returns & personalized orders</a></li>
+            <li><a href="help.html#faqs" class="drawer-help-link">FAQs</a></li>
+            <li><a href="help.html#contact" class="drawer-help-link">Contact</a></li>
           </ul>
         </div>
 
+        <!-- Group CONNECT -->
         <div class="drawer-group drawer-group--connect">
           <span class="drawer-group-label">CONNECT</span>
           ${waBtnHtml}
@@ -125,6 +147,7 @@
 
   function renderFooterContent(footerEl) {
     if (!footerEl) return;
+    footerEl.className = "site-footer";
 
     // Build category columns: 11 categories in 2 sub-columns
     const half = Math.ceil(CATEGORIES.length / 2);
@@ -157,6 +180,13 @@
         </a>`
       : "";
 
+    const footerTopWaBtn = hasWhatsApp()
+      ? `<a href="${waLink("Hi Palora! I'd like to chat.")}" target="_blank" rel="noopener noreferrer" class="footer-wa-outline-btn">
+          ${icon("whatsapp", { size: 18 })}
+          <span>Chat on WhatsApp</span>
+        </a>`
+      : "";
+
     const emailRow = EMAIL
       ? `<a href="mailto:${EMAIL}" class="footer-contact-link">
           ${icon("mail", { size: 18 })}
@@ -165,7 +195,22 @@
       : "";
 
     footerEl.innerHTML = `
-      <div class="container footer-container">
+      <!-- Top Band Inside Footer -->
+      <div class="footer-top-band">
+        <div class="container footer-top-inner">
+          <div class="footer-top-text">
+            <h2 class="footer-top-heading">Make every moment special.</h2>
+            <p class="footer-top-subtext">Browse our handmade gifts and make them yours.</p>
+          </div>
+          <div class="footer-top-actions">
+            <a href="catalogue.html" class="footer-cta-btn">Explore Collections</a>
+            ${footerTopWaBtn}
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Columns Grid -->
+      <div class="container footer-main-container">
         <div class="footer-grid">
           <!-- Column 1: Brand -->
           <div class="footer-col footer-col--brand">
@@ -236,9 +281,14 @@
             </p>
           </div>
         </div>
+      </div>
 
-        <!-- Bottom Bar -->
-        <div class="footer-bottom-bar">
+      <!-- Faint Giant Watermark -->
+      <div class="footer-watermark" aria-hidden="true">PALORA</div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="container footer-bottom-inner">
           <div class="footer-bottom-copy">
             &copy; ${new Date().getFullYear()} Palora. All rights reserved.
           </div>

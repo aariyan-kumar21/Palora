@@ -127,9 +127,9 @@ function renderProductCardHTML(product, index, variant = "default") {
   return `
     <article class="product-card" data-product-id="${product.id}">
       <div class="product-card__img-box product-card__img-box--tone-${toneNum}">
-        <svg class="product-card__watermark" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          ${GIFT_WATERMARK_SVG}
-        </svg>
+        <div class="product-card__watermark" aria-hidden="true">
+          ${typeof icon === "function" ? icon("gift", { size: 64, strokeWidth: 1.2 }) : `<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${GIFT_WATERMARK_SVG}</svg>`}
+        </div>
         <img src="${product.image}" alt="${product.name}" loading="lazy" draggable="false" onerror="this.remove()">
         <span class="product-badge-pill">${product.badge}</span>
       </div>
@@ -142,9 +142,7 @@ function renderProductCardHTML(product, index, variant = "default") {
         <div class="product-card__price-row">
           <span class="product-card__price">${formatINR(product.price)}</span>
           <button type="button" class="wish" data-product-id="${product.id}" aria-pressed="${isWishlisted ? 'true' : 'false'}" aria-label="${isWishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}">
-            <svg class="wish-heart-svg" width="24" height="24" viewBox="0 0 24 24" fill="${isWishlisted ? '#722F37' : 'none'}" stroke="${isWishlisted ? '#722F37' : '#6A1F2C'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+            ${typeof icon === "function" ? icon("heart", { size: 24, strokeWidth: 1.5, className: "wish-heart-svg", fill: isWishlisted ? "#722F37" : "none" }) : `<svg class="wish-heart-svg" width="24" height="24" viewBox="0 0 24 24" fill="${isWishlisted ? '#722F37' : 'none'}" stroke="${isWishlisted ? '#722F37' : '#6A1F2C'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`}
           </button>
         </div>
       </div>

@@ -17,22 +17,23 @@
 }
 
 .story-section-title {
-  font-family: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(2.2rem, 3vw, 2.75rem);
+  font-family: var(--font-serif, 'Cormorant Garamond', serif);
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(2rem, 3vw, 2.8rem);
   color: #6A1F2C;
-  margin: 0 0 24px;
-  line-height: 1.15;
+  margin: 0 0 20px;
+  line-height: 1.2;
 }
 
 .story-media-placeholder {
   position: relative;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
   background: linear-gradient(135deg, #F8D5DC 0%, #EFBCC6 50%, #E39FAE 100%);
-  aspect-ratio: 4 / 3.2;
-  min-height: 380px;
+  aspect-ratio: 4 / 5;
+  max-width: 520px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,6 +85,7 @@
   border: 1px solid rgba(215, 167, 177, 0.3);
   display: flex;
   flex-direction: column;
+  height: 100%;
   box-shadow: 0 4px 20px rgba(87, 46, 46, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -130,7 +132,7 @@
 .story-beliefs-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
 .story-belief-card {
@@ -140,6 +142,7 @@
   border: 1px solid rgba(215, 167, 177, 0.3);
   display: flex;
   flex-direction: column;
+  height: 100%;
   box-shadow: 0 4px 20px rgba(87, 46, 46, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

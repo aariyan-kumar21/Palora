@@ -862,17 +862,21 @@ input::placeholder {
 @media (min-width: 1024px) {
   :root {
     --header-height: 84px;
+    --header-height: var(--nav-h, 115px);
   }
 
   .site-header {
     height: 84px;
     background: transparent;
+    height: var(--nav-h, 115px);
   }
 
   /* 1. Navbar Typography & Controls */
   .nav-list {
     gap: 48px;
   }
+
+  /* 1. Navbar Typography & Controls - Styled in css/base.css */
 
   .nav-link {
     font-family: var(--font-jost);
@@ -1734,6 +1738,8 @@ input::placeholder {
   border-top: 1px solid var(--color-blush-beige);
   padding: 44px 16px 24px;
 }
+
+/* .site-footer styled in css/base.css */
 
 .footer-inner {
   max-width: 1200px;
@@ -2824,6 +2830,7 @@ input::placeholder {
 
 .page-catalogue .catalogue-main {
   padding-top: 84px;
+  padding-top: var(--nav-h, 115px);
 }
 
 /* Banner */

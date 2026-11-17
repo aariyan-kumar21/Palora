@@ -62,8 +62,23 @@
       drawer.classList.add("is-open");
       if (overlay) overlay.classList.add("is-open");
       drawer.setAttribute("aria-hidden", "false");
-      if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
+      if (toggleBtn) {
+        toggleBtn.setAttribute("aria-expanded", "true");
+        toggleBtn.classList.add("is-open");
+      }
       document.body.classList.add("drawer-open");
+
+      // Set active drawer row matching current page
+      drawer.querySelectorAll(".drawer-menu-row").forEach(function (row) {
+        var target = row.getAttribute("data-drawer-link");
+        if (target === page) {
+          row.classList.add("is-active");
+          row.setAttribute("aria-current", "page");
+        } else {
+          row.classList.remove("is-active");
+          row.removeAttribute("aria-current");
+        }
+      });
 
       // Hide floating WA button while drawer is open
       const waBtn = document.getElementById("floatingWaBtn");
@@ -79,6 +94,7 @@
       drawer.setAttribute("aria-hidden", "true");
       if (toggleBtn) {
         toggleBtn.setAttribute("aria-expanded", "false");
+        toggleBtn.classList.remove("is-open");
         toggleBtn.focus();
       }
       document.body.classList.remove("drawer-open");
