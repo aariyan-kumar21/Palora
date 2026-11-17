@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head><base href="file:///C:/Users/Aariy/Palora/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Palora</title>
+  <meta name="description"
+    content="A plain-language summary of how Palora handles your information, orders, and browser storage.">
+
+  <!-- Google Fonts: Cormorant Garamond & Jost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css?v=3">
+  <link rel="stylesheet" href="css/pages.css?v=3">
+</head>
+
+<body data-page="privacy">
+  <!-- Skip to Content Accessibility Link -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Global Shared Header (Populated by layout.js) -->
+  <header id="site-header"></header>
+
+  <!-- Main Content -->
+  <main id="main">
+    <!-- Top Hero Banner -->
+    <section class="page-banner" aria-label="Privacy Policy">
+      <div class="container page-banner__inner">
+        <div class="page-banner__content">
+          <span class="page-banner__eyebrow">PRIVACY</span>
+          <h1 class="page-banner__heading">Privacy Policy</h1>
+          <p class="page-banner__subtext">A plain-language summary of how this website handles your information.</p>
+        </div>
+        <div class="page-banner__media" aria-hidden="true">
+          <img src="assets/hero.png" alt="" class="page-banner__img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy Policy Content (Narrow readable column) -->
+    <section class="page-section">
+      <div class="container">
+        <div class="privacy-container page-copy">
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">The short version</h2>
+            <p>This website does not ask you to create an account and does not collect payments. We only receive what you choose to send us when you place an order or message us.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">What stays in your browser</h2>
+            <p>Your cart and the products you save are stored in your own browser so they are still there when you come back. They are not sent to us. You can clear them at any time by clearing your browser data.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">What we receive when you order</h2>
+            <p>When you send an order on WhatsApp, we receive the message you send, which can include your name, address, contact details and personalization notes. We use it only to prepare, confirm and deliver your order and to reply to you.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Payments</h2>
+            <p>This website does not process or store payment details.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Third-party services</h2>
+            <p>Ordering and messaging happen on WhatsApp and Instagram, which have their own privacy policies. The fonts on this website are loaded from Google Fonts.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Cookies and tracking</h2>
+            <p>We do not use advertising or tracking cookies on this website.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Your choices</h2>
+            <p>To ask us to delete the details you have shared with us, message us on WhatsApp or Instagram.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Contact</h2>
+            <p>We are easiest to reach on WhatsApp or Instagram.</p>
+            <div class="contact-rows-list" id="privacyContactRows"></div>
+          </section>
+
+          <p class="privacy-updated">Last updated: November 2026</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Shared Footer (Populated by layout.js) -->
+  <footer id="site-footer"></footer>
+
+  <!-- Shared Scripts in Contract Order -->
+  <script src="js/config.js?v=3"></script>
+  <script src="js/products.js?v=3"></script>
+  <script src="js/icons.js?v=3"></script>
+  <script src="js/slider.js?v=3"></script>
+  <script src="js/layout.js?v=3"></script>
+  <script src="js/cart.js?v=3"></script>
+  <script src="js/product-ui.js?v=3"></script>
+  <script src="js/nav.js?v=3"></script>
+  <script src="js/saved.js?v=3"></script>
+
+  <!-- Privacy Page Dynamic Contact Rows Hook -->
+  <script>
+    (function () {
+      function renderPrivacyContactRows() {
+        var list = document.getElementById('privacyContactRows');
+        if (!list) return;
+
+        var html = '';
+
+        if (typeof hasWhatsApp === 'function' && hasWhatsApp()) {
+          var url = typeof waLink === 'function' ? waLink('Hi Palora! I have a question regarding privacy.') : '#';
+          var waIcon = typeof icon === 'function' ? icon('whatsapp', { size: 20 }) : '';
+          html += '<div class="contact-row-item">' +
+            '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn-burgundy">' +
+            waIcon + '<span>Chat on WhatsApp</span></a></div>';
+        }
+
+        if (typeof INSTAGRAM_URL !== 'undefined' && INSTAGRAM_URL) {
+          var handle = typeof INSTAGRAM_HANDLE !== 'undefined' ? INSTAGRAM_HANDLE : 'palora.giftsstore';
+          var instaIcon = typeof icon === 'function' ? icon('instagram', { size: 24 }) : '📷';
+          html += '<div class="contact-row-item">' +
+            '<span class="contact-row-icon" aria-hidden="true">' + instaIcon + '</span>' +
+            '<span>Instagram: <a href="' + INSTAGRAM_URL + '" target="_blank" rel="noopener noreferrer" class="contact-row-link">@' + handle + '</a></span></div>';
+        }
+
+        if (typeof EMAIL !== 'undefined' && EMAIL) {
+          var mailIcon = typeof icon === 'function' ? icon('mail', { size: 24 }) : '✉️';
+          html += '<div class="contact-row-item">' +
+            '<span class="contact-row-icon" aria-hidden="true">' + mailIcon + '</span>' +
+            '<span>Email: <a href="mailto:' + EMAIL + '" class="contact-row-link">' + EMAIL + '</a></span></div>';
+        }
+
+        var truckIcon = typeof icon === 'function' ? icon('truck', { size: 24 }) : '🚚';
+        html += '<div class="contact-row-item">' +
+          '<span class="contact-row-icon" aria-hidden="true">' + truckIcon + '</span>' +
+          '<span>Delivering across India</span></div>';
+
+        list.innerHTML = html;
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderPrivacyContactRows);
+      } else {
+        renderPrivacyContactRows();
+      }
+    })();
+  </script>
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const getR = (sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height) };
+      };
+
+      const links = Array.from(document.querySelectorAll('.site-header .nav-link')).map(l => {
+        const r = l.getBoundingClientRect();
+        return { text: l.textContent.trim(), x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) };
+      });
+
+      const data = {
+        header: getR('.site-header'),
+        links: links,
+        wordmark: getR('.site-wordmark'),
+        wordmarkTitle: getR('.wordmark-title'),
+        wordmarkTagline: getR('.wordmark-tagline'),
+        actions: getR('.header-actions'),
+        savedBtn: getR('#savedBtn'),
+        cartBtn: getR('#cartBtn'),
+        menuBtn: getR('#mobileToggleBtn')
+      };
+
+      const div = document.createElement('div');
+      div.id = 'NAV_RESULT';
+      div.textContent = JSON.stringify(data);
+      document.body.appendChild(div);
+    }, 600);
+  });
+</script></body>
+
+</html>

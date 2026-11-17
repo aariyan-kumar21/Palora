@@ -56,6 +56,8 @@
       overlay.className = "mobile-drawer-overlay";
       overlay.id = "mobileDrawerOverlay";
       overlay.setAttribute("aria-hidden", "true");
+      overlay.setAttribute("hidden", "");
+      overlay.setAttribute("inert", "");
       document.body.appendChild(overlay);
     }
 
@@ -66,6 +68,8 @@
       drawer.id = "mobileDrawer";
       drawer.setAttribute("aria-label", "Navigation Drawer");
       drawer.setAttribute("aria-hidden", "true");
+      drawer.setAttribute("hidden", "");
+      drawer.setAttribute("inert", "");
       document.body.appendChild(drawer);
     }
 

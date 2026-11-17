@@ -59,6 +59,14 @@
     if (!drawer) return;
 
     function openDrawer() {
+      if (overlay) {
+        overlay.removeAttribute("hidden");
+        overlay.removeAttribute("inert");
+      }
+      drawer.removeAttribute("hidden");
+      drawer.removeAttribute("inert");
+      void drawer.offsetHeight; // force reflow for smooth transition
+
       drawer.classList.add("is-open");
       if (overlay) overlay.classList.add("is-open");
       drawer.setAttribute("aria-hidden", "false");
@@ -98,6 +106,21 @@
         toggleBtn.focus();
       }
       document.body.classList.remove("drawer-open");
+
+      var onTransitionEnd = function (e) {
+        if (e && e.target !== drawer) return;
+        drawer.removeEventListener("transitionend", onTransitionEnd);
+        if (!drawer.classList.contains("is-open")) {
+          drawer.setAttribute("hidden", "");
+          drawer.setAttribute("inert", "");
+          if (overlay) {
+            overlay.setAttribute("hidden", "");
+            overlay.setAttribute("inert", "");
+          }
+        }
+      };
+      drawer.addEventListener("transitionend", onTransitionEnd);
+      setTimeout(onTransitionEnd, 460);
 
       // Restore floating WA button if other modals not open
       const waBtn = document.getElementById("floatingWaBtn");

@@ -29,6 +29,8 @@
     overlay.className = "saved-overlay";
     overlay.id = "savedOverlay";
     overlay.setAttribute("aria-hidden", "true");
+    overlay.setAttribute("hidden", "");
+    overlay.setAttribute("inert", "");
 
     const panel = document.createElement("aside");
     panel.className = "saved-panel";
@@ -37,6 +39,8 @@
     panel.setAttribute("aria-modal", "true");
     panel.setAttribute("aria-labelledby", "savedHeading");
     panel.setAttribute("aria-hidden", "true");
+    panel.setAttribute("hidden", "");
+    panel.setAttribute("inert", "");
 
     panel.innerHTML = `
       <div class="saved-header">
@@ -135,7 +139,14 @@
     const panel = document.getElementById("savedPanel");
     const overlay = document.getElementById("savedOverlay");
 
+    if (overlay) {
+      overlay.removeAttribute("hidden");
+      overlay.removeAttribute("inert");
+    }
     if (panel) {
+      panel.removeAttribute("hidden");
+      panel.removeAttribute("inert");
+      void panel.offsetHeight;
       panel.classList.add("open");
       panel.setAttribute("aria-hidden", "false");
     }
@@ -163,6 +174,20 @@
     if (overlay) {
       overlay.classList.remove("open");
       overlay.setAttribute("aria-hidden", "true");
+    }
+    const onEnd = function () {
+      if (panel && !panel.classList.contains("open")) {
+        panel.setAttribute("hidden", "");
+        panel.setAttribute("inert", "");
+      }
+      if (overlay && !overlay.classList.contains("open")) {
+        overlay.setAttribute("hidden", "");
+        overlay.setAttribute("inert", "");
+      }
+    };
+    if (panel) {
+      panel.addEventListener("transitionend", onEnd, { once: true });
+      setTimeout(onEnd, 400);
     }
 
     document.body.style.overflow = "";

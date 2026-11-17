@@ -217,7 +217,14 @@ function proceedToWhatsAppCheckout() {
 function openCartModal() {
   const modal = document.getElementById("cartModal");
   const overlay = document.getElementById("cartOverlay");
+  if (overlay) {
+    overlay.removeAttribute("hidden");
+    overlay.removeAttribute("inert");
+  }
   if (modal) {
+    modal.removeAttribute("hidden");
+    modal.removeAttribute("inert");
+    void modal.offsetHeight;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
   }
@@ -239,6 +246,20 @@ function closeCartModal() {
   if (overlay) {
     overlay.classList.remove("open");
     overlay.setAttribute("aria-hidden", "true");
+  }
+  const onEnd = function () {
+    if (modal && !modal.classList.contains("open")) {
+      modal.setAttribute("hidden", "");
+      modal.setAttribute("inert", "");
+    }
+    if (overlay && !overlay.classList.contains("open")) {
+      overlay.setAttribute("hidden", "");
+      overlay.setAttribute("inert", "");
+    }
+  };
+  if (modal) {
+    modal.addEventListener("transitionend", onEnd, { once: true });
+    setTimeout(onEnd, 400);
   }
   document.body.style.overflow = "";
   document.dispatchEvent(new CustomEvent("panelclose", { detail: { panel: "cart" } }));
