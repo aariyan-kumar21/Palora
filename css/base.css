@@ -468,10 +468,8 @@ body:not([data-page="home"]) .site-header {
   transform: translateY(-4.25px) rotate(-45deg);
 }
 
-/* ==========================================================================
-   /* ===== MENU DRAWER ===== */
-   Slide-in drawer: 460px wide, full height, deep burgundy gradient, cream text
-   ========================================================================== */
+/* ===== MENU DRAWER ===== */
+/* Slide-in drawer: 460px wide, full height, deep burgundy gradient, cream text */
 .mobile-drawer-overlay {
   position: fixed;
   inset: 0;
@@ -489,6 +487,7 @@ body:not([data-page="home"]) .site-header {
   visibility: visible;
 }
 
+aside#mobileDrawer,
 .mobile-drawer {
   position: fixed;
   top: 0;
@@ -497,8 +496,8 @@ body:not([data-page="home"]) .site-header {
   max-width: 90vw;
   height: 100vh;
   height: 100dvh;
-  background: radial-gradient(circle at top right, rgba(242, 196, 206, 0.16), transparent 60%),
-              linear-gradient(165deg, #5E2A31 0%, #722F37 55%, #572E2E 100%);
+  background-color: #5E2A31;
+  background-image: linear-gradient(165deg, #5E2A31 0%, #722F37 55%, #572E2E 100%);
   color: #FFF7F2;
   z-index: 2001;
   display: flex;
@@ -510,6 +509,7 @@ body:not([data-page="home"]) .site-header {
   transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), visibility 450ms ease;
   box-shadow: -12px 0 36px rgba(40, 18, 22, 0.35);
   overflow: hidden;
+  font-family: 'Cormorant Garamond', Garamond, Georgia, serif;
 }
 
 .mobile-drawer.is-open {
@@ -710,7 +710,7 @@ body:not([data-page="home"]) .site-header {
 .drawer-help-link {
   font-family: var(--font-serif);
   font-size: 1.15rem;
-  color: rgba(255, 247, 242, 0.85);
+  color: rgba(255, 247, 242, 0.82);
   transition: color var(--transition-fast);
   display: inline-block;
   text-decoration: none;
@@ -783,7 +783,7 @@ body:not([data-page="home"]) .site-header {
 .drawer-privacy-link {
   font-family: var(--font-jost);
   font-size: 0.85rem;
-  color: rgba(255, 247, 242, 0.7);
+  color: rgba(255, 247, 242, 0.8);
   text-decoration: underline;
   transition: color var(--transition-fast);
 }
@@ -1555,18 +1555,19 @@ body:not([data-page="home"]) #main {
   padding-top: var(--nav-h, 115px);
 }
 
-/* ==========================================================================
-   /* ===== FOOTER ===== */
-   Full-bleed deep burgundy gradient, top band, 5 columns grid, watermark, bottom bar
-   ========================================================================== */
+/* ===== FOOTER ===== */
+/* Full-bleed deep burgundy gradient, top band, 5 columns grid, watermark, bottom bar */
+footer#site-footer,
 .site-footer {
-  background: linear-gradient(180deg, #5E2A31 0%, #4A2328 100%);
-  border-top: 1px solid rgba(215, 167, 177, 0.5);
-  color: #FFF7F2;
-  padding-top: 0;
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  font-family: var(--font-serif);
+  background-color: #4A2328;
+  background-image: linear-gradient(180deg, #5E2A31 0%, #4A2328 100%);
+  color: #FFF7F2;
+  border-top: 1px solid rgba(215, 167, 177, 0.5);
+  padding-top: 0;
+  font-family: 'Cormorant Garamond', Garamond, Georgia, serif;
 }
 
 .footer-top-band {
@@ -1772,7 +1773,7 @@ body:not([data-page="home"]) #main {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--footer-text);
+  color: #FFF7F2;
   transition: background-color var(--transition-fast), border-color var(--transition-fast);
   text-decoration: none;
 }
@@ -1887,7 +1888,7 @@ body:not([data-page="home"]) #main {
 .footer-bottom-copy {
   font-family: var(--font-serif);
   font-size: 0.95rem;
-  color: rgba(255, 247, 242, 0.75);
+  color: rgba(255, 247, 242, 0.82);
 }
 
 .footer-bottom-links {

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head><base href="file:///C:/Users/Aariy/Palora/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Palora</title>
+  <meta name="description"
+    content="A plain-language summary of how Palora handles your information, orders, and browser storage.">
+
+  <!-- Google Fonts: Cormorant Garamond & Jost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css?v=3">
+  <link rel="stylesheet" href="css/pages.css?v=3">
+</head>
+
+<body data-page="privacy">
+  <!-- Skip to Content Accessibility Link -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Global Shared Header (Populated by layout.js) -->
+  <header id="site-header"></header>
+
+  <!-- Main Content -->
+  <main id="main">
+    <!-- Top Hero Banner -->
+    <section class="page-banner" aria-label="Privacy Policy">
+      <div class="container page-banner__inner">
+        <div class="page-banner__content">
+          <span class="page-banner__eyebrow">PRIVACY</span>
+          <h1 class="page-banner__heading">Privacy Policy</h1>
+          <p class="page-banner__subtext">A plain-language summary of how this website handles your information.</p>
+        </div>
+        <div class="page-banner__media" aria-hidden="true">
+          <img src="assets/hero.png" alt="" class="page-banner__img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy Policy Content (Narrow readable column) -->
+    <section class="page-section">
+      <div class="container">
+        <div class="privacy-container page-copy">
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">The short version</h2>
+            <p>This website does not ask you to create an account and does not collect payments. We only receive what you choose to send us when you place an order or message us.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">What stays in your browser</h2>
+            <p>Your cart and the products you save are stored in your own browser so they are still there when you come back. They are not sent to us. You can clear them at any time by clearing your browser data.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">What we receive when you order</h2>
+            <p>When you send an order on WhatsApp, we receive the message you send, which can include your name, address, contact details and personalization notes. We use it only to prepare, confirm and deliver your order and to reply to you.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Payments</h2>
+            <p>This website does not process or store payment details.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Third-party services</h2>
+            <p>Ordering and messaging happen on WhatsApp and Instagram, which have their own privacy policies. The fonts on this website are loaded from Google Fonts.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Cookies and tracking</h2>
+            <p>We do not use advertising or tracking cookies on this website.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Your choices</h2>
+            <p>To ask us to delete the details you have shared with us, message us on WhatsApp or Instagram.</p>
+          </section>
+
+          <section class="privacy-section">
+            <h2 class="privacy-section__heading">Contact</h2>
+            <p>We are easiest to reach on WhatsApp or Instagram.</p>
+            <div class="contact-rows-list" id="privacyContactRows"></div>
+          </section>
+
+          <p class="privacy-updated">Last updated: November 2026</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Shared Footer (Populated by layout.js) -->
+  <footer id="site-footer"></footer>
+
+  <!-- Shared Scripts in Contract Order -->
+  <script src="js/config.js?v=3"></script>
+  <script src="js/products.js?v=3"></script>
+  <script src="js/icons.js?v=3"></script>
+  <script src="js/slider.js?v=3"></script>
+  <script src="js/layout.js?v=3"></script>
+  <script src="js/cart.js?v=3"></script>
+  <script src="js/product-ui.js?v=3"></script>
+  <script src="js/nav.js?v=3"></script>
+  <script src="js/saved.js?v=3"></script>
+
+  <!-- Privacy Page Dynamic Contact Rows Hook -->
+  <script>
+    (function () {
+      function renderPrivacyContactRows() {
+        var list = document.getElementById('privacyContactRows');
+        if (!list) return;
+
+        var html = '';
+
+        if (typeof hasWhatsApp === 'function' && hasWhatsApp()) {
+          var url = typeof waLink === 'function' ? waLink('Hi Palora! I have a question regarding privacy.') : '#';
+          var waIcon = typeof icon === 'function' ? icon('whatsapp', { size: 20 }) : '';
+          html += '<div class="contact-row-item">' +
+            '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn-burgundy">' +
+            waIcon + '<span>Chat on WhatsApp</span></a></div>';
+        }
+
+        if (typeof INSTAGRAM_URL !== 'undefined' && INSTAGRAM_URL) {
+          var handle = typeof INSTAGRAM_HANDLE !== 'undefined' ? INSTAGRAM_HANDLE : 'palora.giftsstore';
+          var instaIcon = typeof icon === 'function' ? icon('instagram', { size: 24 }) : '📷';
+          html += '<div class="contact-row-item">' +
+            '<span class="contact-row-icon" aria-hidden="true">' + instaIcon + '</span>' +
+            '<span>Instagram: <a href="' + INSTAGRAM_URL + '" target="_blank" rel="noopener noreferrer" class="contact-row-link">@' + handle + '</a></span></div>';
+        }
+
+        if (typeof EMAIL !== 'undefined' && EMAIL) {
+          var mailIcon = typeof icon === 'function' ? icon('mail', { size: 24 }) : '✉️';
+          html += '<div class="contact-row-item">' +
+            '<span class="contact-row-icon" aria-hidden="true">' + mailIcon + '</span>' +
+            '<span>Email: <a href="mailto:' + EMAIL + '" class="contact-row-link">' + EMAIL + '</a></span></div>';
+        }
+
+        var truckIcon = typeof icon === 'function' ? icon('truck', { size: 24 }) : '🚚';
+        html += '<div class="contact-row-item">' +
+          '<span class="contact-row-icon" aria-hidden="true">' + truckIcon + '</span>' +
+          '<span>Delivering across India</span></div>';
+
+        list.innerHTML = html;
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderPrivacyContactRows);
+      } else {
+        renderPrivacyContactRows();
+      }
+    })();
+  </script>
+<script>
+      
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      // Calculate WCAG contrast
+      function parseColor(str) {
+        if (!str || str === 'transparent' || str === 'rgba(0, 0, 0, 0)') return null;
+        const m = str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (m) {
+          return {
+            r: parseInt(m[1], 10),
+            g: parseInt(m[2], 10),
+            b: parseInt(m[3], 10),
+            a: m[4] !== undefined ? parseFloat(m[4]) : 1
+          };
+        }
+        return null;
+      }
+
+      function getLuminance(r, g, b) {
+        const a = [r, g, b].map(v => {
+          v /= 255;
+          return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+      }
+
+      function contrastRatio(l1, l2) {
+        const lighter = Math.max(l1, l2);
+        const darker = Math.min(l1, l2);
+        return (lighter + 0.05) / (darker + 0.05);
+      }
+
+      // Check footer contrast
+      const footer = document.querySelector('footer#site-footer');
+      const footerBgL = getLuminance(74, 35, 40); // darkest stop #4A2328
+      const footerLowContrasts = [];
+
+      if (footer) {
+        const textNodes = footer.querySelectorAll('h2, h3, p, a, span, div');
+        textNodes.forEach(el => {
+          if (el.children.length === 0 && el.textContent.trim().length > 0) {
+            // Leaf text element
+            if (el.classList.contains('footer-watermark')) return; // Watermark is decorative
+            const cs = getComputedStyle(el);
+            const fg = parseColor(cs.color);
+            if (fg) {
+              // Blend fg over bg if fg has alpha
+              const blendedR = Math.round(fg.r * fg.a + 74 * (1 - fg.a));
+              const blendedG = Math.round(fg.g * fg.a + 35 * (1 - fg.a));
+              const blendedB = Math.round(fg.b * fg.a + 40 * (1 - fg.a));
+              const fgL = getLuminance(blendedR, blendedG, blendedB);
+              const ratio = contrastRatio(fgL, footerBgL);
+              if (ratio < 4.5) {
+                footerLowContrasts.push({ text: el.textContent.trim().slice(0, 30), color: cs.color, ratio: ratio.toFixed(2) });
+              }
+            }
+          }
+        });
+      }
+
+      // Check drawer contrast
+      const drawer = document.querySelector('#mobileDrawer');
+      const drawerBgL = getLuminance(87, 46, 46); // stop #572E2E
+      const drawerLowContrasts = [];
+      if (drawer) {
+        const textNodes = drawer.querySelectorAll('h2, h3, p, a, span, div');
+        textNodes.forEach(el => {
+          if (el.children.length === 0 && el.textContent.trim().length > 0) {
+            const cs = getComputedStyle(el);
+            const fg = parseColor(cs.color);
+            if (fg) {
+              const blendedR = Math.round(fg.r * fg.a + 87 * (1 - fg.a));
+              const blendedG = Math.round(fg.g * fg.a + 46 * (1 - fg.a));
+              const blendedB = Math.round(fg.b * fg.a + 46 * (1 - fg.a));
+              const fgL = getLuminance(blendedR, blendedG, blendedB);
+              const ratio = contrastRatio(fgL, drawerBgL);
+              if (ratio < 4.5) {
+                drawerLowContrasts.push({ text: el.textContent.trim().slice(0, 30), color: cs.color, ratio: ratio.toFixed(2) });
+              }
+            }
+          }
+        });
+      }
+
+      const fCs = footer ? getComputedStyle(footer) : {};
+      const res = {
+        footerBgImageHasLinear: (fCs.backgroundImage || '').includes('linear-gradient'),
+        footerBgColor: fCs.backgroundColor,
+        footerLowContrasts,
+        drawerLowContrasts,
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth
+      };
+
+      const div = document.createElement('div');
+      div.id = 'TEST_RESULT';
+      div.textContent = JSON.stringify(res);
+      document.body.appendChild(div);
+    }, 600);
+  });
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const footer = document.querySelector('#site-footer');
+          if (footer) footer.scrollIntoView({ block: 'end' });
+        }, 300);
+      });
+    </script></body>
+
+</html>
