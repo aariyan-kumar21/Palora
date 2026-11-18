@@ -34,11 +34,31 @@
   const customizableCheck = document.getElementById('customizableCheck');
   const customizableCount = document.getElementById('customizableCount');
   const pillsContainer = document.querySelector('.collection-pills');
+  const pillsScrollPrev = document.getElementById('pillsScrollPrev');
+  const pillsScrollNext = document.getElementById('pillsScrollNext');
+  const customSortWrap = document.getElementById('customSortWrap');
+  const customSortTrigger = document.getElementById('customSortTrigger');
+  const customSortCurrent = document.getElementById('customSortCurrent');
+  const customSortDropdown = document.getElementById('customSortDropdown');
   const priceMinInput = document.getElementById('priceMinInput');
   const priceMaxInput = document.getElementById('priceMaxInput');
   const priceMinLabel = document.getElementById('priceMinLabel');
   const priceMaxLabel = document.getElementById('priceMaxLabel');
   const rangeFill = document.getElementById('rangeFill');
+
+  // Custom sort labels map
+  const sortLabels = {
+    'newest': 'Newest',
+    'price-asc': 'Price: Low to High',
+    'price-desc': 'Price: High to Low',
+    'name-asc': 'Name: A to Z'
+  };
+
+  // Pill gestures and drag state
+  let isDraggingPills = false;
+  let pillsStartX = 0;
+  let pillsStartScrollLeft = 0;
+  let hasDraggedPills = false;
 
   function initDynamicCountsAndCheckboxes() {
     if (!categoryFilterList) return;
@@ -74,6 +94,7 @@
         } else {
           filterState.categories.delete(cb.value);
         }
+        syncPillsUI();
         applyFilters();
       });
     });
@@ -82,20 +103,34 @@
   function syncPillsUI() {
     if (!pillsContainer) return;
     const pills = pillsContainer.querySelectorAll('.pill');
-    const selectedCollection = filterState.collection;
+    const selectedCats = Array.from(filterState.categories);
+    const selectedCol = filterState.collection;
+    let firstActivePill = null;
 
     pills.forEach((pill) => {
+      const cat = pill.getAttribute('data-category');
       const col = pill.getAttribute('data-collection');
-      if (col === 'all') {
-        const isActive = !selectedCollection || selectedCollection === 'all';
-        pill.classList.toggle('active', isActive);
-        pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      } else {
-        const isActive = selectedCollection === col;
-        pill.classList.toggle('active', isActive);
-        pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      let isActive = false;
+
+      if (cat === 'all' || col === 'all') {
+        isActive = selectedCats.length === 0 && (!selectedCol || selectedCol === 'all');
+      } else if (cat) {
+        isActive = selectedCats.includes(cat);
+      } else if (col) {
+        isActive = selectedCol === col;
+      }
+
+      pill.classList.toggle('active', isActive);
+      pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+      if (isActive && cat !== 'all' && col !== 'all' && !firstActivePill) {
+        firstActivePill = pill;
       }
     });
+
+    if (firstActivePill && !isDraggingPills) {
+      firstActivePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
   }
 
   function syncCheckboxesUI() {
@@ -217,6 +252,172 @@
     updateClearButtonVisibility();
   }
 
+  function updatePillArrows() {
+    if (!pillsContainer || !pillsScrollPrev || !pillsScrollNext) return;
+    const scrollLeft = pillsContainer.scrollLeft;
+    const maxScroll = pillsContainer.scrollWidth - pillsContainer.clientWidth;
+
+    if (maxScroll <= 4) {
+      pillsScrollPrev.classList.add('is-hidden');
+      pillsScrollNext.classList.add('is-hidden');
+      return;
+    }
+
+    if (scrollLeft <= 4) {
+      pillsScrollPrev.classList.add('is-hidden');
+    } else {
+      pillsScrollPrev.classList.remove('is-hidden');
+    }
+
+    if (scrollLeft >= maxScroll - 4) {
+      pillsScrollNext.classList.add('is-hidden');
+    } else {
+      pillsScrollNext.classList.remove('is-hidden');
+    }
+  }
+
+  function initPillsGestureScrolling() {
+    if (!pillsContainer) return;
+
+    pillsContainer.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      isDraggingPills = true;
+      hasDraggedPills = false;
+      pillsStartX = e.clientX;
+      pillsStartScrollLeft = pillsContainer.scrollLeft;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingPills) return;
+      const dx = e.clientX - pillsStartX;
+      if (Math.abs(dx) > 6) {
+        hasDraggedPills = true;
+        pillsContainer.classList.add('is-dragging');
+      }
+      pillsContainer.scrollLeft = pillsStartScrollLeft - dx;
+    });
+
+    const endPillDrag = () => {
+      if (!isDraggingPills) return;
+      isDraggingPills = false;
+      pillsContainer.classList.remove('is-dragging');
+      setTimeout(() => {
+        hasDraggedPills = false;
+      }, 50);
+      updatePillArrows();
+    };
+
+    window.addEventListener('pointerup', endPillDrag);
+    window.addEventListener('pointercancel', endPillDrag);
+
+    // Mouse wheel horizontal scrolling
+    pillsContainer.addEventListener(
+      'wheel',
+      (e) => {
+        if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+          pillsContainer.scrollLeft += e.deltaY;
+          e.preventDefault();
+          updatePillArrows();
+        }
+      },
+      { passive: false }
+    );
+
+    // Arrow buttons
+    if (pillsScrollPrev) {
+      pillsScrollPrev.addEventListener('click', () => {
+        pillsContainer.scrollBy({ left: -280, behavior: 'smooth' });
+        setTimeout(updatePillArrows, 320);
+      });
+    }
+
+    if (pillsScrollNext) {
+      pillsScrollNext.addEventListener('click', () => {
+        pillsContainer.scrollBy({ left: 280, behavior: 'smooth' });
+        setTimeout(updatePillArrows, 320);
+      });
+    }
+
+    pillsContainer.addEventListener('scroll', updatePillArrows, { passive: true });
+    window.addEventListener('resize', updatePillArrows);
+    setTimeout(updatePillArrows, 100);
+  }
+
+  function updateCustomSortUI(value) {
+    if (customSortCurrent) {
+      customSortCurrent.textContent = sortLabels[value] || 'Newest';
+    }
+    if (customSortDropdown) {
+      const items = customSortDropdown.querySelectorAll('.custom-sort-item');
+      items.forEach((item) => {
+        const isMatch = item.getAttribute('data-value') === value;
+        item.classList.toggle('is-selected', isMatch);
+        item.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+    }
+  }
+
+  function openCustomSort() {
+    if (!customSortDropdown || !customSortTrigger) return;
+    customSortDropdown.hidden = false;
+    requestAnimationFrame(() => {
+      customSortDropdown.classList.add('is-open');
+      customSortTrigger.setAttribute('aria-expanded', 'true');
+    });
+  }
+
+  function closeCustomSort() {
+    if (!customSortDropdown || !customSortTrigger) return;
+    customSortDropdown.classList.remove('is-open');
+    customSortTrigger.setAttribute('aria-expanded', 'false');
+    setTimeout(() => {
+      if (!customSortDropdown.classList.contains('is-open')) {
+        customSortDropdown.hidden = true;
+      }
+    }, 180);
+  }
+
+  function initCustomSortDropdown() {
+    if (!customSortTrigger || !customSortDropdown) return;
+
+    customSortTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = customSortDropdown.classList.contains('is-open');
+      if (isOpen) {
+        closeCustomSort();
+      } else {
+        openCustomSort();
+      }
+    });
+
+    const items = customSortDropdown.querySelectorAll('.custom-sort-item');
+    items.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = item.getAttribute('data-value');
+        filterState.sort = val;
+        if (sortSelect) sortSelect.value = val;
+        updateCustomSortUI(val);
+        closeCustomSort();
+        applyFilters();
+        customSortTrigger.focus();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (customSortDropdown.classList.contains('is-open') && !customSortWrap?.contains(e.target)) {
+        closeCustomSort();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && customSortDropdown.classList.contains('is-open')) {
+        closeCustomSort();
+        customSortTrigger.focus();
+      }
+    });
+  }
+
   function resetAllFilters() {
     filterState.collection = null;
     filterState.categories.clear();
@@ -231,6 +432,7 @@
 
     if (customizableCheck) customizableCheck.checked = false;
     if (sortSelect) sortSelect.value = 'newest';
+    updateCustomSortUI('newest');
 
     syncCheckboxesUI();
     syncPillsUI();
@@ -273,18 +475,36 @@
   function init() {
     initDynamicCountsAndCheckboxes();
     readUrlParams();
+    initPillsGestureScrolling();
+    initCustomSortDropdown();
 
-    // Collection Pills: clicking "all" clears only the pill selection; clicking a collection sets it
+    // Category / Collection Pills click handling
     if (pillsContainer) {
       pillsContainer.addEventListener('click', (e) => {
+        if (hasDraggedPills) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
         const pill = e.target.closest('.pill');
         if (!pill) return;
+
+        const cat = pill.getAttribute('data-category');
         const col = pill.getAttribute('data-collection');
-        if (col === 'all') {
+
+        if (cat === 'all' || col === 'all') {
+          filterState.categories.clear();
           filterState.collection = null;
-        } else {
+        } else if (cat) {
+          filterState.categories.clear();
+          filterState.categories.add(cat);
+          filterState.collection = null;
+        } else if (col) {
           filterState.collection = col;
+          filterState.categories.clear();
         }
+
+        syncCheckboxesUI();
         syncPillsUI();
         applyFilters();
       });
@@ -325,10 +545,11 @@
       });
     }
 
-    // Sort Dropdown
+    // Sort Dropdown (hidden select change listener as sync fallback)
     if (sortSelect) {
       sortSelect.addEventListener('change', () => {
         filterState.sort = sortSelect.value;
+        updateCustomSortUI(sortSelect.value);
         applyFilters();
       });
     }

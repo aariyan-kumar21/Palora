@@ -101,25 +101,93 @@ body[data-page="catalogue"] .catalogue-main {
   mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.7) 25%, #000 45%);
 }
 
-/* Collection Pills Bar */
+/* Collection / Category Pills Bar (Horizontal Minus-Scroll with Gestures) */
 .collection-pills-bar {
-  padding: 34px 0 36px;
+  padding: 24px 0 28px;
+  position: relative;
+}
+
+.pills-scroll-container {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .collection-pills {
   display: flex;
   align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Hide scrollbar for clean horizontal minus-scroll */
+  -ms-overflow-style: none;
+  padding: 6px 4px;
+  cursor: grab;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.collection-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.collection-pills.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.pills-scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #FFF8F4;
+  border: 1px solid rgba(106, 31, 44, 0.22);
+  color: #6A1F2C;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(87, 46, 46, 0.12);
+  transition: all 180ms ease;
+  opacity: 0.95;
+}
+
+.pills-scroll-arrow:hover {
+  background-color: #722F37;
+  color: #FFF7F2;
+  border-color: #722F37;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.pills-scroll-arrow--prev {
+  left: -14px;
+}
+
+.pills-scroll-arrow--next {
+  right: -14px;
+}
+
+.pills-scroll-arrow.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .pill {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   height: 44px;
-  padding: 0 22px;
+  padding: 0 20px;
   border-radius: 9999px;
   background-color: #FFF8F4;
   border: 1px solid rgba(106, 31, 44, 0.15);
@@ -156,6 +224,10 @@ body[data-page="catalogue"] .catalogue-main {
   border-color: #722F37;
   color: #FFF7F2;
   box-shadow: 0 4px 12px rgba(114, 47, 55, 0.22);
+}
+
+.pill.active .pill-icon {
+  stroke: #FFF7F2;
 }
 
 .pill.active .pill-icon {
@@ -419,36 +491,131 @@ body[data-page="catalogue"] .catalogue-main {
   color: #5A1623;
 }
 
-.sort-wrap {
+/* Custom Sort Component */
+.custom-sort-wrap {
   position: relative;
+  user-select: none;
 }
 
-.sort-select {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 38px;
-  padding: 0 34px 0 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(106, 31, 44, 0.2);
+.custom-sort-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
   background-color: #FFF8F4;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%236A1F2C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
+  border: 1px solid rgba(106, 31, 44, 0.22);
+  color: #5A1623;
   font-family: var(--font-serif);
   font-size: 15px;
   font-weight: 600;
-  color: #5A1623;
   cursor: pointer;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 2px 8px rgba(114, 47, 55, 0.04);
+  transition: all 180ms ease;
 }
 
-.sort-select:hover {
+.custom-sort-trigger:hover {
+  background-color: #FAF0E9;
   border-color: rgba(106, 31, 44, 0.4);
+  box-shadow: 0 4px 12px rgba(114, 47, 55, 0.08);
 }
 
-.sort-select:focus-visible {
-  outline: 2px solid #722F37;
-  outline-offset: 2px;
+.custom-sort-trigger[aria-expanded="true"] {
+  border-color: #722F37;
+  box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.12);
+  background-color: #FAF0E9;
+}
+
+.custom-sort-label {
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.custom-sort-current {
+  color: #5A1623;
+  font-weight: 600;
+}
+
+.custom-sort-chevron {
+  stroke: #6A1F2C;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  margin-left: 2px;
+}
+
+.custom-sort-trigger[aria-expanded="true"] .custom-sort-chevron {
+  transform: rotate(180deg);
+}
+
+.custom-sort-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background-color: #FFF8F4;
+  border: 1px solid rgba(114, 47, 55, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(87, 46, 46, 0.16), 0 4px 10px rgba(87, 46, 46, 0.06);
+  padding: 6px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
+}
+
+.custom-sort-dropdown.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.custom-sort-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #572E2E;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.custom-sort-item:hover {
+  background-color: rgba(239, 188, 198, 0.35);
+  color: #6A1F2C;
+}
+
+.custom-sort-item.is-selected {
+  background-color: #722F37;
+  color: #FFF8F4;
+  font-weight: 600;
+}
+
+.custom-sort-item-check {
+  opacity: 0;
+  stroke: currentColor;
+  transition: opacity 150ms ease;
+}
+
+.custom-sort-item.is-selected .custom-sort-item-check {
+  opacity: 1;
 }
 
 /* Product Cards Grid (4 columns) */

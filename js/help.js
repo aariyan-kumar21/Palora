@@ -99,7 +99,13 @@
         const href = link.getAttribute('href') || '';
         const id = href.replace(/^#/, '');
         if (id) {
-          setActive(id);
+          const target = document.getElementById(id);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, '', '#' + id);
+            setActive(id);
+          }
         }
       });
     });
