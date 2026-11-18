@@ -1,10 +1,13 @@
 /**
  * Palora Cart State Management & Checkout Pipeline
- * Displays cart as a centered luxury modal card matching Quick View
+ * Displays cart as a centered luxury modal card with:
+ * - Product list: left-side image, right-side details (name, price, quantity, personalization note)
+ * - Customer details: name, address
+ * - Order summary breakdown: product name, quantity, personalization note, price
+ * - Grand total & WhatsApp handoff
  */
 
 let cart = [];
-let activeCartIndex = 0;
 const CART_STORAGE_KEY = "palora_cart_items";
 
 function loadCartFromStorage() {
@@ -34,7 +37,6 @@ window.addCustomItemToCart = function (product, quantity = 1, note = "") {
 
   if (existingItemIndex > -1) {
     cart[existingItemIndex].quantity += quantity;
-    activeCartIndex = existingItemIndex;
   } else {
     cart.push({
       cartItemId: Date.now() + Math.random().toString(36).substring(2, 6),
@@ -45,7 +47,6 @@ window.addCustomItemToCart = function (product, quantity = 1, note = "") {
       note: customNote,
       quantity: quantity
     });
-    activeCartIndex = cart.length - 1;
   }
 
   saveCartToStorage();
@@ -69,9 +70,6 @@ function updateCartItemQuantity(cartItemId, delta) {
   cart[itemIndex].quantity += delta;
   if (cart[itemIndex].quantity <= 0) {
     cart.splice(itemIndex, 1);
-    if (activeCartIndex >= cart.length) {
-      activeCartIndex = Math.max(0, cart.length - 1);
-    }
     if (typeof showToast === "function") showToast("Item removed from cart");
   }
 
@@ -81,12 +79,20 @@ function updateCartItemQuantity(cartItemId, delta) {
 
 function removeCartItem(cartItemId) {
   cart = cart.filter(item => item.cartItemId !== cartItemId);
-  if (activeCartIndex >= cart.length) {
-    activeCartIndex = Math.max(0, cart.length - 1);
-  }
   saveCartToStorage();
   updateCartUI();
   if (typeof showToast === "function") showToast("Item removed from cart");
+}
+
+function updateCartItemNote(cartItemId, newNote) {
+  const item = cart.find(i => i.cartItemId === cartItemId);
+  if (item) {
+    item.note = newNote.trim() ? newNote.trim() : "Standard (No custom text requested)";
+    saveCartToStorage();
+    renderCartSummaryTable();
+    const itemEl = document.querySelector(`[data-cart-item-id="${cartItemId}"] .cart-counter`);
+    if (itemEl) itemEl.textContent = `${newNote.length}/120`;
+  }
 }
 
 function triggerCartBadgeBump() {
@@ -101,12 +107,13 @@ function updateCartUI() {
   const headerCount = document.getElementById("cartHeaderCount");
   const grandTotal = document.getElementById("cartGrandTotal");
   const cartEmpty = document.getElementById("cartEmpty");
-  const cartGrid = document.getElementById("cartGrid");
+  const cartFilledContent = document.getElementById("cartFilledContent");
   const proceedBtn = document.getElementById("proceedWhatsAppBtn");
 
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+  // Update navbar badge
   if (badge) {
     if (totalCount > 0) {
       badge.textContent = totalCount;
@@ -117,115 +124,25 @@ function updateCartUI() {
     }
   }
 
+  // Update header count and grand total
   if (headerCount) headerCount.textContent = `${totalCount} ${totalCount === 1 ? "item" : "items"}`;
   if (grandTotal) grandTotal.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
 
   if (cart.length === 0) {
     if (cartEmpty) cartEmpty.style.display = "flex";
-    if (cartGrid) cartGrid.style.display = "none";
+    if (cartFilledContent) cartFilledContent.style.display = "none";
     if (proceedBtn) {
       proceedBtn.disabled = true;
       proceedBtn.style.opacity = "0.5";
     }
   } else {
     if (cartEmpty) cartEmpty.style.display = "none";
-    if (cartGrid) cartGrid.style.display = "grid";
+    if (cartFilledContent) cartFilledContent.style.display = "block";
 
-    if (activeCartIndex >= cart.length) activeCartIndex = cart.length - 1;
-    if (activeCartIndex < 0) activeCartIndex = 0;
+    renderCartProductsList();
+    renderCartSummaryTable();
 
-    const activeItem = cart[activeCartIndex];
-    const productsList = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
-    const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
-    const matchedProduct = productsList.find(p => p.id === activeItem.id);
-    const badgeText = (matchedProduct && matchedProduct.badge) ? matchedProduct.badge : "Handmade";
-    const toneNum = ((productsList.findIndex(p => p.id === activeItem.id) % 4) + 1) || 1;
-
-    // Media Box
-    const mediaBox = document.getElementById("cartMediaBox");
-    if (mediaBox) {
-      mediaBox.className = `cart-media-box cart-media-box--tone-${toneNum}`;
-    }
-    const badgeEl = document.getElementById("cartActiveBadge");
-    if (badgeEl) badgeEl.textContent = badgeText;
-
-    const imgEl = document.getElementById("cartActiveImg");
-    if (imgEl) {
-      imgEl.style.display = "none";
-      if (activeItem.image) {
-        imgEl.src = activeItem.image;
-        imgEl.alt = activeItem.name;
-        imgEl.onload = function () {
-          imgEl.style.display = "block";
-        };
-        imgEl.onerror = function () {
-          imgEl.style.display = "none";
-        };
-      }
-    }
-
-    // Text Details
-    const nameEl = document.getElementById("cartActiveName");
-    if (nameEl) nameEl.textContent = activeItem.name;
-
-    const priceEl = document.getElementById("cartActivePrice");
-    if (priceEl) priceEl.textContent = `₹${inrFormatter.format(activeItem.price)}`;
-
-    const subtotalEl = document.getElementById("cartActiveSubtotal");
-    if (subtotalEl) {
-      if (activeItem.quantity > 1) {
-        subtotalEl.textContent = `(Subtotal: ₹${inrFormatter.format(activeItem.price * activeItem.quantity)})`;
-      } else {
-        subtotalEl.textContent = "";
-      }
-    }
-
-    // Personalization Note
-    const noteInput = document.getElementById("cartActiveNote");
-    const counterEl = document.getElementById("cartActiveCounter");
-    if (noteInput && document.activeElement !== noteInput) {
-      const displayNote = (activeItem.note && activeItem.note !== "Standard (No custom text requested)") ? activeItem.note : "";
-      noteInput.value = displayNote;
-      if (counterEl) counterEl.textContent = `${displayNote.length}/120`;
-    }
-
-    // Stepper Value
-    const qtyValEl = document.getElementById("cartActiveQty");
-    if (qtyValEl) qtyValEl.textContent = activeItem.quantity;
-
-    // Thumbnail strip navigation if > 1 item
-    const thumbNav = document.getElementById("cartThumbNav");
-    if (thumbNav) {
-      if (cart.length > 1) {
-        thumbNav.style.display = "flex";
-        thumbNav.innerHTML = "";
-        cart.forEach((it, idx) => {
-          const itemToneNum = ((productsList.findIndex(p => p.id === it.id) % 4) + 1) || 1;
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = `cart-thumb-btn cart-thumb-btn--tone-${itemToneNum} ${idx === activeCartIndex ? "is-active" : ""}`;
-          btn.setAttribute("aria-label", `View ${it.name}`);
-          btn.innerHTML = `
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.7;">
-              <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-              <path d="M12 8v13"></path>
-              <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
-            </svg>
-            <img src="${it.image || ''}" alt="" loading="lazy" style="display:none;" onload="this.style.display='block'" onerror="this.remove()">
-          `;
-          btn.addEventListener("click", () => {
-            activeCartIndex = idx;
-            updateCartUI();
-          });
-          thumbNav.appendChild(btn);
-        });
-      } else {
-        thumbNav.style.display = "none";
-        thumbNav.innerHTML = "";
-      }
-    }
-
-    // Action button state
+    // Proceed button state
     if (proceedBtn) {
       if (typeof hasWhatsApp === "function" && !hasWhatsApp()) {
         proceedBtn.disabled = true;
@@ -242,6 +159,108 @@ function updateCartUI() {
   }
 }
 
+function renderCartProductsList() {
+  const container = document.getElementById("cartProductsList");
+  if (!container) return;
+
+  const activeInput = document.activeElement;
+  const isInputFocused = activeInput && activeInput.classList.contains("cart-item-note-input");
+  if (isInputFocused) return;
+
+  container.innerHTML = "";
+  const productsList = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+  const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
+
+  cart.forEach(item => {
+    const product = productsList.find(p => p.id === item.id);
+    const badgeText = (product && product.badge) ? product.badge : "Handmade";
+    const toneNum = ((productsList.findIndex(p => p.id === item.id) % 4) + 1) || 1;
+    const hasCustomNote = item.note && item.note !== "Standard (No custom text requested)" && item.note.trim() !== "";
+    const displayNote = hasCustomNote ? item.note : "";
+
+    const itemEl = document.createElement("div");
+    itemEl.className = "cart-product-item";
+    itemEl.setAttribute("data-cart-item-id", item.cartItemId);
+
+    itemEl.innerHTML = `
+      <!-- Left: Product Image Box with tone, badge & watermark -->
+      <div class="cart-item-media cart-item-media--tone-${toneNum}">
+        <span class="cart-badge-pill">${escapeHtml(badgeText)}</span>
+        <svg class="cart-watermark" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+          <path d="M12 8v13"></path>
+          <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+          <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+        </svg>
+        <img src="${item.image || ''}" alt="${escapeHtml(item.name)}" loading="lazy" style="display:none;" onload="this.style.display='block'" onerror="this.remove()">
+      </div>
+
+      <!-- Right: Details of the product (Name, Price, Note, Quantity) -->
+      <div class="cart-item-info">
+        <div class="cart-item-title-row">
+          <h3 class="cart-item-title">${escapeHtml(item.name)}</h3>
+          <button type="button" class="cart-item-remove-btn" onclick="removeCartItem('${item.cartItemId}')" aria-label="Remove ${escapeHtml(item.name)} from cart">&times;</button>
+        </div>
+
+        <div class="cart-item-price-row">
+          <span class="cart-item-unit-price">₹${inrFormatter.format(item.price)} each</span>
+          ${item.quantity > 1 ? `<span class="cart-item-subtotal-hint">(Subtotal: ₹${inrFormatter.format(item.price * item.quantity)})</span>` : ''}
+        </div>
+
+        <div class="cart-item-personalization">
+          <label class="cart-field-label">PERSONALIZE IT</label>
+          <input type="text" class="cart-input cart-item-note-input" maxlength="120" placeholder="Name, date or a short message (optional)" value="${escapeHtml(displayNote)}" oninput="updateCartItemNote('${item.cartItemId}', this.value)">
+          <div class="cart-counter">${displayNote.length}/120</div>
+        </div>
+
+        <div class="cart-item-stepper-row">
+          <div class="cart-stepper-wrap">
+            <span class="cart-field-label">QUANTITY</span>
+            <div class="cart-stepper">
+              <button type="button" class="stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', -1)" aria-label="Decrease quantity">&minus;</button>
+              <span class="stepper-value">${item.quantity}</span>
+              <button type="button" class="stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', 1)" aria-label="Increase quantity">&plus;</button>
+            </div>
+          </div>
+          <button type="button" class="cart-remove-link" onclick="removeCartItem('${item.cartItemId}')">Remove item</button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(itemEl);
+  });
+}
+
+function renderCartSummaryTable() {
+  const container = document.getElementById("cartSummaryItems");
+  if (!container) return;
+
+  container.innerHTML = "";
+  const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
+
+  cart.forEach(item => {
+    const hasCustomNote = item.note && item.note !== "Standard (No custom text requested)" && item.note.trim() !== "";
+    const lineTotal = item.price * item.quantity;
+
+    const row = document.createElement("div");
+    row.className = "cart-summary-row";
+    row.setAttribute("data-summary-item-id", item.cartItemId);
+
+    row.innerHTML = `
+      <div class="cart-summary-item-main">
+        <span class="cart-summary-item-name">${escapeHtml(item.name)}</span>
+        <span class="cart-summary-item-note">${hasCustomNote ? `Note: "${escapeHtml(item.note)}"` : 'Note: Standard'}</span>
+      </div>
+      <div class="cart-summary-item-meta">
+        <span class="cart-summary-item-qty">Qty: ${item.quantity}</span>
+        <span class="cart-summary-item-price">₹${inrFormatter.format(lineTotal)}</span>
+      </div>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
 function proceedToWhatsAppCheckout() {
   if (cart.length === 0) return;
 
@@ -251,16 +270,16 @@ function proceedToWhatsAppCheckout() {
   }
 
   const custNameEl = document.getElementById("orderCustomerName");
-  const cityEl = document.getElementById("orderDeliveryCity");
+  const addressEl = document.getElementById("orderCustomerAddress");
   const customerName = custNameEl && custNameEl.value.trim() ? custNameEl.value.trim() : "Gifting Guest";
-  const deliveryCity = cityEl && cityEl.value.trim() ? cityEl.value.trim() : "Not specified";
+  const customerAddress = addressEl && addressEl.value.trim() ? addressEl.value.trim() : "Not specified";
 
   let grandTotal = 0;
   const messageLines = [
     `*🎁 NEW ORDER INQUIRY - PALORA HANDMADE*`,
     `--------------------------------------`,
     `*Customer:* ${customerName}`,
-    `*Location:* ${deliveryCity}`,
+    `*Delivery Address:* ${customerAddress}`,
     `*Date:* ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`,
     `--------------------------------------`,
     `*ORDER ITEMS:*`
@@ -323,74 +342,65 @@ function ensureCartDOM() {
         <a href="catalogue.html" class="cart-action-btn cart-empty-btn" id="shopNowEmptyBtn">Explore Collections</a>
       </div>
 
-      <!-- Filled State Grid (2-Column Card matching Quick View) -->
-      <div class="cart-grid" id="cartGrid" style="display: none;">
-        <!-- Left Column: Media & Thumbnails -->
-        <div class="cart-media-col">
-          <div class="cart-media-box" id="cartMediaBox">
-            <span class="cart-badge-pill" id="cartActiveBadge">Handmade</span>
-            <svg class="cart-watermark" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-              <path d="M12 8v13"></path>
-              <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
-              <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
-            </svg>
-            <img id="cartActiveImg" src="" alt="Cart Product" draggable="false">
-          </div>
-          <div class="cart-thumb-nav" id="cartThumbNav" style="display: none;"></div>
+      <!-- Filled Cart Content -->
+      <div id="cartFilledContent" style="display: none;">
+        <!-- Header -->
+        <div class="cart-header-row">
+          <h2 class="cart-heading" id="cartHeading">Your Cart</h2>
+          <span class="cart-count-chip" id="cartHeaderCount">0 items</span>
         </div>
 
-        <!-- Right Column: Details, Note, Stepper, Delivery & WhatsApp Action -->
-        <div class="cart-details-col">
-          <div class="cart-header-row">
-            <h2 class="cart-heading" id="cartHeading">Your Cart</h2>
-            <span class="cart-count-chip" id="cartHeaderCount">1 item</span>
-          </div>
+        <!-- 1. Products List: Image on left, details on right -->
+        <div class="cart-products-list" id="cartProductsList">
+          <!-- Populated dynamically -->
+        </div>
 
-          <h3 class="cart-product-title" id="cartActiveName">Product Name</h3>
-
-          <div class="cart-price-line">
-            <span class="cart-product-price" id="cartActivePrice">₹0</span>
-            <span class="cart-subtotal-hint" id="cartActiveSubtotal"></span>
-          </div>
-
-          <div class="cart-personalization">
-            <label for="cartActiveNote" class="cart-field-label">PERSONALIZE IT</label>
-            <input type="text" id="cartActiveNote" class="cart-input" maxlength="120" placeholder="Name, date or a short message (optional)">
-            <div class="cart-counter" id="cartActiveCounter">0/120</div>
-          </div>
-
-          <div class="cart-stepper-row">
-            <div class="cart-stepper-wrap">
-              <span class="cart-field-label">QUANTITY</span>
-              <div class="cart-stepper">
-                <button type="button" class="stepper-btn" id="cartMinusBtn" aria-label="Decrease quantity">&minus;</button>
-                <span class="stepper-value" id="cartActiveQty">1</span>
-                <button type="button" class="stepper-btn" id="cartPlusBtn" aria-label="Increase quantity">&plus;</button>
-              </div>
+        <!-- 2. Customer Details: Name and Address -->
+        <div class="cart-customer-section">
+          <h4 class="cart-section-subtitle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Customer Details
+          </h4>
+          <div class="cart-input-grid">
+            <div class="cart-field-group">
+              <label for="orderCustomerName" class="cart-field-label">YOUR NAME</label>
+              <input type="text" id="orderCustomerName" class="cart-input" placeholder="Full name (e.g. Aditi Sharma)">
             </div>
-            <button type="button" class="cart-remove-link" id="cartRemoveBtn">Remove item</button>
-          </div>
-
-          <!-- Optional Recipient Details for Seamless WhatsApp Message -->
-          <div class="cart-delivery-section">
-            <label class="cart-field-label">DELIVERY DETAILS (OPTIONAL)</label>
-            <div class="cart-input-row">
-              <input type="text" id="orderCustomerName" class="cart-input" placeholder="Your Name (e.g. Aditi)" aria-label="Your Name">
-              <input type="text" id="orderDeliveryCity" class="cart-input" placeholder="Delivery City / Pincode" aria-label="Delivery City">
+            <div class="cart-field-group">
+              <label for="orderCustomerAddress" class="cart-field-label">DELIVERY ADDRESS</label>
+              <input type="text" id="orderCustomerAddress" class="cart-input" placeholder="House/Flat No., Street, City, Pincode">
             </div>
           </div>
+        </div>
 
-          <!-- Grand Total & Shipping Note -->
-          <div class="cart-total-section">
-            <div class="cart-total-row">
-              <span class="cart-total-label">Grand Total:</span>
-              <span class="cart-total-amount" id="cartGrandTotal">₹0</span>
-            </div>
-            <p class="cart-shipping-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+        <!-- 3. Details of Products (Order Summary Table): Name, Quantity, Note, Price, and Grand Total -->
+        <div class="cart-summary-section">
+          <h4 class="cart-section-subtitle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Order Summary
+          </h4>
+          <div class="cart-summary-items" id="cartSummaryItems">
+            <!-- Populated dynamically -->
           </div>
+          <div class="cart-summary-total-divider"></div>
+          <div class="cart-grand-total-row">
+            <span class="cart-grand-total-label">Grand Total:</span>
+            <span class="cart-grand-total-amount" id="cartGrandTotal">₹0</span>
+          </div>
+          <p class="cart-shipping-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+        </div>
 
-          <!-- Primary Action: Proceed to WhatsApp Button -->
+        <!-- 4. CTA and Action Buttons -->
+        <div class="cart-cta-section">
           <button type="button" class="cart-action-btn proceed-whatsapp-btn" id="proceedWhatsAppBtn">
             <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -398,7 +408,6 @@ function ensureCartDOM() {
             </svg>
             <span>Proceed to WhatsApp</span>
           </button>
-
           <a href="help.html#faqs" class="cart-faq-link">Questions? See Help &amp; FAQs</a>
         </div>
       </div>
@@ -422,46 +431,6 @@ function ensureCartDOM() {
       e.preventDefault();
       closeCartModal();
       window.location.href = "catalogue.html";
-    });
-  }
-
-  const minusBtn = modal.querySelector("#cartMinusBtn");
-  if (minusBtn) {
-    minusBtn.addEventListener("click", () => {
-      if (cart[activeCartIndex]) {
-        updateCartItemQuantity(cart[activeCartIndex].cartItemId, -1);
-      }
-    });
-  }
-
-  const plusBtn = modal.querySelector("#cartPlusBtn");
-  if (plusBtn) {
-    plusBtn.addEventListener("click", () => {
-      if (cart[activeCartIndex]) {
-        updateCartItemQuantity(cart[activeCartIndex].cartItemId, 1);
-      }
-    });
-  }
-
-  const removeBtn = modal.querySelector("#cartRemoveBtn");
-  if (removeBtn) {
-    removeBtn.addEventListener("click", () => {
-      if (cart[activeCartIndex]) {
-        removeCartItem(cart[activeCartIndex].cartItemId);
-      }
-    });
-  }
-
-  const noteInput = modal.querySelector("#cartActiveNote");
-  if (noteInput) {
-    noteInput.addEventListener("input", (e) => {
-      if (cart[activeCartIndex]) {
-        const val = e.target.value;
-        cart[activeCartIndex].note = val ? val : "Standard (No custom text requested)";
-        saveCartToStorage();
-        const counter = modal.querySelector("#cartActiveCounter");
-        if (counter) counter.textContent = `${val.length}/120`;
-      }
     });
   }
 }
@@ -552,6 +521,7 @@ window.openCartModal = openCartModal;
 window.closeCartModal = closeCartModal;
 window.updateCartItemQuantity = updateCartItemQuantity;
 window.removeCartItem = removeCartItem;
+window.updateCartItemNote = updateCartItemNote;
 window.proceedToWhatsAppCheckout = proceedToWhatsAppCheckout;
 
 document.addEventListener("DOMContentLoaded", () => {
