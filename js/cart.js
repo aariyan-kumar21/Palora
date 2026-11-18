@@ -1,8 +1,10 @@
 /**
  * Palora Cart State Management & Checkout Pipeline
+ * Displays cart as a centered luxury modal card matching Quick View
  */
 
 let cart = [];
+let activeCartIndex = 0;
 const CART_STORAGE_KEY = "palora_cart_items";
 
 function loadCartFromStorage() {
@@ -32,6 +34,7 @@ window.addCustomItemToCart = function (product, quantity = 1, note = "") {
 
   if (existingItemIndex > -1) {
     cart[existingItemIndex].quantity += quantity;
+    activeCartIndex = existingItemIndex;
   } else {
     cart.push({
       cartItemId: Date.now() + Math.random().toString(36).substring(2, 6),
@@ -42,13 +45,14 @@ window.addCustomItemToCart = function (product, quantity = 1, note = "") {
       note: customNote,
       quantity: quantity
     });
+    activeCartIndex = cart.length - 1;
   }
 
   saveCartToStorage();
   updateCartUI();
   triggerCartBadgeBump();
   if (typeof showToast === "function") {
-    showToast("Added to gift bag ✨");
+    showToast("Added to cart ✨");
   }
 };
 
@@ -65,7 +69,10 @@ function updateCartItemQuantity(cartItemId, delta) {
   cart[itemIndex].quantity += delta;
   if (cart[itemIndex].quantity <= 0) {
     cart.splice(itemIndex, 1);
-    if (typeof showToast === "function") showToast("Item removed from gift bag");
+    if (activeCartIndex >= cart.length) {
+      activeCartIndex = Math.max(0, cart.length - 1);
+    }
+    if (typeof showToast === "function") showToast("Item removed from cart");
   }
 
   saveCartToStorage();
@@ -74,9 +81,12 @@ function updateCartItemQuantity(cartItemId, delta) {
 
 function removeCartItem(cartItemId) {
   cart = cart.filter(item => item.cartItemId !== cartItemId);
+  if (activeCartIndex >= cart.length) {
+    activeCartIndex = Math.max(0, cart.length - 1);
+  }
   saveCartToStorage();
   updateCartUI();
-  if (typeof showToast === "function") showToast("Item removed from gift bag");
+  if (typeof showToast === "function") showToast("Item removed from cart");
 }
 
 function triggerCartBadgeBump() {
@@ -91,7 +101,7 @@ function updateCartUI() {
   const headerCount = document.getElementById("cartHeaderCount");
   const grandTotal = document.getElementById("cartGrandTotal");
   const cartEmpty = document.getElementById("cartEmpty");
-  const cartBody = document.getElementById("cartBody");
+  const cartGrid = document.getElementById("cartGrid");
   const proceedBtn = document.getElementById("proceedWhatsAppBtn");
 
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -112,14 +122,110 @@ function updateCartUI() {
 
   if (cart.length === 0) {
     if (cartEmpty) cartEmpty.style.display = "flex";
-    if (cartBody) cartBody.style.display = "none";
+    if (cartGrid) cartGrid.style.display = "none";
     if (proceedBtn) {
       proceedBtn.disabled = true;
       proceedBtn.style.opacity = "0.5";
     }
   } else {
     if (cartEmpty) cartEmpty.style.display = "none";
-    if (cartBody) cartBody.style.display = "flex";
+    if (cartGrid) cartGrid.style.display = "grid";
+
+    if (activeCartIndex >= cart.length) activeCartIndex = cart.length - 1;
+    if (activeCartIndex < 0) activeCartIndex = 0;
+
+    const activeItem = cart[activeCartIndex];
+    const productsList = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+    const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
+    const matchedProduct = productsList.find(p => p.id === activeItem.id);
+    const badgeText = (matchedProduct && matchedProduct.badge) ? matchedProduct.badge : "Handmade";
+    const toneNum = ((productsList.findIndex(p => p.id === activeItem.id) % 4) + 1) || 1;
+
+    // Media Box
+    const mediaBox = document.getElementById("cartMediaBox");
+    if (mediaBox) {
+      mediaBox.className = `cart-media-box cart-media-box--tone-${toneNum}`;
+    }
+    const badgeEl = document.getElementById("cartActiveBadge");
+    if (badgeEl) badgeEl.textContent = badgeText;
+
+    const imgEl = document.getElementById("cartActiveImg");
+    if (imgEl) {
+      imgEl.style.display = "none";
+      if (activeItem.image) {
+        imgEl.src = activeItem.image;
+        imgEl.alt = activeItem.name;
+        imgEl.onload = function () {
+          imgEl.style.display = "block";
+        };
+        imgEl.onerror = function () {
+          imgEl.style.display = "none";
+        };
+      }
+    }
+
+    // Text Details
+    const nameEl = document.getElementById("cartActiveName");
+    if (nameEl) nameEl.textContent = activeItem.name;
+
+    const priceEl = document.getElementById("cartActivePrice");
+    if (priceEl) priceEl.textContent = `₹${inrFormatter.format(activeItem.price)}`;
+
+    const subtotalEl = document.getElementById("cartActiveSubtotal");
+    if (subtotalEl) {
+      if (activeItem.quantity > 1) {
+        subtotalEl.textContent = `(Subtotal: ₹${inrFormatter.format(activeItem.price * activeItem.quantity)})`;
+      } else {
+        subtotalEl.textContent = "";
+      }
+    }
+
+    // Personalization Note
+    const noteInput = document.getElementById("cartActiveNote");
+    const counterEl = document.getElementById("cartActiveCounter");
+    if (noteInput && document.activeElement !== noteInput) {
+      const displayNote = (activeItem.note && activeItem.note !== "Standard (No custom text requested)") ? activeItem.note : "";
+      noteInput.value = displayNote;
+      if (counterEl) counterEl.textContent = `${displayNote.length}/120`;
+    }
+
+    // Stepper Value
+    const qtyValEl = document.getElementById("cartActiveQty");
+    if (qtyValEl) qtyValEl.textContent = activeItem.quantity;
+
+    // Thumbnail strip navigation if > 1 item
+    const thumbNav = document.getElementById("cartThumbNav");
+    if (thumbNav) {
+      if (cart.length > 1) {
+        thumbNav.style.display = "flex";
+        thumbNav.innerHTML = "";
+        cart.forEach((it, idx) => {
+          const itemToneNum = ((productsList.findIndex(p => p.id === it.id) % 4) + 1) || 1;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = `cart-thumb-btn cart-thumb-btn--tone-${itemToneNum} ${idx === activeCartIndex ? "is-active" : ""}`;
+          btn.setAttribute("aria-label", `View ${it.name}`);
+          btn.innerHTML = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="opacity: 0.7;">
+              <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+              <path d="M12 8v13"></path>
+              <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+            </svg>
+            <img src="${it.image || ''}" alt="" loading="lazy" style="display:none;" onload="this.style.display='block'" onerror="this.remove()">
+          `;
+          btn.addEventListener("click", () => {
+            activeCartIndex = idx;
+            updateCartUI();
+          });
+          thumbNav.appendChild(btn);
+        });
+      } else {
+        thumbNav.style.display = "none";
+        thumbNav.innerHTML = "";
+      }
+    }
+
+    // Action button state
     if (proceedBtn) {
       if (typeof hasWhatsApp === "function" && !hasWhatsApp()) {
         proceedBtn.disabled = true;
@@ -133,69 +239,7 @@ function updateCartUI() {
         if (btnText) btnText.textContent = "Proceed to WhatsApp";
       }
     }
-    renderCartItemsList();
   }
-}
-
-function renderCartItemsList() {
-  const list = document.getElementById("cartItemsList");
-  if (!list) return;
-  list.innerHTML = "";
-
-  const productsList = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
-  const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
-
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.className = "cart-item-card";
-    li.setAttribute("data-cart-item-id", item.cartItemId);
-
-    const subtotal = item.price * item.quantity;
-    const toneNum = ((productsList.findIndex(p => p.id === item.id) % 4) + 1) || 1;
-    const product = productsList.find(p => p.id === item.id);
-    const badgeText = (product && product.badge) ? product.badge : "Handmade";
-    const hasNote = item.note && item.note !== "Standard (No custom text requested)" && item.note.trim() !== "";
-
-    li.innerHTML = `
-      <div class="cart-card-top">
-        <div class="cart-card-thumb cart-card-thumb--tone-${toneNum}">
-          <svg class="cart-card-watermark" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-            <path d="M12 8v13"></path>
-            <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
-            <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
-          </svg>
-          <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='assets/hero.png'">
-        </div>
-        <div class="cart-card-content">
-          <div class="cart-card-badge-row">
-            <span class="cart-card-badge">${escapeHtml(badgeText)}</span>
-            <button type="button" class="cart-item-remove-btn" onclick="removeCartItem('${item.cartItemId}')" aria-label="Remove ${escapeHtml(item.name)} from cart">&times;</button>
-          </div>
-          <h3 class="cart-card-title">${escapeHtml(item.name)}</h3>
-          <div class="cart-card-unit-price">₹${inrFormatter.format(item.price)} each</div>
-          ${hasNote ? `
-            <div class="cart-card-note">
-              <span class="cart-card-note-label">NOTE:</span>
-              <span class="cart-card-note-text">"${escapeHtml(item.note)}"</span>
-            </div>
-          ` : ''}
-        </div>
-      </div>
-      <div class="cart-card-bottom">
-        <div class="cart-card-stepper" role="group" aria-label="Adjust quantity">
-          <button type="button" class="cart-stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', -1)" aria-label="Decrease quantity">&minus;</button>
-          <span class="cart-stepper-value">${item.quantity}</span>
-          <button type="button" class="cart-stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', 1)" aria-label="Increase quantity">&plus;</button>
-        </div>
-        <div class="cart-card-subtotal">
-          <span class="cart-card-subtotal-label">Subtotal:</span>
-          <span class="cart-card-subtotal-val">₹${inrFormatter.format(subtotal)}</span>
-        </div>
-      </div>
-    `;
-    list.appendChild(li);
-  });
 }
 
 function proceedToWhatsAppCheckout() {
@@ -268,58 +312,95 @@ function ensureCartDOM() {
   modal.setAttribute("inert", "");
 
   modal.innerHTML = `
-    <div class="cart-header">
-      <div class="cart-header-title">
-        <h2 class="cart-heading" id="cartHeading">Your Gift Bag</h2>
-        <span class="cart-count-chip" id="cartHeaderCount">0 items</span>
-      </div>
+    <div class="cart-inner">
       <button type="button" class="cart-close-btn" id="cartCloseBtn" aria-label="Close cart">&times;</button>
-    </div>
 
-    <!-- Empty State -->
-    <div class="cart-empty" id="cartEmpty">
-      <div class="cart-empty-art">🌸</div>
-      <h3 class="cart-empty-title">Your Gift Bag is Empty</h3>
-      <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
-      <a href="catalogue.html" class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</a>
-    </div>
+      <!-- Empty State -->
+      <div class="cart-empty" id="cartEmpty" style="display: none;">
+        <div class="cart-empty-art">🌸</div>
+        <h2 class="cart-empty-title">Your Cart is Empty</h2>
+        <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
+        <a href="catalogue.html" class="cart-action-btn cart-empty-btn" id="shopNowEmptyBtn">Explore Collections</a>
+      </div>
 
-    <!-- Cart Filled Content -->
-    <div class="cart-body" id="cartBody">
-      <ul class="cart-items-list" id="cartItemsList">
-        <!-- Rendered dynamically -->
-      </ul>
-
-      <!-- Optional Recipient Details for Seamless WhatsApp Message -->
-      <div class="cart-recipient-details">
-        <h4 class="recipient-heading">Optional Delivery Details</h4>
-        <div class="input-row">
-          <input type="text" id="orderCustomerName" class="cart-text-input" placeholder="Your Name (e.g. Aditi)"
-            aria-label="Your Name">
-          <input type="text" id="orderDeliveryCity" class="cart-text-input" placeholder="Delivery City / Pincode"
-            aria-label="Delivery City">
+      <!-- Filled State Grid (2-Column Card matching Quick View) -->
+      <div class="cart-grid" id="cartGrid" style="display: none;">
+        <!-- Left Column: Media & Thumbnails -->
+        <div class="cart-media-col">
+          <div class="cart-media-box" id="cartMediaBox">
+            <span class="cart-badge-pill" id="cartActiveBadge">Handmade</span>
+            <svg class="cart-watermark" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+              <path d="M12 8v13"></path>
+              <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+              <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+            </svg>
+            <img id="cartActiveImg" src="" alt="Cart Product" draggable="false">
+          </div>
+          <div class="cart-thumb-nav" id="cartThumbNav" style="display: none;"></div>
         </div>
-      </div>
-    </div>
 
-    <!-- Cart Footer & Grand Total -->
-    <div class="cart-footer" id="cartFooter">
-      <div class="cart-total-row">
-        <span class="total-label">Grand Total:</span>
-        <span class="total-amount" id="cartGrandTotal">₹0</span>
-      </div>
-      <p class="total-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+        <!-- Right Column: Details, Note, Stepper, Delivery & WhatsApp Action -->
+        <div class="cart-details-col">
+          <div class="cart-header-row">
+            <h2 class="cart-heading" id="cartHeading">Your Cart</h2>
+            <span class="cart-count-chip" id="cartHeaderCount">1 item</span>
+          </div>
 
-      <!-- Primary Action: Proceed to WhatsApp Button -->
-      <button type="button" class="btn btn-whatsapp proceed-whatsapp-btn" id="proceedWhatsAppBtn">
-        <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M12.004 2C6.48 2 2 6.48 2 12.004c0 1.954.563 3.778 1.536 5.325L2 22l4.808-1.503A9.957 9.957 0 0 0 12.004 22C17.528 22 22 17.52 22 12.004 22 6.48 17.528 2 12.004 2zm5.468 14.382c-.226.635-1.305 1.215-1.824 1.294-.468.071-1.061.1-1.71-.107-.393-.125-.898-.292-1.544-.57-2.716-1.171-4.49-3.905-4.625-4.086-.135-.181-1.097-1.46-1.097-2.784 0-1.324.693-1.975.94-2.245.247-.27.539-.337.719-.337.18 0 .36 0 .517.008.165.008.388-.063.607.463.225.54.765 1.868.832 2.003.067.135.112.293.022.473-.09.18-.135.292-.27.45-.135.157-.284.351-.405.472-.135.135-.276.282-.119.552.157.27.7 1.154 1.504 1.87 1.034.924 1.905 1.21 2.175 1.345.27.135.427.112.584-.068.158-.18.675-.788.855-1.058.18-.27.36-.225.607-.135.247.09 1.572.741 1.842.876.27.135.45.203.517.315.068.113.068.653-.158 1.288z" />
-        </svg>
-        <span>Proceed to WhatsApp</span>
-      </button>
-      <div style="text-align: center; margin-top: 10px;">
-        <a href="help.html#faqs" style="font-family: var(--font-serif); font-weight: 500; font-size: 1rem; color: var(--burgundy); text-decoration: underline;">Questions? See Help &amp; FAQs</a>
+          <h3 class="cart-product-title" id="cartActiveName">Product Name</h3>
+
+          <div class="cart-price-line">
+            <span class="cart-product-price" id="cartActivePrice">₹0</span>
+            <span class="cart-subtotal-hint" id="cartActiveSubtotal"></span>
+          </div>
+
+          <div class="cart-personalization">
+            <label for="cartActiveNote" class="cart-field-label">PERSONALIZE IT</label>
+            <input type="text" id="cartActiveNote" class="cart-input" maxlength="120" placeholder="Name, date or a short message (optional)">
+            <div class="cart-counter" id="cartActiveCounter">0/120</div>
+          </div>
+
+          <div class="cart-stepper-row">
+            <div class="cart-stepper-wrap">
+              <span class="cart-field-label">QUANTITY</span>
+              <div class="cart-stepper">
+                <button type="button" class="stepper-btn" id="cartMinusBtn" aria-label="Decrease quantity">&minus;</button>
+                <span class="stepper-value" id="cartActiveQty">1</span>
+                <button type="button" class="stepper-btn" id="cartPlusBtn" aria-label="Increase quantity">&plus;</button>
+              </div>
+            </div>
+            <button type="button" class="cart-remove-link" id="cartRemoveBtn">Remove item</button>
+          </div>
+
+          <!-- Optional Recipient Details for Seamless WhatsApp Message -->
+          <div class="cart-delivery-section">
+            <label class="cart-field-label">DELIVERY DETAILS (OPTIONAL)</label>
+            <div class="cart-input-row">
+              <input type="text" id="orderCustomerName" class="cart-input" placeholder="Your Name (e.g. Aditi)" aria-label="Your Name">
+              <input type="text" id="orderDeliveryCity" class="cart-input" placeholder="Delivery City / Pincode" aria-label="Delivery City">
+            </div>
+          </div>
+
+          <!-- Grand Total & Shipping Note -->
+          <div class="cart-total-section">
+            <div class="cart-total-row">
+              <span class="cart-total-label">Grand Total:</span>
+              <span class="cart-total-amount" id="cartGrandTotal">₹0</span>
+            </div>
+            <p class="cart-shipping-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+          </div>
+
+          <!-- Primary Action: Proceed to WhatsApp Button -->
+          <button type="button" class="cart-action-btn proceed-whatsapp-btn" id="proceedWhatsAppBtn">
+            <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12.004 2C6.48 2 2 6.48 2 12.004c0 1.954.563 3.778 1.536 5.325L2 22l4.808-1.503A9.957 9.957 0 0 0 12.004 22C17.528 22 22 17.52 22 12.004 22 6.48 17.528 2 12.004 2zm5.468 14.382c-.226.635-1.305 1.215-1.824 1.294-.468.071-1.061.1-1.71-.107-.393-.125-.898-.292-1.544-.57-2.716-1.171-4.49-3.905-4.625-4.086-.135-.181-1.097-1.46-1.097-2.784 0-1.324.693-1.975.94-2.245.247-.27.539-.337.719-.337.18 0 .36 0 .517.008.165.008.388-.063.607.463.225.54.765 1.868.832 2.003.067.135.112.293.022.473-.09.18-.135.292-.27.45-.135.157-.284.351-.405.472-.135.135-.276.282-.119.552.157.27.7 1.154 1.504 1.87 1.034.924 1.905 1.21 2.175 1.345.27.135.427.112.584-.068.158-.18.675-.788.855-1.058.18-.27.36-.225.607-.135.247.09 1.572.741 1.842.876.27.135.45.203.517.315.068.113.068.653-.158 1.288z" />
+            </svg>
+            <span>Proceed to WhatsApp</span>
+          </button>
+
+          <a href="help.html#faqs" class="cart-faq-link">Questions? See Help &amp; FAQs</a>
+        </div>
       </div>
     </div>
   `;
@@ -327,6 +408,7 @@ function ensureCartDOM() {
   document.body.appendChild(overlay);
   document.body.appendChild(modal);
 
+  // Wire up event listeners
   const closeBtn = modal.querySelector("#cartCloseBtn");
   if (closeBtn) closeBtn.addEventListener("click", closeCartModal);
   overlay.addEventListener("click", closeCartModal);
@@ -336,9 +418,50 @@ function ensureCartDOM() {
 
   const shopNowBtn = modal.querySelector("#shopNowEmptyBtn");
   if (shopNowBtn) {
-    shopNowBtn.addEventListener("click", () => {
+    shopNowBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       closeCartModal();
       window.location.href = "catalogue.html";
+    });
+  }
+
+  const minusBtn = modal.querySelector("#cartMinusBtn");
+  if (minusBtn) {
+    minusBtn.addEventListener("click", () => {
+      if (cart[activeCartIndex]) {
+        updateCartItemQuantity(cart[activeCartIndex].cartItemId, -1);
+      }
+    });
+  }
+
+  const plusBtn = modal.querySelector("#cartPlusBtn");
+  if (plusBtn) {
+    plusBtn.addEventListener("click", () => {
+      if (cart[activeCartIndex]) {
+        updateCartItemQuantity(cart[activeCartIndex].cartItemId, 1);
+      }
+    });
+  }
+
+  const removeBtn = modal.querySelector("#cartRemoveBtn");
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
+      if (cart[activeCartIndex]) {
+        removeCartItem(cart[activeCartIndex].cartItemId);
+      }
+    });
+  }
+
+  const noteInput = modal.querySelector("#cartActiveNote");
+  if (noteInput) {
+    noteInput.addEventListener("input", (e) => {
+      if (cart[activeCartIndex]) {
+        const val = e.target.value;
+        cart[activeCartIndex].note = val ? val : "Standard (No custom text requested)";
+        saveCartToStorage();
+        const counter = modal.querySelector("#cartActiveCounter");
+        if (counter) counter.textContent = `${val.length}/120`;
+      }
     });
   }
 }
@@ -447,7 +570,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cartOverlay) cartOverlay.addEventListener("click", closeCartModal);
   if (proceedBtn) proceedBtn.addEventListener("click", proceedToWhatsAppCheckout);
   if (shopNowBtn) {
-    shopNowBtn.addEventListener("click", () => {
+    shopNowBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       closeCartModal();
       window.location.href = "catalogue.html";
     });

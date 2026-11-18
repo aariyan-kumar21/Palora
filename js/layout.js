@@ -33,7 +33,7 @@
           </button>
 
           <!-- Cart Trigger Button -->
-          <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open shopping bag">
+          <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open cart">
             ${icon("bag", { size: 24, strokeWidth: 1.5 })}
             <span class="cart-badge" id="cartBadge" style="display:none"></span>
           </button>

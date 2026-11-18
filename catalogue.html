@@ -272,63 +272,7 @@
     </div>
   </main>
 
-  <!-- Sliding Cart Drawer / Modal -->
-  <div class="cart-overlay" id="cartOverlay" aria-hidden="true" hidden inert></div>
-  <aside class="cart-modal" id="cartModal" aria-hidden="true" hidden inert role="dialog" aria-modal="true" aria-labelledby="cartHeading">
-    <div class="cart-header">
-      <div class="cart-header-title">
-        <h2 class="cart-heading" id="cartHeading">Your Gift Bag</h2>
-        <span class="cart-count-chip" id="cartHeaderCount">0 items</span>
-      </div>
-      <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close cart">&times;</button>
-    </div>
 
-    <!-- Empty State -->
-    <div class="cart-empty" id="cartEmpty">
-      <div class="cart-empty-art">🌸</div>
-      <h3 class="cart-empty-title">Your Gift Bag is Empty</h3>
-      <p class="cart-empty-text">Add a personalized handmade keepsake to brighten someone's day.</p>
-      <a href="catalogue.html" class="btn btn-burgundy btn-sm" id="shopNowEmptyBtn">Explore Collections</a>
-    </div>
-
-    <!-- Cart Filled Content -->
-    <div class="cart-body" id="cartBody">
-      <ul class="cart-items-list" id="cartItemsList">
-        <!-- Rendered dynamically -->
-      </ul>
-
-      <!-- Optional Recipient Details for Seamless WhatsApp Message -->
-      <div class="cart-recipient-details">
-        <h4 class="recipient-heading">Optional Delivery Details</h4>
-        <div class="input-row">
-          <input type="text" id="orderCustomerName" class="cart-text-input" placeholder="Your Name (e.g. Aditi)"
-            aria-label="Your Name">
-          <input type="text" id="orderDeliveryCity" class="cart-text-input" placeholder="Delivery City / Pincode"
-            aria-label="Delivery City">
-        </div>
-      </div>
-    </div>
-
-    <!-- Cart Footer & Grand Total -->
-    <div class="cart-footer" id="cartFooter">
-      <div class="cart-total-row">
-        <span class="total-label">Grand Total:</span>
-        <span class="total-amount" id="cartGrandTotal">₹0</span>
-      </div>
-      <p class="total-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
-
-      <!-- Primary Action: Proceed to WhatsApp Button -->
-      <button class="btn btn-whatsapp proceed-whatsapp-btn" id="proceedWhatsAppBtn">
-        <svg class="whatsapp-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M12.004 2C6.48 2 2 6.48 2 12.004c0 1.954.563 3.778 1.536 5.325L2 22l4.808-1.503A9.957 9.957 0 0 0 12.004 22C17.528 22 22 17.52 22 12.004 22 6.48 17.528 2 12.004 2zm5.468 14.382c-.226.635-1.305 1.215-1.824 1.294-.468.071-1.061.1-1.71-.107-.393-.125-.898-.292-1.544-.57-2.716-1.171-4.49-3.905-4.625-4.086-.135-.181-1.097-1.46-1.097-2.784 0-1.324.693-1.975.94-2.245.247-.27.539-.337.719-.337.18 0 .36 0 .517.008.165.008.388-.063.607.463.225.54.765 1.868.832 2.003.067.135.112.293.022.473-.09.18-.135.292-.27.45-.135.157-.284.351-.405.472-.135.135-.276.282-.119.552.157.27.7 1.154 1.504 1.87 1.034.924 1.905 1.21 2.175 1.345.27.135.427.112.584-.068.158-.18.675-.788.855-1.058.18-.27.36-.225.607-.135.247.09 1.572.741 1.842.876.27.135.45.203.517.315.068.113.068.653-.158 1.288z" />
-        </svg>
-        <span>Proceed to WhatsApp</span>
-      </button>
-
-      <p class="cart-subnote">Direct chat handoff with Palora artisan</p>
-    </div>
-  </aside>
 
   <!-- Quick View Modal Dialog -->
   <dialog class="quickview" id="quickViewDialog" aria-labelledby="qv-title">
