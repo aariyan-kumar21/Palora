@@ -35,7 +35,7 @@
           <!-- Cart Trigger Button -->
           <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open shopping bag">
             ${icon("bag", { size: 24, strokeWidth: 1.5 })}
-            <span class="cart-badge" id="cartBadge">0</span>
+            <span class="cart-badge" id="cartBadge" style="display:none"></span>
           </button>
 
           <!-- Hamburger Toggle Button (48px circle, 2 lines) -->

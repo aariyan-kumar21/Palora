@@ -97,7 +97,16 @@ function updateCartUI() {
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  if (badge) badge.textContent = totalCount;
+  if (badge) {
+    if (totalCount > 0) {
+      badge.textContent = totalCount;
+      badge.style.display = "flex";
+    } else {
+      badge.textContent = "";
+      badge.style.display = "none";
+    }
+  }
+
   if (headerCount) headerCount.textContent = `${totalCount} ${totalCount === 1 ? "item" : "items"}`;
   if (grandTotal) grandTotal.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
 
@@ -133,31 +142,55 @@ function renderCartItemsList() {
   if (!list) return;
   list.innerHTML = "";
 
+  const productsList = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+  const inrFormatter = typeof inr !== "undefined" ? inr : new Intl.NumberFormat("en-IN");
+
   cart.forEach(item => {
     const li = document.createElement("li");
-    li.className = "cart-item";
+    li.className = "cart-item-card";
+    li.setAttribute("data-cart-item-id", item.cartItemId);
+
     const subtotal = item.price * item.quantity;
+    const toneNum = ((productsList.findIndex(p => p.id === item.id) % 4) + 1) || 1;
+    const product = productsList.find(p => p.id === item.id);
+    const badgeText = (product && product.badge) ? product.badge : "Handmade";
+    const hasNote = item.note && item.note !== "Standard (No custom text requested)" && item.note.trim() !== "";
 
     li.innerHTML = `
-      <div class="cart-item-img">
-        <img src="${item.image}" alt="${item.name}" onerror="this.src='assets/hero.png'">
-      </div>
-      <div class="cart-item-info">
-        <div class="cart-item-top">
-          <span class="cart-item-name">${item.name}</span>
-          <button type="button" class="cart-remove-btn" onclick="removeCartItem('${item.cartItemId}')" aria-label="Remove ${item.name}">&times;</button>
+      <div class="cart-card-top">
+        <div class="cart-card-thumb cart-card-thumb--tone-${toneNum}">
+          <svg class="cart-card-watermark" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+            <path d="M12 8v13"></path>
+            <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+            <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+          </svg>
+          <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='assets/hero.png'">
         </div>
-        <div class="cart-item-personalization">
-          <span class="custom-badge-pill">Note</span>
-          <span class="custom-note-preview">"${escapeHtml(item.note)}"</span>
-        </div>
-        <div class="cart-item-bottom">
-          <div class="cart-qty-controls" role="group" aria-label="Adjust quantity">
-            <button type="button" class="qty-btn" onclick="updateCartItemQuantity('${item.cartItemId}', -1)" aria-label="Decrease quantity">&minus;</button>
-            <span class="qty-value">${item.quantity}</span>
-            <button type="button" class="qty-btn" onclick="updateCartItemQuantity('${item.cartItemId}', 1)" aria-label="Increase quantity">&plus;</button>
+        <div class="cart-card-content">
+          <div class="cart-card-badge-row">
+            <span class="cart-card-badge">${escapeHtml(badgeText)}</span>
+            <button type="button" class="cart-item-remove-btn" onclick="removeCartItem('${item.cartItemId}')" aria-label="Remove ${escapeHtml(item.name)} from cart">&times;</button>
           </div>
-          <span class="cart-item-price">₹${subtotal.toLocaleString("en-IN")}</span>
+          <h3 class="cart-card-title">${escapeHtml(item.name)}</h3>
+          <div class="cart-card-unit-price">₹${inrFormatter.format(item.price)} each</div>
+          ${hasNote ? `
+            <div class="cart-card-note">
+              <span class="cart-card-note-label">NOTE:</span>
+              <span class="cart-card-note-text">"${escapeHtml(item.note)}"</span>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+      <div class="cart-card-bottom">
+        <div class="cart-card-stepper" role="group" aria-label="Adjust quantity">
+          <button type="button" class="cart-stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', -1)" aria-label="Decrease quantity">&minus;</button>
+          <span class="cart-stepper-value">${item.quantity}</span>
+          <button type="button" class="cart-stepper-btn" onclick="updateCartItemQuantity('${item.cartItemId}', 1)" aria-label="Increase quantity">&plus;</button>
+        </div>
+        <div class="cart-card-subtotal">
+          <span class="cart-card-subtotal-label">Subtotal:</span>
+          <span class="cart-card-subtotal-val">₹${inrFormatter.format(subtotal)}</span>
         </div>
       </div>
     `;
@@ -419,6 +452,15 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "catalogue.html";
     });
   }
+
+  // Delegated click listener to guarantee opening cart even after header re-render
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("#cartBtn, .cart-btn");
+    if (btn) {
+      e.preventDefault();
+      openCartModal();
+    }
+  });
 
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeCartModal();
