@@ -112,7 +112,7 @@
       const tone = (idx % 5) + 1;
       const formattedPrice = typeof formatINR === "function" ? formatINR(p.price) : `₹${p.price.toLocaleString("en-IN")}`;
       return `
-        <li class="saved-item" data-id="${p.id}">
+        <li class="saved-item saved-item-row" data-id="${p.id}">
           <div class="saved-item-thumb saved-item-thumb--tone-${tone}">
             <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()">
           </div>
@@ -120,10 +120,10 @@
             <h3 class="saved-item-name">${p.name}</h3>
             <span class="saved-item-price">${formattedPrice}</span>
             <div class="saved-item-actions">
-              <button type="button" class="saved-qv-btn" onclick="openSavedQuickView('${p.id}')">Quick view</button>
+              <button type="button" class="saved-qv-btn saved-item-qv-btn" onclick="openSavedQuickView('${p.id}')">Quick view</button>
             </div>
           </div>
-          <button type="button" class="saved-remove-btn" onclick="removeFromSaved('${p.id}')" aria-label="Remove ${p.name} from saved items">&times;</button>
+          <button type="button" class="saved-remove-btn saved-item-remove-btn" onclick="removeFromSaved('${p.id}')" aria-label="Remove ${p.name} from saved items">&times;</button>
         </li>
       `;
     }).join("");
@@ -148,13 +148,16 @@
       panel.removeAttribute("inert");
       void panel.offsetHeight;
       panel.classList.add("open");
+      panel.classList.add("is-open");
       panel.setAttribute("aria-hidden", "false");
     }
     if (overlay) {
       overlay.classList.add("open");
+      overlay.classList.add("is-open");
       overlay.setAttribute("aria-hidden", "false");
     }
 
+    document.body.classList.add("saved-open");
     document.body.style.overflow = "hidden";
     document.dispatchEvent(new CustomEvent("panelopen", { detail: { panel: "saved" } }));
 
@@ -169,18 +172,20 @@
 
     if (panel) {
       panel.classList.remove("open");
+      panel.classList.remove("is-open");
       panel.setAttribute("aria-hidden", "true");
     }
     if (overlay) {
       overlay.classList.remove("open");
+      overlay.classList.remove("is-open");
       overlay.setAttribute("aria-hidden", "true");
     }
     const onEnd = function () {
-      if (panel && !panel.classList.contains("open")) {
+      if (panel && !panel.classList.contains("open") && !panel.classList.contains("is-open")) {
         panel.setAttribute("hidden", "");
         panel.setAttribute("inert", "");
       }
-      if (overlay && !overlay.classList.contains("open")) {
+      if (overlay && !overlay.classList.contains("open") && !overlay.classList.contains("is-open")) {
         overlay.setAttribute("hidden", "");
         overlay.setAttribute("inert", "");
       }
@@ -190,6 +195,7 @@
       setTimeout(onEnd, 400);
     }
 
+    document.body.classList.remove("saved-open");
     document.body.style.overflow = "";
     document.dispatchEvent(new CustomEvent("panelclose", { detail: { panel: "saved" } }));
 
