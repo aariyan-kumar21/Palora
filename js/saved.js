@@ -112,7 +112,7 @@
       const tone = (idx % 5) + 1;
       const formattedPrice = typeof formatINR === "function" ? formatINR(p.price) : `₹${p.price.toLocaleString("en-IN")}`;
       return `
-        <li class="saved-item saved-item-row" data-id="${p.id}">
+        <li class="saved-item saved-item-row" data-id="${p.id}" role="button" tabindex="0" onclick="openSavedQuickView('${p.id}')" aria-label="View details for ${p.name}">
           <div class="saved-item-thumb saved-item-thumb--tone-${tone}">
             <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()">
           </div>
@@ -120,10 +120,10 @@
             <h3 class="saved-item-name">${p.name}</h3>
             <span class="saved-item-price">${formattedPrice}</span>
             <div class="saved-item-actions">
-              <button type="button" class="saved-qv-btn saved-item-qv-btn" onclick="openSavedQuickView('${p.id}')">Quick view</button>
+              <button type="button" class="saved-qv-btn saved-item-qv-btn" onclick="event.stopPropagation(); openSavedQuickView('${p.id}')">Quick view</button>
             </div>
           </div>
-          <button type="button" class="saved-remove-btn saved-item-remove-btn" onclick="removeFromSaved('${p.id}')" aria-label="Remove ${p.name} from saved items">&times;</button>
+          <button type="button" class="saved-remove-btn saved-item-remove-btn" onclick="event.stopPropagation(); removeFromSaved('${p.id}')" aria-label="Remove ${p.name} from saved items">&times;</button>
         </li>
       `;
     }).join("");

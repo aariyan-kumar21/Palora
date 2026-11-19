@@ -1008,8 +1008,16 @@ aside#savedPanel.open,
   display: flex;
   align-items: center;
   gap: 16px;
-  padding-bottom: 18px;
+  padding: 10px;
   border-bottom: 1px solid rgba(114, 47, 55, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.saved-item-row:hover,
+.saved-item:hover {
+  background-color: rgba(114, 47, 55, 0.04);
 }
 
 .saved-item-thumb {
@@ -1019,6 +1027,7 @@ aside#savedPanel.open,
   overflow: hidden;
   flex-shrink: 0;
   background-color: #EAD3CB;
+  cursor: pointer;
 }
 
 .saved-item-thumb img {
@@ -1755,17 +1764,53 @@ aside#cartModal.is-open,
 }
 
 .quickview__media {
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   border-radius: 14px;
   overflow: hidden;
   background-color: #EAD3CB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quickview__media--tone-1 {
+  background: linear-gradient(135deg, #FBECEE 0%, #F5D3D9 100%);
+}
+.quickview__media--tone-2 {
+  background: linear-gradient(135deg, #F9E4E8 0%, #EFC5CC 100%);
+}
+.quickview__media--tone-3 {
+  background: linear-gradient(135deg, #F7DDE3 0%, #E9B8C1 100%);
+}
+.quickview__media--tone-4 {
+  background: linear-gradient(135deg, #F5D6DD 0%, #E3ABB6 100%);
+}
+
+.quickview__watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .quickview__media img {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.quickview #qvBadge {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 5;
 }
 
 .quickview__details {
@@ -2312,12 +2357,19 @@ footer#site-footer,
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(114, 47, 55, 0.08);
   overflow: hidden;
+  cursor: pointer;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 28px rgba(114, 47, 55, 0.12);
+}
+
+.product-card:focus-visible,
+.product-card--catalogue:focus-visible {
+  outline: 2px solid var(--burgundy);
+  outline-offset: 3px;
 }
 
 .product-card__img-box {
@@ -2329,6 +2381,7 @@ footer#site-footer,
   align-items: center;
   justify-content: center;
   background-color: #F8D5DC;
+  cursor: pointer;
 }
 
 .product-card__img-box--tone-1 {

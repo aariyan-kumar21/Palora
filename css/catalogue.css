@@ -627,6 +627,7 @@ body[data-page="catalogue"] .catalogue-main {
 
 /* Catalogue Variant Product Card */
 .product-card--catalogue {
+  cursor: pointer;
   background: #FFF8F4;
   border-radius: 16px;
   overflow: hidden;
@@ -646,6 +647,7 @@ body[data-page="catalogue"] .catalogue-main {
 }
 
 .product-card--catalogue .product-card__img-box {
+  cursor: pointer;
   position: relative;
   aspect-ratio: 4 / 3;
   width: 100%;

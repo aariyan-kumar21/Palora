@@ -96,7 +96,7 @@ function renderProductCardHTML(product, index, variant = "default") {
 
   if (variant === "catalogue") {
     return `
-      <article class="product-card product-card--catalogue" data-product-id="${product.id}">
+      <article class="product-card product-card--catalogue" data-product-id="${product.id}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View details for ${product.name}">
         <div class="product-card__img-box product-card__img-box--tone-${toneNum}">
           <svg class="product-card__watermark" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             ${GIFT_WATERMARK_SVG}
@@ -125,7 +125,7 @@ function renderProductCardHTML(product, index, variant = "default") {
 
   // Default variant (Bestsellers slider on homepage)
   return `
-    <article class="product-card" data-product-id="${product.id}">
+    <article class="product-card" data-product-id="${product.id}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="View details for ${product.name}">
       <div class="product-card__img-box product-card__img-box--tone-${toneNum}">
         <div class="product-card__watermark" aria-hidden="true">
           ${typeof icon === "function" ? icon("gift", { size: 64, strokeWidth: 1.2 }) : `<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FFF7F2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${GIFT_WATERMARK_SVG}</svg>`}
@@ -153,25 +153,22 @@ function renderProductCardHTML(product, index, variant = "default") {
 function bindProductCardEvents(container) {
   if (!container) return;
 
-  // Wishlist buttons
-  container.querySelectorAll(".wish").forEach(btn => {
+  // Accessible card attributes
+  container.querySelectorAll(".product-card, .product-card--catalogue").forEach(card => {
+    if (!card.hasAttribute("role")) {
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-haspopup", "dialog");
+    }
+  });
+
+  // Wishlist buttons (stopPropagation ensures clicking heart does NOT open card)
+  container.querySelectorAll(".wish, .wish--catalogue").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const pid = btn.getAttribute("data-product-id");
       if (pid) {
         toggleProductWishlist(pid, btn);
-      }
-    });
-  });
-
-  // Quick view triggers
-  container.querySelectorAll(".product-card__open").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const pid = btn.getAttribute("data-product-id");
-      const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === pid);
-      if (product) {
-        openQuickViewModal(product, btn);
       }
     });
   });
@@ -183,6 +180,53 @@ function bindProductCardEvents(container) {
 let quickViewLastTrigger = null;
 let currentQuickViewProduct = null;
 let quickViewQuantity = 1;
+
+function ensureQuickViewDOM() {
+  let dialog = document.getElementById("quickViewDialog");
+  if (!dialog) {
+    dialog = document.createElement("dialog");
+    dialog.className = "quickview";
+    dialog.id = "quickViewDialog";
+    dialog.setAttribute("aria-labelledby", "qv-title");
+    dialog.innerHTML = `
+      <div class="quickview__inner">
+        <button type="button" class="quickview__close" id="qvCloseBtn" aria-label="Close">&times;</button>
+        <span class="product-badge-pill" id="qvBadge">Bestseller</span>
+
+        <div class="quickview__grid">
+          <div class="quickview__media" id="qvMedia"></div>
+
+          <div class="quickview__details">
+            <h2 class="quickview__name" id="qv-title">Product Name</h2>
+            <div class="quickview__price" id="qvPrice">₹0</div>
+            <p class="quickview__desc" id="qvDesc">Handmade to order with care. Add a personalization note below.</p>
+
+            <div class="quickview__personalization">
+              <label for="qv-note" class="quickview__field-label">PERSONALIZE IT</label>
+              <input type="text" id="qv-note" maxlength="120" placeholder="Name, date or a short message (optional)">
+              <div class="quickview__counter" id="qvCounter">0/120</div>
+            </div>
+
+            <div class="quickview__stepper-row">
+              <span class="quickview__field-label">QUANTITY</span>
+              <div class="quickview__stepper">
+                <button type="button" class="stepper-btn" id="qvMinusBtn" aria-label="Decrease quantity">&minus;</button>
+                <span class="stepper-value" id="qvQtyValue">1</span>
+                <button type="button" class="stepper-btn" id="qvPlusBtn" aria-label="Increase quantity">&plus;</button>
+              </div>
+            </div>
+
+            <button type="button" class="quickview__add-btn" id="qvAddBtn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(dialog);
+    quickViewInitialized = false;
+    initQuickViewEvents();
+  }
+  return dialog;
+}
 
 function lockBodyScroll() {
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -198,8 +242,12 @@ function unlockBodyScroll() {
 }
 
 function openQuickViewModal(product, triggerEl) {
+  if (!product) return;
+  ensureQuickViewDOM();
   const dialog = document.getElementById("quickViewDialog");
   if (!dialog) return;
+
+  initQuickViewEvents();
 
   quickViewLastTrigger = triggerEl;
   currentQuickViewProduct = product;
@@ -221,7 +269,10 @@ function openQuickViewModal(product, triggerEl) {
 
   // Text fields
   const badgeEl = document.getElementById("qvBadge");
-  if (badgeEl) badgeEl.textContent = product.badge || "Handmade";
+  if (badgeEl) {
+    badgeEl.textContent = product.badge || "Handmade";
+    badgeEl.style.display = product.badge ? "inline-block" : "none";
+  }
 
   const titleEl = document.getElementById("qv-title");
   if (titleEl) titleEl.textContent = product.name;
@@ -230,7 +281,7 @@ function openQuickViewModal(product, triggerEl) {
   if (priceEl) priceEl.textContent = formatINR(product.price);
 
   const descEl = document.getElementById("qvDesc");
-  if (descEl) descEl.textContent = product.description || DESC;
+  if (descEl) descEl.textContent = product.description || "Handmade to order with care. Add a personalization note below.";
 
   // Personalization note & counter
   const noteInput = document.getElementById("qv-note");
@@ -411,6 +462,89 @@ function mountBestsellersSection() {
   }
 }
 
+// -----------------------------------------------------------------------------
+// 5. Universal Product Card & Saved Item Click Delegation
+// -----------------------------------------------------------------------------
+document.addEventListener("click", (e) => {
+  // Wishlist buttons handle their own toggle and stop propagation
+  if (e.target.closest(".wish, .wish--catalogue")) {
+    return;
+  }
+
+  // Clicks inside Quick View dialog itself should not trigger re-opening
+  if (e.target.closest("#quickViewDialog, .quickview")) {
+    return;
+  }
+
+  // Remove button in saved panel handles its own removal
+  if (e.target.closest(".saved-remove-btn, .saved-item-remove-btn")) {
+    return;
+  }
+
+  // Any product card across bestsellers, collections, etc.
+  const productCard = e.target.closest(".product-card, .product-card--catalogue");
+  if (productCard) {
+    const pid = productCard.getAttribute("data-product-id");
+    if (pid) {
+      const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === pid);
+      if (product) {
+        openQuickViewModal(product, productCard);
+        return;
+      }
+    }
+  }
+
+  // Any saved item row in the saved items drawer
+  const savedItem = e.target.closest(".saved-item-row, .saved-item");
+  if (savedItem) {
+    const pid = savedItem.getAttribute("data-id") || savedItem.getAttribute("data-product-id");
+    if (pid) {
+      if (typeof openSavedQuickView === "function") {
+        openSavedQuickView(pid);
+      } else {
+        const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === pid);
+        if (product) openQuickViewModal(product, savedItem);
+      }
+      return;
+    }
+  }
+});
+
+// Keyboard Enter / Space support
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    if (e.target.closest(".wish, .wish--catalogue")) return;
+    if (e.target.closest("#quickViewDialog, .quickview")) return;
+    if (e.target.closest(".saved-remove-btn, .saved-item-remove-btn")) return;
+
+    const productCard = e.target.closest(".product-card, .product-card--catalogue");
+    if (productCard && (e.target === productCard || e.target.classList.contains("product-card__open"))) {
+      e.preventDefault();
+      const pid = productCard.getAttribute("data-product-id");
+      if (pid) {
+        const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === pid);
+        if (product) openQuickViewModal(product, productCard);
+      }
+      return;
+    }
+
+    const savedItem = e.target.closest(".saved-item-row, .saved-item");
+    if (savedItem && (e.target === savedItem || e.target.classList.contains("saved-qv-btn"))) {
+      e.preventDefault();
+      const pid = savedItem.getAttribute("data-id") || savedItem.getAttribute("data-product-id");
+      if (pid) {
+        if (typeof openSavedQuickView === "function") {
+          openSavedQuickView(pid);
+        } else {
+          const product = (typeof PRODUCTS !== "undefined" ? PRODUCTS : []).find(p => p.id === pid);
+          if (product) openQuickViewModal(product, savedItem);
+        }
+      }
+    }
+  }
+});
+
+window.ensureQuickViewDOM = ensureQuickViewDOM;
 window.renderProductCard = renderProductCardHTML;
 window.renderProductCardHTML = renderProductCardHTML;
 window.openQuickViewModal = openQuickViewModal;
