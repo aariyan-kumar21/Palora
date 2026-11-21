@@ -68,7 +68,7 @@
         btn.classList.add("is-open");
       }
 
-      // 2. Increase delay so both lines form a cross and become fully visible before the drawer opens
+      // 2. Smooth and responsive opening transition without sluggish delay
       if (drawerOpenTimeout) clearTimeout(drawerOpenTimeout);
       drawerOpenTimeout = setTimeout(function () {
         const currentBtn = document.getElementById("mobileToggleBtn") || toggleBtn;
@@ -105,7 +105,7 @@
 
         // Focus first actionable item or close button inside drawer
         if (closeBtn) closeBtn.focus();
-      }, 420);
+      }, 60);
     }
 
     function closeDrawer() {
