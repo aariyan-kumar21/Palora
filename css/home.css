@@ -10,7 +10,7 @@
 #categories,
 #how-it-works,
 #personalize {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(var(--nav-h) + 16px);
 }
 
 /* --------------------------------------------------------------------------

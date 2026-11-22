@@ -29,7 +29,7 @@
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Dimensions */
-  --nav-h: 115px;
+  --nav-h: 140px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
@@ -282,7 +282,8 @@ ul, ol {
   left: 0;
   right: 0;
   width: 100%;
-  height: var(--nav-h, 80px);
+  height: var(--nav-h);
+  min-height: var(--nav-h);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -605,15 +606,15 @@ body:not([data-page="home"]) .site-header {
   z-index: 0;
 }
 
-.md-bow {
+.md-gift {
   position: absolute;
-  right: 22px;
-  bottom: 12px;
-  width: 128px;
-  height: 84px;
+  right: 28px;
+  bottom: 18px;
+  width: 150px;
+  height: 150px;
   pointer-events: none;
-  opacity: 0.9;
-  z-index: 2;
+  opacity: 0.95;
+  z-index: 0;
 }
 
 .md-head {
@@ -729,13 +730,13 @@ body:not([data-page="home"]) .site-header {
 
 .md-menu a {
   display: grid;
-  grid-template-columns: 63px 1fr;
+  grid-template-columns: 54px 1fr;
   align-items: center;
-  height: 56px;
+  height: 48px;
   color: #FFFFFF;
   text-decoration: none;
   font-family: "Cormorant Garamond", Garamond, Georgia, serif;
-  font-size: 34px;
+  font-size: 29px;
   font-weight: 500;
   line-height: 1;
   box-sizing: border-box;
@@ -755,7 +756,7 @@ body:not([data-page="home"]) .site-header {
 .md-menu .n {
   font-family: "Jost", sans-serif;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   color: #CCA0A4;
   line-height: 1;
@@ -832,14 +833,14 @@ body:not([data-page="home"]) .site-header {
   position: relative;
   z-index: 1;
   flex: none;
-  padding: 0 46px 42px;
+  padding: 0 46px 24px;
   box-sizing: border-box;
 }
 
 .md-foot hr {
   border: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin: 6px 28px 20px 0;
+  margin: 4px 28px 12px 0;
   box-sizing: border-box;
 }
 
@@ -847,20 +848,20 @@ body:not([data-page="home"]) .site-header {
   font-family: "Cormorant Garamond", Garamond, Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 21px;
   color: #FCE7E6;
-  max-width: 330px;
+  max-width: 236px;
   margin: 0;
 }
 
 .md-foot a {
   display: inline-block;
-  margin-top: 14px;
+  margin-top: 8px;
   font-family: "Cormorant Garamond", Garamond, Georgia, serif;
   font-weight: 700;
-  font-size: 17px;
-  line-height: 20px;
+  font-size: 15px;
+  line-height: 18px;
   color: #F9DCDF;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -2248,9 +2249,9 @@ aside#cartModal.is-open,
 }
 
 
-/* Page offset for non-home pages so content starts flush under 115px header */
+/* Page offset for non-home pages so content starts flush under 140px header */
 body:not([data-page="home"]) #main {
-  padding-top: var(--nav-h, 115px);
+  padding-top: var(--nav-h);
 }
 
 /* ===== FOOTER ===== */

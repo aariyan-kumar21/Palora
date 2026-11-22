@@ -209,7 +209,7 @@
 
 .help-sidebar {
   position: sticky;
-  top: 108px;
+  top: calc(var(--nav-h) + 20px);
   width: 260px;
   flex-shrink: 0;
   background: #FFF8F4;
@@ -260,7 +260,7 @@
   }
 
   .help-section {
-    scroll-margin-top: 110px;
+    scroll-margin-top: calc(var(--nav-h) + 20px);
     margin-bottom: 64px;
   }
 

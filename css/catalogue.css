@@ -3,9 +3,9 @@
    Laptop Viewport (1024px and up, primary target 1900x868)
    ========================================================================== */
 
-/* Header and page spacing unified with var(--nav-h, 115px) in css/base.css */
+/* Header and page spacing unified with var(--nav-h) in css/base.css */
 body[data-page="catalogue"] .catalogue-main {
-  padding-top: var(--nav-h, 115px);
+  padding-top: var(--nav-h);
 }
 
 /* --------------------------------------------------------------------------
@@ -17,8 +17,7 @@ body[data-page="catalogue"] .catalogue-main {
 }
 
 .page-catalogue .catalogue-main {
-  padding-top: 84px;
-  padding-top: var(--nav-h, 115px);
+  padding-top: var(--nav-h);
 }
 
 /* Banner */
@@ -779,9 +778,9 @@ body[data-page="catalogue"] .catalogue-main {
 
 
 
-/* Header and page spacing unified with var(--nav-h, 115px) in css/base.css */
+/* Header and page spacing unified with var(--nav-h) in css/base.css */
 body[data-page="catalogue"] .catalogue-main {
-  padding-top: var(--nav-h, 115px);
+  padding-top: var(--nav-h);
 }
 
 /* Fix 1: Remove the rounded outline around the price range track */
@@ -813,8 +812,8 @@ body[data-page="catalogue"] .catalogue-main {
 /* Fix 3: Sticky sidebar with 11 categories scrolls inside its card without overlapping the page */
 .filters {
   position: sticky;
-  top: 135px;
-  max-height: calc(100vh - 150px);
+  top: calc(var(--nav-h) + 20px);
+  max-height: calc(100vh - var(--nav-h) - 30px);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;

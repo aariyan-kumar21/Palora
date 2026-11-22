@@ -96,7 +96,7 @@
       : "";
 
     drawer.innerHTML = `
-      <svg class="md-bow" viewBox="0 0 140 92" fill="none" stroke="#FFC8D0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M70 40C54 14 24 4 14 18 6 31 30 46 70 40Z"/><path d="M70 40C86 14 116 4 126 18 134 31 110 46 70 40Z"/><ellipse cx="70" cy="40" rx="7" ry="6"/><path d="M65 45C59 62 49 78 34 88M34 88l11-1.5M34 88l3-10"/><path d="M75 45C81 62 91 78 106 88M106 88l-11-1.5M106 88l-3-10"/></svg>
+      <svg class="md-gift" viewBox="0 0 120 120" fill="none" stroke="#FFE3E7" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="48" width="92" height="18" rx="3"/><path d="M20 66v38a4 4 0 0 0 4 4h72a4 4 0 0 0 4-4V66"/><path d="M54 48v60M66 48v60"/><path d="M60 48C46 48 28 44 28 32 28 22 40 20 47 26 54 36 60 48 60 48zm0 0c14 0 32-4 32-16 0-10-12-12-19-6-7 10-13 22-13 22z"/></svg>
       <div class="md-head">
         <div class="md-wm">Palora</div>
         <div class="md-tag">Handmade Gifts</div>
