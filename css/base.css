@@ -517,17 +517,17 @@ body:not([data-page="home"]) .site-header {
 }
 
 /* ===== MENU DRAWER ===== */
-/* Slide-in drawer: 460px wide, full height, deep burgundy gradient, cream text */
+/* Slide-in drawer: desktop ~36% viewport width, full height, deep burgundy gradient, cream text */
 .mobile-drawer-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(40, 18, 22, 0.55);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background-color: rgba(30, 11, 15, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1), visibility 450ms ease;
+  transition: opacity 350ms cubic-bezier(0.16, 1, 0.3, 1), visibility 350ms ease;
 }
 
 .mobile-drawer-overlay.is-open,
@@ -544,22 +544,24 @@ aside#mobileDrawer,
   position: fixed;
   top: 0;
   right: 0;
-  width: 460px;
-  max-width: 90vw;
+  bottom: 0;
+  width: 36vw;
+  min-width: 440px;
+  max-width: 580px;
   height: 100vh;
   height: 100dvh;
-  background-color: #5E2A31;
-  background-image: linear-gradient(165deg, #5E2A31 0%, #722F37 55%, #572E2E 100%);
+  background-color: #5A1623;
+  background-image: linear-gradient(168deg, #3D141A 0%, #521B23 45%, #6A212C 100%);
   color: #FFF7F2;
   z-index: 2001;
   display: flex;
   flex-direction: column;
-  padding: 36px 40px 14px;
-  transform: translateX(110%);
+  padding: 0;
+  transform: translateX(100%);
   visibility: hidden;
   pointer-events: none;
-  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), visibility 450ms ease;
-  box-shadow: -12px 0 36px rgba(40, 18, 22, 0.35);
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), visibility 400ms ease;
+  box-shadow: -16px 0 48px rgba(25, 8, 12, 0.45);
   overflow: hidden;
   font-family: 'Cormorant Garamond', Garamond, Georgia, serif;
 }
@@ -574,12 +576,13 @@ aside#mobileDrawer.open,
   transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0s !important;
 }
 
+/* 1. Fixed Drawer Header */
 .drawer-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 247, 242, 0.15);
+  padding: 34px 44px 22px;
+  border-bottom: 1px solid rgba(242, 196, 206, 0.18);
   flex-shrink: 0;
 }
 
@@ -602,8 +605,8 @@ aside#mobileDrawer.open,
   font-weight: 500;
   font-size: 9px;
   letter-spacing: 0.3em;
-  color: rgba(255, 247, 242, 0.8);
-  margin-top: 4px;
+  color: rgba(255, 247, 242, 0.75);
+  margin-top: 5px;
   line-height: 1;
 }
 
@@ -628,6 +631,7 @@ aside#mobileDrawer.open,
   background-color: transparent !important;
   border: none !important;
   opacity: 0.75;
+  transform: scale(1.05);
 }
 
 .drawer-close-btn:focus,
@@ -636,15 +640,18 @@ aside#mobileDrawer.open,
   box-shadow: none !important;
 }
 
+/* 2. Independently Scrollable Middle Content */
 .drawer-scroll-content {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 247, 242, 0.3) transparent;
-  padding: 28px 0;
+  scrollbar-color: rgba(242, 196, 206, 0.35) transparent;
+  padding: 32px 44px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 36px;
 }
 
 .drawer-scroll-content::-webkit-scrollbar {
@@ -652,7 +659,7 @@ aside#mobileDrawer.open,
 }
 
 .drawer-scroll-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 247, 242, 0.25);
+  background: rgba(242, 196, 206, 0.35);
   border-radius: 9999px;
 }
 
@@ -662,37 +669,25 @@ aside#mobileDrawer.open,
   gap: 16px;
 }
 
-.drawer-group--menu {
-  gap: 12px;
-}
-
-.drawer-group--help {
-  gap: 12px;
-}
-
-.drawer-group--connect {
-  gap: 14px;
-}
-
 .drawer-group-label {
   font-family: var(--font-jost);
   font-weight: 600;
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: rgba(255, 247, 242, 0.45);
+  letter-spacing: 0.28em;
+  color: rgba(242, 196, 206, 0.75);
 }
 
 .drawer-menu-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .drawer-menu-row {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: 8px;
   color: #FFF7F2;
   transition: transform 250ms ease, color 200ms ease;
   position: relative;
@@ -705,16 +700,25 @@ aside#mobileDrawer.open,
   font-family: var(--font-jost);
   font-weight: 500;
   font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  color: rgba(255, 247, 242, 0.5);
+  letter-spacing: 0.15em;
+  color: #F2C4CE;
+  opacity: 0.85;
+}
+
+.drawer-menu-sep {
+  font-family: var(--font-jost);
+  font-size: 0.85rem;
+  color: #F2C4CE;
+  opacity: 0.6;
+  margin-inline: 4px;
 }
 
 .drawer-menu-label {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(2.1rem, 3.6vh, 2.7rem);
+  font-size: clamp(2rem, 3.4vh, 2.5rem);
   letter-spacing: 0.02em;
-  line-height: 1.12;
+  line-height: 1.15;
 }
 
 .drawer-menu-arrow {
@@ -723,6 +727,7 @@ aside#mobileDrawer.open,
   transition: opacity 200ms ease, transform 200ms ease;
   color: #F2C4CE;
   align-self: center;
+  margin-left: 6px;
 }
 
 .drawer-menu-row:hover {
@@ -771,14 +776,14 @@ aside#mobileDrawer.open,
 .drawer-help-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .drawer-help-link {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 400;
-  color: rgba(255, 247, 242, 0.78);
+  color: rgba(255, 247, 242, 0.82);
   line-height: 1.45;
   transition: color var(--transition-fast);
   display: inline-block;
@@ -786,68 +791,42 @@ aside#mobileDrawer.open,
 }
 
 .drawer-help-link:hover {
-  color: #FFFFFF;
+  color: #F2C4CE;
   text-decoration: underline;
-}
-
-.drawer-wa-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: transparent;
-  border: 1px solid rgba(255, 247, 242, 0.5);
-  color: #FFF7F2;
-  min-height: 48px;
-  padding: 0 24px;
-  border-radius: 10px;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all var(--transition-fast);
-  width: fit-content;
-  text-decoration: none;
-}
-
-.drawer-wa-btn:hover {
-  background-color: #FFF7F2;
-  color: #722F37;
-  border-color: #FFF7F2;
 }
 
 .drawer-ig-row {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-family: var(--font-jost);
-  font-size: 0.95rem;
-  color: rgba(255, 247, 242, 0.85);
-  margin-top: 4px;
-  transition: color var(--transition-fast);
+  font-size: 1rem;
+  color: rgba(255, 247, 242, 0.88);
+  transition: color var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
 }
 
 .drawer-ig-row:hover {
-  color: #FFFFFF;
-  text-decoration: underline;
+  color: #F2C4CE;
+  transform: translateX(4px);
 }
 
+/* 3. Fixed Drawer Footer */
 .drawer-footer {
-  margin-top: auto;
-  padding-top: 14px;
-  padding-bottom: 0;
-  border-top: 1px solid rgba(255, 247, 242, 0.12);
+  border-top: 1px solid rgba(242, 196, 206, 0.18);
+  padding: 22px 44px 26px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
+  background-color: rgba(45, 15, 20, 0.35);
 }
 
 .drawer-tagline {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.8rem;
-  color: rgba(255, 247, 242, 0.65);
+  font-size: 0.88rem;
+  color: rgba(255, 247, 242, 0.75);
   line-height: 1.45;
   letter-spacing: 0.01em;
   margin: 0;
@@ -855,19 +834,195 @@ aside#mobileDrawer.open,
 
 .drawer-privacy-link {
   font-family: var(--font-jost);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  color: rgba(255, 247, 242, 0.55);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 247, 242, 0.65);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color var(--transition-fast);
-  margin-top: 0;
+  margin-top: 2px;
   display: inline-block;
-  line-height: 1.2;
+  width: fit-content;
 }
 
 .drawer-privacy-link:hover {
-  color: #FFFFFF;
+  color: #FFF7F2;
+}
+
+/* --------------------------------------------------------------------------
+   Search Overlay Dialog
+   -------------------------------------------------------------------------- */
+.search-dialog {
+  border: none;
+  border-radius: 18px;
+  padding: 0;
+  background-color: #FAF0E9;
+  box-shadow: 0 24px 60px rgba(50, 18, 24, 0.35);
+  max-width: 640px;
+  width: 90vw;
+  margin: auto;
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  overflow: hidden;
+}
+
+.search-dialog::backdrop {
+  background-color: rgba(30, 11, 15, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.search-dialog__inner {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.search-dialog__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(114, 47, 55, 0.2);
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-input-wrap:focus-within {
+  border-color: #722F37;
+  box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.12);
+}
+
+.search-input-icon {
+  color: #722F37;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: var(--font-jost);
+  font-size: 1rem;
+  color: #4A1B22;
+  background: transparent;
+}
+
+.search-input::placeholder {
+  color: rgba(114, 47, 55, 0.45);
+}
+
+.search-clear-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: rgba(114, 47, 55, 0.6);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.search-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #5A1623;
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity var(--transition-fast);
+}
+
+.search-close-btn:hover {
+  opacity: 0.7;
+}
+
+.search-results {
+  margin-top: 16px;
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.search-hint {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: rgba(114, 47, 55, 0.7);
+  text-align: center;
+  padding: 24px 0;
+}
+
+.search-no-results {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #5A1623;
+  text-align: center;
+  padding: 28px 0;
+}
+
+.search-results-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(114, 47, 55, 0.08);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-result-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(114, 47, 55, 0.1);
+}
+
+.search-result-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: #EAD3CB;
+  flex-shrink: 0;
+}
+
+.search-result-info {
+  flex: 1;
+}
+
+.search-result-title {
+  margin: 0;
+  font-family: var(--font-jost);
+  font-weight: 600;
+  font-size: 15px;
+  color: #5A1623;
+}
+
+.search-result-price {
+  font-family: var(--font-jost);
+  font-size: 14px;
+  font-weight: 600;
+  color: #722F37;
+}
+
+.search-result-badge {
+  position: static !important;
 }
 /* --------------------------------------------------------------------------
    6. Saved Items Panel (Slide-in)

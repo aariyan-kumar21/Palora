@@ -6,13 +6,19 @@
 function initSlider(trackEl, prevBtn, nextBtn) {
   if (!trackEl) return null;
 
+  if (prevBtn && typeof prevBtn === "object" && !(prevBtn instanceof HTMLElement)) {
+    const opts = prevBtn;
+    prevBtn = opts.prevBtn || trackEl.parentElement?.querySelector(".slider-prev, .carousel-prev");
+    nextBtn = opts.nextBtn || trackEl.parentElement?.querySelector(".slider-next, .carousel-next");
+  }
+
   let isDown = false;
   let startX = 0;
   let scrollLeft = 0;
   let hasDragged = false;
 
   function updateButtons() {
-    if (!prevBtn || !nextBtn) return;
+    if (!prevBtn || typeof prevBtn.disabled === "undefined" || !nextBtn || typeof nextBtn.disabled === "undefined") return;
     const maxScroll = trackEl.scrollWidth - trackEl.clientWidth - 2;
     prevBtn.disabled = trackEl.scrollLeft <= 4;
     nextBtn.disabled = trackEl.scrollLeft >= maxScroll;
@@ -26,10 +32,10 @@ function initSlider(trackEl, prevBtn, nextBtn) {
     trackEl.scrollBy({ left: scrollAmount, behavior: "smooth" });
   }
 
-  if (prevBtn) {
+  if (prevBtn && typeof prevBtn.addEventListener === "function") {
     prevBtn.addEventListener("click", () => scrollByCard(-1));
   }
-  if (nextBtn) {
+  if (nextBtn && typeof nextBtn.addEventListener === "function") {
     nextBtn.addEventListener("click", () => scrollByCard(1));
   }
 

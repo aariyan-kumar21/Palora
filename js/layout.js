@@ -26,23 +26,27 @@
 
         <!-- Header Action Controls (Right) -->
         <div class="header-actions">
-          <!-- Saved items Button -->
-          <button type="button" class="icon-btn saved-btn" id="savedBtn" aria-label="Saved items">
-            ${icon("heart", { size: 24, strokeWidth: 1.5 })}
-            <span class="saved-badge" id="savedBadge" style="display:none">0</span>
+          <!-- Search Trigger Button -->
+          <button type="button" class="icon-btn search-btn" id="searchBtn" aria-label="Search products">
+            ${icon("search", { size: 21, strokeWidth: 1.5 })}
           </button>
 
-          <!-- Cart Trigger Button -->
+          <!-- Shopping Cart Trigger Button -->
           <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open cart">
-            ${icon("bag", { size: 24, strokeWidth: 1.5 })}
-            <span class="cart-badge" id="cartBadge" style="display:none"></span>
+            ${icon("bag", { size: 23, strokeWidth: 1.5 })}
+            <span class="cart-badge" id="cartBadge" style="display:none">0</span>
           </button>
 
-          <!-- Hamburger Toggle Button (48px circle, 2 lines) -->
+          <!-- Hamburger Toggle Button (Two-line icon) -->
           <button type="button" class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
             aria-expanded="false" aria-controls="mobileDrawer">
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
+          </button>
+
+          <!-- Hidden Saved items anchor to maintain full compatibility with saved.js -->
+          <button type="button" class="icon-btn saved-btn" id="savedBtn" style="display:none" aria-hidden="true" tabindex="-1">
+            <span class="saved-badge" id="savedBadge" style="display:none">0</span>
           </button>
         </div>
       </div>
@@ -73,14 +77,8 @@
       document.body.appendChild(drawer);
     }
 
-    const waBtnHtml = hasWhatsApp()
-      ? `<a href="${waLink("Hi Palora! I'd like to discuss a custom gift.")}" target="_blank" rel="noopener noreferrer" class="drawer-wa-btn">
-          ${icon("whatsapp", { size: 20 })}
-          <span>Order on WhatsApp</span>
-        </a>`
-      : "";
-
     drawer.innerHTML = `
+      <!-- Fixed Drawer Header -->
       <div class="drawer-header-row">
         <div class="drawer-wordmark">
           <span class="drawer-wordmark-title">PALORA</span>
@@ -91,35 +89,40 @@
         </button>
       </div>
 
+      <!-- Independently Scrollable Middle Content -->
       <div class="drawer-scroll-content">
-        <!-- Group MENU -->
+        <!-- Main Navigation Section -->
         <div class="drawer-group drawer-group--menu">
           <span class="drawer-group-label">MENU</span>
           <div class="drawer-menu-list">
             <a href="index.html" class="drawer-menu-row" data-drawer-link="home">
               <span class="drawer-menu-idx">01</span>
+              <span class="drawer-menu-sep">—</span>
               <span class="drawer-menu-label">Home</span>
               ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
             </a>
             <a href="catalogue.html" class="drawer-menu-row" data-drawer-link="catalogue">
               <span class="drawer-menu-idx">02</span>
+              <span class="drawer-menu-sep">—</span>
               <span class="drawer-menu-label">Collections</span>
               ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
             </a>
             <a href="story.html" class="drawer-menu-row" data-drawer-link="story">
               <span class="drawer-menu-idx">03</span>
+              <span class="drawer-menu-sep">—</span>
               <span class="drawer-menu-label">Our Story</span>
               ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
             </a>
             <a href="index.html#bestsellers" class="drawer-menu-row" data-drawer-link="bestsellers">
               <span class="drawer-menu-idx">04</span>
+              <span class="drawer-menu-sep">—</span>
               <span class="drawer-menu-label">Bestsellers</span>
               ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
             </a>
           </div>
         </div>
 
-        <!-- Group HELP -->
+        <!-- Help Section -->
         <div class="drawer-group drawer-group--help">
           <span class="drawer-group-label">HELP</span>
           <ul class="drawer-help-list">
@@ -131,10 +134,9 @@
           </ul>
         </div>
 
-        <!-- Group CONNECT -->
+        <!-- Connect Section -->
         <div class="drawer-group drawer-group--connect">
           <span class="drawer-group-label">CONNECT</span>
-          ${waBtnHtml}
           <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="drawer-ig-row">
             ${icon("instagram", { size: 20 })}
             <span>@${INSTAGRAM_HANDLE}</span>
@@ -142,8 +144,9 @@
         </div>
       </div>
 
+      <!-- Fixed Drawer Footer -->
       <div class="drawer-footer">
-        <p class="drawer-tagline">Thoughtful, personalized handmade gifts turning simple moments into lasting memories.</p>
+        <p class="drawer-tagline">“Thoughtful, personalized handmade gifts turning simple moments into lasting memories.”</p>
         <a href="privacy.html" class="drawer-privacy-link">Privacy Policy</a>
       </div>
     `;
@@ -339,6 +342,136 @@
     }
   }
 
+  function ensureSearchDialog() {
+    if (document.getElementById("searchDialog")) return;
+
+    const dialog = document.createElement("dialog");
+    dialog.className = "search-dialog";
+    dialog.id = "searchDialog";
+    dialog.setAttribute("aria-label", "Search Products");
+    dialog.innerHTML = `
+      <div class="search-dialog__inner">
+        <div class="search-dialog__header">
+          <div class="search-input-wrap">
+            ${icon("search", { size: 20, strokeWidth: 1.5, className: "search-input-icon" })}
+            <input type="search" class="search-input" id="siteSearchInput" placeholder="Search handmade gifts, bouquets, coasters, frames..." autocomplete="off">
+            <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" style="display:none">&times;</button>
+          </div>
+          <button type="button" class="search-close-btn" id="searchCloseBtn" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults">
+          <p class="search-hint">Type to search collections, products, or gift categories...</p>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(dialog);
+
+    const input = dialog.querySelector("#siteSearchInput");
+    const resultsContainer = dialog.querySelector("#searchResults");
+    const clearBtn = dialog.querySelector("#searchClearBtn");
+    const closeBtn = dialog.querySelector("#searchCloseBtn");
+
+    function renderSearchResults(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        if (clearBtn) clearBtn.style.display = "none";
+        resultsContainer.innerHTML = `<p class="search-hint">Type to search collections, products, or gift categories...</p>`;
+        return;
+      }
+      if (clearBtn) clearBtn.style.display = "block";
+
+      const all = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+      const matches = all.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        (p.category && p.category.toLowerCase().includes(q)) ||
+        (p.badge && p.badge.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q))
+      );
+
+      if (matches.length === 0) {
+        resultsContainer.innerHTML = `<div class="search-no-results">No gifts found for "${query}". Try searching for bouquets, resin, or coasters.</div>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = `
+        <div class="search-results-grid">
+          ${matches.slice(0, 8).map(p => {
+            const formattedPrice = typeof formatINR === "function" ? formatINR(p.price) : `₹${p.price}`;
+            return `
+              <div class="search-result-item" data-product-id="${p.id}" role="button" tabindex="0">
+                <img src="${p.image}" alt="${p.name}" class="search-result-thumb" onerror="this.style.display='none'">
+                <div class="search-result-info">
+                  <h4 class="search-result-title">${p.name}</h4>
+                  <span class="search-result-price">${formattedPrice}</span>
+                </div>
+                ${p.badge ? `<span class="product-badge-pill search-result-badge">${p.badge}</span>` : ""}
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    if (input) {
+      input.addEventListener("input", () => renderSearchResults(input.value));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const q = input.value.trim();
+          if (q) {
+            window.location.href = `catalogue.html?search=${encodeURIComponent(q)}`;
+          }
+        }
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        if (input) {
+          input.value = "";
+          input.focus();
+          renderSearchResults("");
+        }
+      });
+    }
+
+    function closeSearch() {
+      if (dialog && dialog.open) {
+        dialog.close();
+        document.body.style.overflow = "";
+      }
+    }
+
+    if (closeBtn) closeBtn.addEventListener("click", closeSearch);
+
+    dialog.addEventListener("click", (e) => {
+      const inner = dialog.querySelector(".search-dialog__inner");
+      if (inner && !inner.contains(e.target)) {
+        closeSearch();
+      }
+    });
+
+    dialog.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      closeSearch();
+    });
+
+    resultsContainer.addEventListener("click", (e) => {
+      const item = e.target.closest(".search-result-item");
+      if (item) {
+        const pid = item.getAttribute("data-product-id");
+        const all = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
+        const prod = all.find(p => p.id === pid);
+        if (prod) {
+          closeSearch();
+          if (typeof openQuickViewModal === "function") {
+            openQuickViewModal(prod, item);
+          }
+        }
+      }
+    });
+  }
+
   function initLayout() {
     const header = document.getElementById("site-header") || document.getElementById("header");
     if (header) {
@@ -346,6 +479,7 @@
     }
 
     ensureDrawer();
+    ensureSearchDialog();
 
     const footer = document.getElementById("site-footer") || document.getElementById("footer");
     if (footer) {

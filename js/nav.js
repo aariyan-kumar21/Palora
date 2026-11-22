@@ -54,66 +54,51 @@
     const toggleBtn = document.getElementById("mobileToggleBtn");
     const drawer = document.getElementById("mobileDrawer");
     const overlay = document.getElementById("mobileDrawerOverlay");
-    const closeBtn = document.getElementById("closeDrawerBtn");
+    const closeBtn = document.getElementById("drawerCloseBtn") || document.getElementById("closeDrawerBtn");
 
     if (!drawer) return;
 
-    let drawerOpenTimeout = null;
-
     function openDrawer() {
-      // 1. First animate the hamburger lines into a cross and keep it visible
       const btn = document.getElementById("mobileToggleBtn") || toggleBtn;
       if (btn) {
         btn.setAttribute("aria-expanded", "true");
         btn.classList.add("is-open");
       }
 
-      // 2. Smooth and responsive opening transition without sluggish delay
-      if (drawerOpenTimeout) clearTimeout(drawerOpenTimeout);
-      drawerOpenTimeout = setTimeout(function () {
-        const currentBtn = document.getElementById("mobileToggleBtn") || toggleBtn;
-        if (!currentBtn || !currentBtn.classList.contains("is-open")) return;
+      if (overlay) {
+        overlay.removeAttribute("hidden");
+        overlay.removeAttribute("inert");
+      }
+      drawer.removeAttribute("hidden");
+      drawer.removeAttribute("inert");
+      void drawer.offsetHeight; // force reflow for smooth transition
 
-        if (overlay) {
-          overlay.removeAttribute("hidden");
-          overlay.removeAttribute("inert");
+      drawer.classList.add("is-open");
+      if (overlay) overlay.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.classList.add("drawer-open");
+
+      // Set active drawer row matching current page
+      drawer.querySelectorAll(".drawer-menu-row").forEach(function (row) {
+        var target = row.getAttribute("data-drawer-link");
+        if (target === page) {
+          row.classList.add("is-active");
+          row.setAttribute("aria-current", "page");
+        } else {
+          row.classList.remove("is-active");
+          row.removeAttribute("aria-current");
         }
-        drawer.removeAttribute("hidden");
-        drawer.removeAttribute("inert");
-        void drawer.offsetHeight; // force reflow for smooth transition
+      });
 
-        drawer.classList.add("is-open");
-        if (overlay) overlay.classList.add("is-open");
-        drawer.setAttribute("aria-hidden", "false");
-        document.body.classList.add("drawer-open");
+      // Hide floating WA button while drawer is open
+      const waBtn = document.getElementById("floatingWaBtn");
+      if (waBtn) waBtn.classList.add("is-hidden-modal");
 
-        // Set active drawer row matching current page
-        drawer.querySelectorAll(".drawer-menu-row").forEach(function (row) {
-          var target = row.getAttribute("data-drawer-link");
-          if (target === page) {
-            row.classList.add("is-active");
-            row.setAttribute("aria-current", "page");
-          } else {
-            row.classList.remove("is-active");
-            row.removeAttribute("aria-current");
-          }
-        });
-
-        // Hide floating WA button while drawer is open
-        const waBtn = document.getElementById("floatingWaBtn");
-        if (waBtn) waBtn.classList.add("is-hidden-modal");
-
-        // Focus first actionable item or close button inside drawer
-        if (closeBtn) closeBtn.focus();
-      }, 60);
+      const closeTarget = document.getElementById("drawerCloseBtn") || closeBtn;
+      if (closeTarget) closeTarget.focus();
     }
 
     function closeDrawer() {
-      if (drawerOpenTimeout) {
-        clearTimeout(drawerOpenTimeout);
-        drawerOpenTimeout = null;
-      }
-
       drawer.classList.remove("is-open");
       if (overlay) overlay.classList.remove("is-open");
       drawer.setAttribute("aria-hidden", "true");
@@ -154,6 +139,24 @@
       }
     }
 
+    // Search trigger button
+    document.addEventListener("click", function (e) {
+      const sBtn = e.target.closest("#searchBtn, .search-btn");
+      if (sBtn) {
+        e.preventDefault();
+        const dialog = document.getElementById("searchDialog");
+        if (dialog) {
+          dialog.showModal();
+          document.body.style.overflow = "hidden";
+          const input = dialog.querySelector("#siteSearchInput");
+          if (input) {
+            input.value = "";
+            setTimeout(() => input.focus(), 60);
+          }
+        }
+      }
+    });
+
     // Delegated click listener so hamburger always toggles even after header re-render
     document.addEventListener("click", function (e) {
       const btn = e.target.closest("#mobileToggleBtn, .mobile-toggle-btn");
@@ -167,12 +170,13 @@
       }
     });
 
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function (e) {
+    document.addEventListener("click", function (e) {
+      const cBtn = e.target.closest("#drawerCloseBtn, #closeDrawerBtn, .drawer-close-btn");
+      if (cBtn) {
         e.preventDefault();
         closeDrawer();
-      });
-    }
+      }
+    });
 
     if (overlay) {
       overlay.addEventListener("click", closeDrawer);
@@ -200,11 +204,12 @@
       }
     });
 
-    // Close drawer on internal link click (especially anchor jumps)
-    drawer.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
+    // Close drawer when any internal navigation link is clicked
+    drawer.addEventListener("click", function (e) {
+      const link = e.target.closest("a");
+      if (link) {
         closeDrawer();
-      });
+      }
     });
   }
 
