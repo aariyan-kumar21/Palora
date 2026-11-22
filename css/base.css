@@ -29,7 +29,7 @@
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Dimensions */
-  --nav-h: 115px;
+  --nav-h: 92px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
