@@ -52,9 +52,9 @@
 
     // 3. Hamburger drawer handling
     const toggleBtn = document.getElementById("mobileToggleBtn");
-    const drawer = document.getElementById("mobileDrawer");
-    const overlay = document.getElementById("mobileDrawerOverlay");
-    const closeBtn = document.getElementById("drawerCloseBtn") || document.getElementById("closeDrawerBtn");
+    const drawer = document.getElementById("menu-drawer") || document.getElementById("mobileDrawer");
+    const overlay = document.getElementById("menu-backdrop") || document.getElementById("mobileDrawerOverlay");
+    const closeBtn = document.getElementById("closeDrawerBtn") || document.getElementById("drawerCloseBtn");
 
     if (!drawer) return;
 
@@ -79,7 +79,7 @@
       document.body.classList.add("drawer-open");
 
       // Set active drawer row matching current page
-      drawer.querySelectorAll(".drawer-menu-row").forEach(function (row) {
+      drawer.querySelectorAll(".md-menu a, .drawer-menu-row").forEach(function (row) {
         var target = row.getAttribute("data-drawer-link");
         if (target === page) {
           row.classList.add("is-active");
@@ -94,7 +94,7 @@
       const waBtn = document.getElementById("floatingWaBtn");
       if (waBtn) waBtn.classList.add("is-hidden-modal");
 
-      const closeTarget = document.getElementById("drawerCloseBtn") || closeBtn;
+      const closeTarget = document.getElementById("closeDrawerBtn") || document.getElementById("drawerCloseBtn") || closeBtn;
       if (closeTarget) closeTarget.focus();
     }
 
@@ -171,7 +171,7 @@
     });
 
     document.addEventListener("click", function (e) {
-      const cBtn = e.target.closest("#drawerCloseBtn, #closeDrawerBtn, .drawer-close-btn");
+      const cBtn = e.target.closest("#closeDrawerBtn, .md-close, #drawerCloseBtn, .drawer-close-btn");
       if (cBtn) {
         e.preventDefault();
         closeDrawer();
@@ -181,6 +181,11 @@
     if (overlay) {
       overlay.addEventListener("click", closeDrawer);
     }
+    document.addEventListener("click", function (e) {
+      if (e.target.matches(".menu-backdrop, .mobile-drawer-overlay")) {
+        closeDrawer();
+      }
+    });
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && drawer.classList.contains("is-open")) {

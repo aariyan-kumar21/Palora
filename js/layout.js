@@ -39,7 +39,7 @@
 
           <!-- Hamburger Toggle Button (Two-line icon) -->
           <button type="button" class="mobile-toggle-btn hamburger-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu"
-            aria-expanded="false" aria-controls="mobileDrawer">
+            aria-expanded="false" aria-controls="menu-drawer">
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
           </button>
@@ -54,100 +54,94 @@
   }
 
   function ensureDrawer() {
-    let overlay = document.getElementById("mobileDrawerOverlay");
+    let overlay = document.getElementById("menu-backdrop") || document.getElementById("mobileDrawerOverlay");
     if (!overlay) {
       overlay = document.createElement("div");
-      overlay.className = "mobile-drawer-overlay";
-      overlay.id = "mobileDrawerOverlay";
+      overlay.className = "menu-backdrop mobile-drawer-overlay";
+      overlay.id = "menu-backdrop";
       overlay.setAttribute("aria-hidden", "true");
       overlay.setAttribute("hidden", "");
       overlay.setAttribute("inert", "");
       document.body.appendChild(overlay);
+    } else {
+      overlay.className = "menu-backdrop mobile-drawer-overlay";
+      overlay.id = "menu-backdrop";
     }
 
-    let drawer = document.getElementById("mobileDrawer");
+    let drawer = document.getElementById("menu-drawer") || document.getElementById("mobileDrawer");
     if (!drawer) {
       drawer = document.createElement("aside");
-      drawer.className = "mobile-drawer";
-      drawer.id = "mobileDrawer";
-      drawer.setAttribute("aria-label", "Navigation Drawer");
+      drawer.className = "menu-drawer mobile-drawer";
+      drawer.id = "menu-drawer";
+      drawer.setAttribute("role", "dialog");
+      drawer.setAttribute("aria-modal", "true");
+      drawer.setAttribute("aria-label", "Menu");
       drawer.setAttribute("aria-hidden", "true");
       drawer.setAttribute("hidden", "");
       drawer.setAttribute("inert", "");
       document.body.appendChild(drawer);
+    } else {
+      drawer.className = "menu-drawer mobile-drawer";
+      drawer.id = "menu-drawer";
+      drawer.setAttribute("role", "dialog");
+      drawer.setAttribute("aria-modal", "true");
+      drawer.setAttribute("aria-label", "Menu");
     }
 
+    const waRowHtml = (typeof hasWhatsApp === "function" && hasWhatsApp())
+      ? `<a class="md-row" href="${waLink("Hi Palora! I'd like to discuss a custom gift.")}" target="_blank" rel="noopener">
+          ${icon("whatsapp", { size: 32, strokeWidth: 1.5 })}
+          <span>Order on WhatsApp</span>
+        </a>`
+      : "";
+
     drawer.innerHTML = `
-      <!-- Fixed Drawer Header -->
-      <div class="drawer-header-row">
-        <div class="drawer-wordmark">
-          <span class="drawer-wordmark-title">PALORA</span>
-          <span class="drawer-wordmark-tagline">HANDMADE GIFTS</span>
-        </div>
-        <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close menu">
-          ${icon("close", { size: 24, strokeWidth: 1.5 })}
+      <svg class="md-bow" viewBox="0 0 140 92" fill="none" stroke="#FFC8D0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M70 40C54 14 24 4 14 18 6 31 30 46 70 40Z"/><path d="M70 40C86 14 116 4 126 18 134 31 110 46 70 40Z"/><ellipse cx="70" cy="40" rx="7" ry="6"/><path d="M65 45C59 62 49 78 34 88M34 88l11-1.5M34 88l3-10"/><path d="M75 45C81 62 91 78 106 88M106 88l-11-1.5M106 88l-3-10"/></svg>
+      <div class="md-head">
+        <div class="md-wm">Palora</div>
+        <div class="md-tag">Handmade Gifts</div>
+        <button class="md-close" id="closeDrawerBtn" aria-label="Close menu">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
-
-      <!-- Independently Scrollable Middle Content -->
-      <div class="drawer-scroll-content">
-        <!-- Main Navigation Section -->
-        <div class="drawer-group drawer-group--menu">
-          <span class="drawer-group-label">MENU</span>
-          <div class="drawer-menu-list">
-            <a href="index.html" class="drawer-menu-row" data-drawer-link="home">
-              <span class="drawer-menu-idx">01</span>
-              <span class="drawer-menu-sep">—</span>
-              <span class="drawer-menu-label">Home</span>
-              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
-            </a>
-            <a href="catalogue.html" class="drawer-menu-row" data-drawer-link="catalogue">
-              <span class="drawer-menu-idx">02</span>
-              <span class="drawer-menu-sep">—</span>
-              <span class="drawer-menu-label">Collections</span>
-              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
-            </a>
-            <a href="story.html" class="drawer-menu-row" data-drawer-link="story">
-              <span class="drawer-menu-idx">03</span>
-              <span class="drawer-menu-sep">—</span>
-              <span class="drawer-menu-label">Our Story</span>
-              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
-            </a>
-            <a href="index.html#bestsellers" class="drawer-menu-row" data-drawer-link="bestsellers">
-              <span class="drawer-menu-idx">04</span>
-              <span class="drawer-menu-sep">—</span>
-              <span class="drawer-menu-label">Bestsellers</span>
-              ${icon("arrow-right", { size: 20, className: "drawer-menu-arrow" })}
-            </a>
-          </div>
+      <nav class="md-nav" aria-label="Menu">
+        <div class="md-label">Menu</div>
+        <div class="md-menu">
+          <a href="index.html" data-drawer-link="home"><span class="n">01</span>Home</a>
+          <a href="catalogue.html" data-drawer-link="catalogue"><span class="n">02</span>Collections</a>
+          <a href="story.html" data-drawer-link="story"><span class="n">03</span>Our Story</a>
+          <a href="index.html#bestsellers" data-drawer-link="bestsellers"><span class="n">04</span>Bestsellers</a>
         </div>
-
-        <!-- Help Section -->
-        <div class="drawer-group drawer-group--help">
-          <span class="drawer-group-label">HELP</span>
-          <ul class="drawer-help-list">
-            <li><a href="help.html#how-to-order" class="drawer-help-link">How ordering works</a></li>
-            <li><a href="help.html#shipping" class="drawer-help-link">Shipping & delivery</a></li>
-            <li><a href="help.html#returns" class="drawer-help-link">Returns & personalized orders</a></li>
-            <li><a href="help.html#faqs" class="drawer-help-link">FAQs</a></li>
-            <li><a href="help.html#contact" class="drawer-help-link">Contact</a></li>
-          </ul>
+        <hr>
+        <div class="md-label md-label--help">Help</div>
+        <div class="md-help">
+          <a href="help.html#how-to-order">How ordering works</a>
+          <a href="help.html#shipping">Shipping & delivery</a>
+          <a href="help.html#returns">Returns & personalized orders</a>
         </div>
-
-        <!-- Connect Section -->
-        <div class="drawer-group drawer-group--connect">
-          <span class="drawer-group-label">CONNECT</span>
-          <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="drawer-ig-row">
-            ${icon("instagram", { size: 20 })}
-            <span>@${INSTAGRAM_HANDLE}</span>
-          </a>
+        <hr class="md-gap">
+        <div class="md-help">
+          <a href="help.html#faqs">FAQs</a>
+          <a href="help.html#contact">Contact</a>
         </div>
-      </div>
-
-      <!-- Fixed Drawer Footer -->
-      <div class="drawer-footer">
-        <p class="drawer-tagline">“Thoughtful, personalized handmade gifts turning simple moments into lasting memories.”</p>
-        <a href="privacy.html" class="drawer-privacy-link">Privacy Policy</a>
+        <div class="md-label md-label--connect">Connect</div>
+        ${waRowHtml}
+        <a class="md-row" href="${INSTAGRAM_URL}" target="_blank" rel="noopener">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+          </svg>
+          <span>@${INSTAGRAM_HANDLE}</span>
+        </a>
+      </nav>
+      <div class="md-foot">
+        <hr>
+        <p>Thoughtful, personalized handmade gifts turning simple moments into lasting memories.</p>
+        <a href="privacy.html">Privacy Policy</a>
       </div>
     `;
   }
