@@ -554,7 +554,7 @@ aside#mobileDrawer,
   z-index: 2001;
   display: flex;
   flex-direction: column;
-  padding: 40px 44px;
+  padding: 36px 40px 14px;
   transform: translateX(110%);
   visibility: hidden;
   pointer-events: none;
@@ -686,7 +686,7 @@ aside#mobileDrawer.open,
 .drawer-menu-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .drawer-menu-row {
@@ -698,23 +698,23 @@ aside#mobileDrawer.open,
   position: relative;
   width: fit-content;
   text-decoration: none;
-  padding-block: 2px;
+  padding-block: 4px;
 }
 
 .drawer-menu-idx {
   font-family: var(--font-jost);
-  font-weight: 400;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
-  color: rgba(255, 247, 242, 0.45);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 247, 242, 0.5);
 }
 
 .drawer-menu-label {
   font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(1.75rem, 2.8vh, 2.2rem);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 3.6vh, 2.7rem);
   letter-spacing: 0.02em;
-  line-height: 1.15;
+  line-height: 1.12;
 }
 
 .drawer-menu-arrow {
@@ -834,21 +834,21 @@ aside#mobileDrawer.open,
 
 .drawer-footer {
   margin-top: auto;
-  padding-top: 28px;
-  padding-bottom: 4px;
+  padding-top: 14px;
+  padding-bottom: 0;
   border-top: 1px solid rgba(255, 247, 242, 0.12);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .drawer-tagline {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: rgba(255, 247, 242, 0.65);
-  line-height: 1.55;
+  line-height: 1.45;
   letter-spacing: 0.01em;
   margin: 0;
 }
@@ -857,12 +857,13 @@ aside#mobileDrawer.open,
   font-family: var(--font-jost);
   font-size: 0.78rem;
   letter-spacing: 0.06em;
-  color: rgba(255, 247, 242, 0.5);
+  color: rgba(255, 247, 242, 0.55);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: color var(--transition-fast);
-  margin-top: 4px;
+  margin-top: 0;
   display: inline-block;
+  line-height: 1.2;
 }
 
 .drawer-privacy-link:hover {
