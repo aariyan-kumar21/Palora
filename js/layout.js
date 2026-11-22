@@ -31,6 +31,12 @@
             ${icon("search", { size: 21, strokeWidth: 1.5 })}
           </button>
 
+          <!-- Wishlist / Saved items Button -->
+          <button type="button" class="icon-btn saved-btn" id="savedBtn" aria-label="Wishlist items">
+            ${icon("heart", { size: 21, strokeWidth: 1.5 })}
+            <span class="saved-badge" id="savedBadge" style="display:none">0</span>
+          </button>
+
           <!-- Shopping Cart Trigger Button -->
           <button type="button" class="icon-btn cart-btn" id="cartBtn" aria-label="Open cart">
             ${icon("bag", { size: 23, strokeWidth: 1.5 })}
@@ -42,11 +48,6 @@
             aria-expanded="false" aria-controls="menu-drawer">
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
-          </button>
-
-          <!-- Hidden Saved items anchor to maintain full compatibility with saved.js -->
-          <button type="button" class="icon-btn saved-btn" id="savedBtn" style="display:none" aria-hidden="true" tabindex="-1">
-            <span class="saved-badge" id="savedBadge" style="display:none">0</span>
           </button>
         </div>
       </div>

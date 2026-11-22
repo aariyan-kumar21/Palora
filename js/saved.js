@@ -250,6 +250,14 @@
       savedBtn.addEventListener("click", openSavedPanel);
     }
 
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("#savedBtn, .saved-btn");
+      if (btn) {
+        e.preventDefault();
+        openSavedPanel();
+      }
+    });
+
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const panel = document.getElementById("savedPanel");
