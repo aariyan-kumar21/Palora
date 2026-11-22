@@ -345,32 +345,20 @@
     dialog.setAttribute("aria-label", "Search Products");
     dialog.innerHTML = `
       <div class="search-dialog__inner">
-        <div class="search-dialog__header">
-          <div class="search-input-wrap">
-            <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="search" class="search-input" id="siteSearchInput" placeholder="Search handmade gifts, bouquets, coasters, frames..." autocomplete="off">
-            <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" style="display:none">&times;</button>
-          </div>
-          <button type="button" class="search-close-btn" id="searchCloseBtn" aria-label="Close search" title="Close">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="search-input-wrap">
+          <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" class="search-input" id="siteSearchInput" placeholder="Search handmade gifts, bouquets, coasters..." autocomplete="off">
+          <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" style="display:none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
         </div>
-        <div class="search-results" id="searchResults">
-          <div class="search-note">
-            <svg class="search-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span>Type product name, category, or occasion to search</span>
-          </div>
-        </div>
+        <div class="search-results" id="searchResults" style="display:none"></div>
       </div>
     `;
     document.body.appendChild(dialog);
@@ -378,56 +366,74 @@
     const input = dialog.querySelector("#siteSearchInput");
     const resultsContainer = dialog.querySelector("#searchResults");
     const clearBtn = dialog.querySelector("#searchClearBtn");
-    const closeBtn = dialog.querySelector("#searchCloseBtn");
 
     function renderSearchResults(query) {
       const q = query.trim().toLowerCase();
       if (!q) {
         if (clearBtn) clearBtn.style.display = "none";
-        resultsContainer.innerHTML = `
-          <div class="search-note">
-            <svg class="search-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <span>Type product name, category, or occasion to search</span>
-          </div>
-        `;
+        resultsContainer.style.display = "none";
+        resultsContainer.innerHTML = "";
         return;
       }
-      if (clearBtn) clearBtn.style.display = "block";
+      if (clearBtn) clearBtn.style.display = "flex";
+
+      const allCats = typeof CATEGORIES !== "undefined" ? CATEGORIES : [];
+      const matchedCats = allCats.filter(c => 
+        c.label.toLowerCase().includes(q) || 
+        c.slug.toLowerCase().includes(q)
+      );
 
       const all = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
-      const matches = all.filter(p => 
+      const matchedProds = all.filter(p => 
         p.name.toLowerCase().includes(q) || 
         (p.category && p.category.toLowerCase().includes(q)) ||
         (p.badge && p.badge.toLowerCase().includes(q)) ||
         (p.description && p.description.toLowerCase().includes(q))
       );
 
-      if (matches.length === 0) {
+      if (matchedCats.length === 0 && matchedProds.length === 0) {
         resultsContainer.innerHTML = `<div class="search-no-results">No gifts found for "${query}". Try searching for bouquets, resin, or coasters.</div>`;
+        resultsContainer.style.display = "block";
         return;
       }
 
-      resultsContainer.innerHTML = `
-        <div class="search-results-grid">
-          ${matches.slice(0, 8).map(p => {
-            const formattedPrice = typeof formatINR === "function" ? formatINR(p.price) : `₹${p.price}`;
-            return `
-              <div class="search-result-item" data-product-id="${p.id}" role="button" tabindex="0">
-                <img src="${p.image}" alt="${p.name}" class="search-result-thumb" onerror="this.style.display='none'">
-                <div class="search-result-info">
-                  <h4 class="search-result-title">${p.name}</h4>
-                  <span class="search-result-price">${formattedPrice}</span>
+      let html = "";
+      if (matchedCats.length > 0) {
+        html += `
+          <div class="search-section-label">Related Topics</div>
+          <div class="search-topics-row">
+            ${matchedCats.map(c => `
+              <a href="catalogue.html?category=${encodeURIComponent(c.slug)}" class="search-topic-chip">
+                ${c.label}
+              </a>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      if (matchedProds.length > 0) {
+        html += `
+          <div class="search-section-label">Related Products</div>
+          <div class="search-results-grid">
+            ${matchedProds.slice(0, 8).map(p => {
+              const formattedPrice = typeof formatINR === "function" ? formatINR(p.price) : `₹${p.price}`;
+              return `
+                <div class="search-result-item" data-product-id="${p.id}" role="button" tabindex="0">
+                  <img src="${p.image}" alt="${p.name}" class="search-result-thumb" onerror="this.style.display='none'">
+                  <div class="search-result-info">
+                    <h4 class="search-result-title">${p.name}</h4>
+                    <span class="search-result-price">${formattedPrice}</span>
+                  </div>
+                  ${p.badge ? `<span class="product-badge-pill search-result-badge">${p.badge}</span>` : ""}
                 </div>
-                ${p.badge ? `<span class="product-badge-pill search-result-badge">${p.badge}</span>` : ""}
-              </div>
-            `;
-          }).join("")}
-        </div>
-      `;
+              `;
+            }).join("")}
+          </div>
+        `;
+      }
+
+      resultsContainer.innerHTML = html;
+      resultsContainer.style.display = "block";
     }
 
     if (input) {
@@ -457,14 +463,18 @@
       if (dialog && dialog.open) {
         dialog.close();
         document.body.style.overflow = "";
+        if (input) input.value = "";
+        if (clearBtn) clearBtn.style.display = "none";
+        if (resultsContainer) {
+          resultsContainer.style.display = "none";
+          resultsContainer.innerHTML = "";
+        }
       }
     }
 
-    if (closeBtn) closeBtn.addEventListener("click", closeSearch);
-
     dialog.addEventListener("click", (e) => {
       const inner = dialog.querySelector(".search-dialog__inner");
-      if (inner && !inner.contains(e.target)) {
+      if (e.target === dialog || (inner && !inner.contains(e.target))) {
         closeSearch();
       }
     });

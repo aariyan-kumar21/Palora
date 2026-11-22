@@ -153,6 +153,13 @@
             input.value = "";
             setTimeout(() => input.focus(), 60);
           }
+          const results = dialog.querySelector("#searchResults");
+          if (results) {
+            results.style.display = "none";
+            results.innerHTML = "";
+          }
+          const clear = dialog.querySelector("#searchClearBtn");
+          if (clear) clear.style.display = "none";
         }
       }
     });
