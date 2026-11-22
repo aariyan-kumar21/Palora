@@ -347,14 +347,29 @@
       <div class="search-dialog__inner">
         <div class="search-dialog__header">
           <div class="search-input-wrap">
-            ${icon("search", { size: 20, strokeWidth: 1.5, className: "search-input-icon" })}
+            <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
             <input type="search" class="search-input" id="siteSearchInput" placeholder="Search handmade gifts, bouquets, coasters, frames..." autocomplete="off">
             <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" style="display:none">&times;</button>
           </div>
-          <button type="button" class="search-close-btn" id="searchCloseBtn" aria-label="Close search">&times;</button>
+          <button type="button" class="search-close-btn" id="searchCloseBtn" aria-label="Close search" title="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
         <div class="search-results" id="searchResults">
-          <p class="search-hint">Type to search collections, products, or gift categories...</p>
+          <div class="search-note">
+            <svg class="search-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Type product name, category, or occasion to search</span>
+          </div>
         </div>
       </div>
     `;
@@ -369,7 +384,16 @@
       const q = query.trim().toLowerCase();
       if (!q) {
         if (clearBtn) clearBtn.style.display = "none";
-        resultsContainer.innerHTML = `<p class="search-hint">Type to search collections, products, or gift categories...</p>`;
+        resultsContainer.innerHTML = `
+          <div class="search-note">
+            <svg class="search-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Type product name, category, or occasion to search</span>
+          </div>
+        `;
         return;
       }
       if (clearBtn) clearBtn.style.display = "block";
