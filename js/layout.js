@@ -140,7 +140,6 @@
       </nav>
       <div class="md-foot">
         <hr>
-        <p>Thoughtful, personalized handmade gifts turning simple moments into lasting memories.</p>
         <a href="privacy.html">Privacy Policy</a>
       </div>
     `;

@@ -29,7 +29,7 @@
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Dimensions */
-  --nav-h: 140px;
+  --nav-h: 115px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
@@ -608,10 +608,10 @@ body:not([data-page="home"]) .site-header {
 
 .md-gift {
   position: absolute;
-  right: 28px;
-  bottom: 18px;
-  width: 150px;
-  height: 150px;
+  right: 14px;
+  bottom: 12px;
+  width: 110px;
+  height: 110px;
   pointer-events: none;
   opacity: 0.95;
   z-index: 0;
@@ -621,8 +621,8 @@ body:not([data-page="home"]) .site-header {
   position: relative;
   z-index: 1;
   flex: none;
-  height: 128px;
-  padding: 38px 46px 0 46px;
+  height: 104px;
+  padding: 28px 46px 0 46px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   box-sizing: border-box;
 }
@@ -630,8 +630,8 @@ body:not([data-page="home"]) .site-header {
 .md-wm {
   font-family: "Cormorant Garamond", Garamond, Georgia, serif;
   font-weight: 500;
-  font-size: 38px;
-  letter-spacing: 0.3em;
+  font-size: 26px;
+  letter-spacing: 0.28em;
   line-height: 1;
   text-transform: uppercase;
   color: #FFFFFF;
@@ -640,10 +640,10 @@ body:not([data-page="home"]) .site-header {
 .md-tag {
   font-family: "Jost", sans-serif;
   font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.3em;
+  font-size: 10px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-top: 9px;
+  margin-top: 6px;
   line-height: 1;
   color: #FFFFFF;
 }
@@ -651,7 +651,7 @@ body:not([data-page="home"]) .site-header {
 .md-close {
   position: absolute;
   right: 30px;
-  top: 55px;
+  top: 38px;
   width: 44px;
   height: 44px;
   display: grid;
@@ -844,23 +844,12 @@ body:not([data-page="home"]) .site-header {
   box-sizing: border-box;
 }
 
-.md-foot p {
-  font-family: "Cormorant Garamond", Garamond, Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 21px;
-  color: #FCE7E6;
-  max-width: 236px;
-  margin: 0;
-}
-
 .md-foot a {
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 0;
   font-family: "Cormorant Garamond", Garamond, Georgia, serif;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 18px;
   color: #F9DCDF;
   text-decoration: underline;
