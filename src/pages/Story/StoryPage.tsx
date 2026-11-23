@@ -10,7 +10,8 @@ import '../../styles/story.css';
 export const StoryPage: React.FC = () => {
   usePageMeta(
     'Our Story | Palora',
-    'Palora is a handmade gifting brand built on one simple idea: the best gifts feel personal. Learn why we make what we make and how each piece comes to life.'
+    'Palora is a handmade gifting brand built on one simple idea: the best gifts feel personal. Learn why we make what we make and how each piece comes to life.',
+    'story'
   );
 
   return (

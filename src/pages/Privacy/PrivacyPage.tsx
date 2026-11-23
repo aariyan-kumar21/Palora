@@ -8,7 +8,8 @@ import '../../styles/pages.css';
 export const PrivacyPage: React.FC = () => {
   usePageMeta(
     'Privacy Policy | Palora',
-    'A plain-language summary of how Palora handles your information, orders, and browser storage.'
+    'A plain-language summary of how Palora handles your information, orders, and browser storage.',
+    'privacy'
   );
 
   return (

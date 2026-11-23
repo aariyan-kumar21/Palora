@@ -61,7 +61,8 @@ const SECTIONS = [
 export const HelpPage: React.FC = () => {
   usePageMeta(
     'Help & FAQs | Palora',
-    'Everything you need to know about ordering, personalization, delivery across India, returns, and FAQs for Palora handmade gifts.'
+    'Everything you need to know about ordering, personalization, delivery across India, returns, and FAQs for Palora handmade gifts.',
+    'help'
   );
 
   const [activeSection, setActiveSection] = useState('how-to-order');

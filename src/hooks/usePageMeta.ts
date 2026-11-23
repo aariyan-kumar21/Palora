@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function usePageMeta(title: string, description?: string) {
+export function usePageMeta(title: string, description?: string, pageId?: string) {
   useEffect(() => {
     document.title = title;
     if (description) {
@@ -9,5 +9,8 @@ export function usePageMeta(title: string, description?: string) {
         meta.setAttribute('content', description);
       }
     }
-  }, [title, description]);
+    if (pageId) {
+      document.body.setAttribute('data-page', pageId);
+    }
+  }, [title, description, pageId]);
 }

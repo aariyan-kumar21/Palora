@@ -36,7 +36,8 @@ const PILL_ICONS: Record<string, string> = {
 export const CollectionsPage: React.FC = () => {
   usePageMeta(
     'Collections | Palora Handcrafted Gifts',
-    'Explore our curated collection of handcrafted gifts: crochet crafts, resin keepsakes, floral decor, frames, and luxe hampers.'
+    'Explore our curated collection of handcrafted gifts: crochet crafts, resin keepsakes, floral decor, frames, and luxe hampers.',
+    'catalogue'
   );
 
   const [searchParams, setSearchParams] = useSearchParams();

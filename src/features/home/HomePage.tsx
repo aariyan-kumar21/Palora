@@ -10,7 +10,8 @@ const HomeBelowFold = React.lazy(() => import('./HomeBelowFold'));
 export const HomePage: React.FC = () => {
   usePageMeta(
     'Palora | Thoughtful Handmade Gifts',
-    'Customizable, handmade gifts that turn simple moments into lasting memories. Order directly via WhatsApp.'
+    'Customizable, handmade gifts that turn simple moments into lasting memories. Order directly via WhatsApp.',
+    'home'
   );
 
   const [showBelow, setShowBelow] = useState(() => {

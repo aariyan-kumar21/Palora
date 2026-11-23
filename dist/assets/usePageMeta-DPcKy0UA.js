@@ -1,1 +1,0 @@
-import{r as o}from"./index-CH8PTlH7.js";function u(t,e){o.useEffect(()=>{if(document.title=t,e){let a=document.querySelector('meta[name="description"]');a&&a.setAttribute("content",e)}},[t,e])}export{u};
