@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Palora Handmade Gifting - Design Tokens (src/styles/tokens.css)
+   Exact tokens from Section 3 of PALORA_HANDOFF.md
+   ========================================================================== */
+
+:root {
+  --page-bg: #FAF0E9;
+  --surface-cream: #FAF0E9;
+  --surface-card: #FFF8F4;
+  --burgundy: #722F37;
+  --burgundy-hover: #5E252C;
+  --burgundy-deep: #6A1F2C;
+  --burgundy-dark: #5A1623;
+  --text-brown: #572E2E;
+  --text-brown-deep: #5A1623;
+  --text-muted: #805656;
+  --icon-cream: #FFF7F2;
+  --footer-bg: #572E2E;
+  --footer-text: #FFF7F2;
+  --badge-red: #B5173A;
+  --color-pink-soft: #F2C4CE;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
+  --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Dimensions */
+  --nav-h: 92px;
+  --header-height: var(--nav-h);
+  --min-touch-target: 44px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-subtle: 0 4px 14px rgba(87, 46, 46, 0.05);
+  --shadow-card: 0 8px 24px rgba(87, 46, 46, 0.08);
+  --shadow-elevated: 0 16px 36px rgba(114, 47, 55, 0.14);
+  --shadow-drawer: -8px 0 32px rgba(87, 46, 46, 0.25);
+
+  /* Transitions */
+  --transition-fast: 200ms ease;
+  --transition-smooth: 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
