@@ -33,7 +33,7 @@ body[data-page="catalogue"] .catalogue-main {
 
 .catalogue-banner__inner {
   width: 100%;
-  max-width: 1560px;
+  max-width: 1680px;
   margin: 0 auto;
   padding: 0 40px;
   height: 100%;
@@ -46,34 +46,34 @@ body[data-page="catalogue"] .catalogue-main {
 .catalogue-banner__content {
   position: relative;
   z-index: 2;
-  max-width: 560px;
+  max-width: 640px;
 }
 
 .catalogue-banner__eyebrow {
   display: block;
   font-family: var(--font-jost);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.25em;
   color: #5A1623;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .catalogue-banner__title {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(48px, 3.8vw, 64px);
+  font-size: clamp(52px, 4.2vw, 70px);
   color: #5A1623;
   line-height: 1.05;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   letter-spacing: -0.01em;
 }
 
 .catalogue-banner__desc {
   font-family: var(--font-serif);
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 500;
   color: #572E2E;
   line-height: 1.35;
@@ -235,24 +235,24 @@ body[data-page="catalogue"] .catalogue-main {
 
 /* Catalogue Main Layout Grid */
 .catalogue-wrap {
-  max-width: 1560px;
+  max-width: 1680px;
   margin: 0 auto;
   padding: 0 40px 80px;
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 40px;
+  grid-template-columns: 300px 1fr;
+  gap: 44px;
   align-items: start;
 }
 
 /* Filters Sidebar */
 .filters {
   position: sticky;
-  top: 108px;
+  top: calc(var(--nav-h) + 16px);
   background-color: #FFF8F4;
   border: 1px solid rgba(106, 31, 44, 0.1);
   border-radius: 16px;
   box-shadow: 0 4px 18px rgba(114, 47, 55, 0.05);
-  padding: 24px 22px;
+  padding: 26px 24px;
 }
 
 .filters__header {

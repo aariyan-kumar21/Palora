@@ -24,8 +24,8 @@
   --font-serif: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Dimensions */
-  --nav-h: 92px;
+  /* Dimensions (Scaled up ~20-25% for bold, prominent laptop view) */
+  --nav-h: 112px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
