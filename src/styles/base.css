@@ -29,8 +29,8 @@
   --font-serif: 'Cormorant Garamond', Garamond, 'Times New Roman', Georgia, serif;
   --font-jost: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Dimensions (Scaled ~20-25% for prominent laptop view) */
-  --nav-h: 112px;
+  /* Dimensions */
+  --nav-h: 88px;
   --header-height: var(--nav-h);
   --min-touch-target: 44px;
   --radius-sm: 8px;
@@ -340,7 +340,7 @@ body:not([data-page="home"]) .site-header {
   letter-spacing: 0.25em;
   color: #6A1F2C;
   position: relative;
-  padding-block: 6px;
+  padding-block: 2px;
   transition: color var(--transition-fast);
   display: inline-flex;
   align-items: center;
@@ -350,7 +350,7 @@ body:not([data-page="home"]) .site-header {
 .nav-link::after {
   content: "";
   position: absolute;
-  bottom: -6px;
+  bottom: -1px;
   left: 0;
   width: 0;
   height: 2px;
