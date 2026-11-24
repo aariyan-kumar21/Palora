@@ -58,15 +58,15 @@ export const SparkProvider: React.FC<SparkProviderProps> = ({ children, isDialog
           <ClickSpark
             ref={sparkRef}
             trigger="none"
-            sparkColor={['#B5173A', '#D7A7B1', '#F2C4CE']}
+            sparkColor={['#B5173A', '#D7A7B1', '#F2C4CE', '#FFFFFF']}
             shape="line"
             sparkCount={8}
-            sparkSize={10}
+            sparkSize={14}
             sparkWidth={2}
-            sparkRadius={26}
-            duration={450}
+            sparkRadius={30}
+            duration={500}
             easing="ease-out"
-            randomness={0.25}
+            randomness={0.2}
           />
         </div>
       )}

@@ -39,7 +39,9 @@ const QuickViewContent: React.FC = () => {
       fire(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
     addItem(quickViewProduct, quantity, note);
-    closeQuickView();
+    setTimeout(() => {
+      closeQuickView();
+    }, 450);
   };
 
   return (
