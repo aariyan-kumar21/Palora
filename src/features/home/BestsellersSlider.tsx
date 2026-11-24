@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PRODUCTS } from '../../data/products';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
@@ -6,43 +6,11 @@ import { ProductCard } from '../../components/ProductCard/ProductCard';
 export const BestsellersSlider: React.FC = () => {
   const featuredProducts = PRODUCTS.filter(p => p.featured);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
 
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
   const hasDragged = useRef(false);
-
-  const updateButtons = () => {
-    const track = trackRef.current;
-    if (!track) return;
-    const maxScroll = track.scrollWidth - track.clientWidth - 2;
-    setCanPrev(track.scrollLeft > 4);
-    setCanNext(track.scrollLeft < maxScroll);
-  };
-
-  useEffect(() => {
-    updateButtons();
-    const track = trackRef.current;
-    if (!track) return;
-
-    track.addEventListener('scroll', updateButtons, { passive: true });
-    window.addEventListener('resize', updateButtons, { passive: true });
-    return () => {
-      track.removeEventListener('scroll', updateButtons);
-      window.removeEventListener('resize', updateButtons);
-    };
-  }, []);
-
-  const scrollByCard = (direction: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector('.product-card');
-    const cardWidth = card ? card.getBoundingClientRect().width : 300;
-    const gap = 20;
-    track.scrollBy({ left: (cardWidth + gap) * direction, behavior: 'smooth' });
-  };
 
   const handlePointerDown = (e: React.PointerEvent) => {
     isDown.current = true;
@@ -90,28 +58,6 @@ export const BestsellersSlider: React.FC = () => {
           aria-roledescription="carousel"
           aria-label="Bestselling products"
         >
-          <button
-            type="button"
-            className="bestseller-nav-btn bestseller-nav-btn--prev"
-            aria-label="Previous products"
-            disabled={!canPrev}
-            onClick={() => scrollByCard(-1)}
-          >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
           <div
             ref={trackRef}
             className="bestsellers__track"
@@ -126,28 +72,6 @@ export const BestsellersSlider: React.FC = () => {
               <ProductCard key={product.id} product={product} index={idx} variant="slider" />
             ))}
           </div>
-
-          <button
-            type="button"
-            className="bestseller-nav-btn bestseller-nav-btn--next"
-            aria-label="Next products"
-            disabled={!canNext}
-            onClick={() => scrollByCard(1)}
-          >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
         </div>
 
         {/* Centered View All Link below Slider */}

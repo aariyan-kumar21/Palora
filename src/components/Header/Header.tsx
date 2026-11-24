@@ -93,7 +93,7 @@ export const Header: React.FC = () => {
             onFocus={prefetchSearchPanel}
             onClick={() => togglePanel('search')}
           >
-            <Icon name="search-nav" size={21} strokeWidth={1.5} />
+            <Icon name="search-nav" size={26} strokeWidth={1.5} />
           </button>
 
           {/* Wishlist / Saved items Button */}
@@ -105,7 +105,7 @@ export const Header: React.FC = () => {
             aria-expanded={isSavedOpen}
             onClick={() => togglePanel('saved')}
           >
-            <Icon name="heart" size={21} strokeWidth={1.5} />
+            <Icon name="heart" size={26} strokeWidth={1.5} />
             <span
               className="saved-badge"
               id="savedBadge"
@@ -124,7 +124,7 @@ export const Header: React.FC = () => {
             aria-expanded={isCartOpen}
             onClick={() => togglePanel('cart')}
           >
-            <Icon name="bag" size={23} strokeWidth={1.5} />
+            <Icon name="bag" size={28} strokeWidth={1.5} />
             <span
               className={`cart-badge ${badgeBump ? 'bump' : ''}`}
               id="cartBadge"

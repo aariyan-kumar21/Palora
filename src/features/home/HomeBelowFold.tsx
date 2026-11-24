@@ -1,7 +1,6 @@
 import React from 'react';
 import { BestsellersSlider } from './BestsellersSlider';
 import { DepthCarousel } from '../../components/DepthCarousel/DepthCarousel';
-import { HowItWorks } from './HowItWorks';
 import { PersonalizeBanner } from './PersonalizeBanner';
 import { Footer } from '../../components/Footer/Footer';
 
@@ -21,9 +20,6 @@ export const HomeBelowFold: React.FC = () => {
         </div>
         <DepthCarousel />
       </section>
-
-      {/* Section 5: How Ordering Works */}
-      <HowItWorks />
 
       {/* Section 6: Personalize Banner & Trust Strip */}
       <PersonalizeBanner />

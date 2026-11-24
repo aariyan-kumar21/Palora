@@ -16,32 +16,6 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="site-footer" id="site-footer">
-      {/* Top Band Inside Footer */}
-      <div className="footer-top-band">
-        <div className="container footer-top-inner">
-          <div className="footer-top-text">
-            <h2 className="footer-top-heading">Make every moment special.</h2>
-            <p className="footer-top-subtext">Browse our handmade gifts and make them yours.</p>
-          </div>
-          <div className="footer-top-actions">
-            <Link to="/collections" className="footer-cta-btn">
-              Explore Collections
-            </Link>
-            {hasWhatsApp() && (
-              <a
-                href={waLink("Hi Palora! I'd like to chat.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-wa-outline-btn"
-              >
-                <Icon name="whatsapp" size={18} strokeWidth={1.5} />
-                <span>Chat on WhatsApp</span>
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* 5 Columns Grid */}
       <div className="container footer-main-container">
         <div className="footer-grid">

@@ -145,16 +145,6 @@ export const DepthCarousel: React.FC = () => {
       }}
       aria-label="Category Carousel"
     >
-      {/* Prev Button */}
-      <button
-        type="button"
-        className="depth__nav depth__nav--prev"
-        aria-label="Previous category"
-        onClick={prev}
-      >
-        <Icon name="chevron-left" size={20} />
-      </button>
-
       {/* 3D Stage */}
       <div
         ref={stageRef}
@@ -254,16 +244,6 @@ export const DepthCarousel: React.FC = () => {
           );
         })}
       </div>
-
-      {/* Next Button */}
-      <button
-        type="button"
-        className="depth__nav depth__nav--next"
-        aria-label="Next category"
-        onClick={next}
-      >
-        <Icon name="chevron-right" size={20} />
-      </button>
 
       {/* Controls: Dots + Pause/Play */}
       <div className="depth__controls">
