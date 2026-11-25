@@ -50,40 +50,59 @@ async function main() {
       throw new Error('Search CardNav did not open properly or close button is not an X icon!');
     }
 
-    // 3. Type "bunny" -> filters products
+    // 3. Type "bunny" -> filters products & verify only 1 X button with no circle
     await page.locator('.search-bar-input').fill('bunny');
     await page.waitForTimeout(150);
-    const firstCardDesc = await page.locator('.search-panel-wrap .card-nav__description').first().textContent();
-    console.log('Filtered products desc:', firstCardDesc);
+    const typedState = await page.evaluate(() => {
+      const panel = document.querySelector('.search-panel-wrap .card-nav__panel');
+      const closeBtn = document.querySelector('.search-bar-close-btn');
+      const clearBtns = document.querySelectorAll('.search-bar-clear-btn');
+      const backdrop = document.querySelector('.search-backdrop');
+      return {
+        panelRadius: panel ? getComputedStyle(panel).borderTopLeftRadius : null,
+        clearBtnCount: clearBtns.length,
+        closeBtnBorder: closeBtn ? getComputedStyle(closeBtn).borderTopStyle : null,
+        backdropBlur: backdrop ? getComputedStyle(backdrop).backdropFilter : null,
+        backdropOpen: backdrop?.classList.contains('is-open'),
+        firstCardDesc: document.querySelector('.search-panel-wrap .card-nav__description')?.textContent
+      };
+    });
+    console.log('Typed & style state:', typedState);
+    if (
+      typedState.panelRadius !== '30px' ||
+      typedState.clearBtnCount !== 0 ||
+      typedState.closeBtnBorder !== 'none' ||
+      !typedState.backdropOpen ||
+      !typedState.backdropBlur?.includes('blur(8px)')
+    ) {
+      throw new Error('Pill shape, single unbordered X, or blur backdrop verification failed!');
+    }
 
-    // 4. Click X close button -> closes cleanly
+    // 4. Click X button -> closes search bar completely within 600ms
     await page.locator('.search-bar-close-btn').click();
-    await page.waitForTimeout(900);
+    await page.locator('.search-panel-wrap .card-nav').waitFor({ state: 'detached', timeout: 800 });
     const closedVis = await page.evaluate(() => {
       const wrap = document.querySelector('.search-panel-wrap');
       const el = document.querySelector('.search-panel-wrap .card-nav');
-      if (!el) return { exists: false, hasWrap: Boolean(wrap), rootLen: document.getElementById('root')?.innerHTML.length };
+      const backdrop = document.querySelector('.search-backdrop');
       return {
-        exists: true,
-        hasOpen: el.hasAttribute('data-open'),
-        hasShown: el.hasAttribute('data-shown'),
-        visibility: getComputedStyle(el).visibility
+        exists: Boolean(el),
+        hasWrap: Boolean(wrap),
+        backdropOpen: backdrop?.classList.contains('is-open')
       };
     });
-    console.log('Closed state:', closedVis);
-    if (closedVis.exists) {
-      throw new Error('Search CardNav did not unmount cleanly after close animation!');
+    console.log('Closed via X state:', closedVis);
+    if (closedVis.exists || closedVis.backdropOpen) {
+      throw new Error('Search CardNav did not close cleanly on X click!');
     }
 
-    // 5. Re-open search button -> opens again cleanly
+    // 5. Re-open and click outside on screen -> closes cleanly
     await page.locator('#searchBtn').click();
     await page.locator('.search-panel-wrap .card-nav').waitFor({ state: 'visible', timeout: 5000 });
-    await page.waitForTimeout(300);
-    const reopened = await page.locator('.search-panel-wrap .card-nav').evaluate(el => el.hasAttribute('data-open'));
-    console.log('Reopened:', reopened);
-    if (!reopened) {
-      throw new Error('Search CardNav did not re-open!');
-    }
+    await page.waitForTimeout(400);
+    await page.mouse.click(40, 400);
+    await page.locator('.search-panel-wrap .card-nav').waitFor({ state: 'detached', timeout: 1500 });
+    console.log('Closed via outside click: true');
 
     await browser.close();
     console.log('SEARCH CARDNAV VERIFICATIONS PASSED');

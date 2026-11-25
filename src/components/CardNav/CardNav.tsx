@@ -282,7 +282,10 @@ export const CardNav: React.FC<CardNavProps> = ({
   const setOpenRef = useRef(setOpen);
   setOpenRef.current = setOpen;
 
+  const isMounted = open || shown;
+
   useEffect(() => {
+    if (!isMounted) return undefined;
     const panel = panelRef.current;
     const content = contentRef.current;
     if (!panel || !content) return undefined;
@@ -332,7 +335,7 @@ export const CardNav: React.FC<CardNavProps> = ({
         state.p = target;
         state.v = 0;
       } else {
-        const k = 160 * s.speed * s.speed;
+        const k = (target === 0 ? 480 : 160) * s.speed * s.speed;
         const zeta = s.open ? 1 - 0.68 * s.bounce : 1;
         const steps = Math.ceil(dt / (1 / 240));
         const h = dt / steps;
@@ -342,13 +345,19 @@ export const CardNav: React.FC<CardNavProps> = ({
         }
       }
 
-      const done = Math.abs(state.p - target) < 0.0005 && Math.abs(state.v) < 0.002;
+      const done =
+        target === 0
+          ? Math.abs(state.p) < 0.015 && Math.abs(state.v) < 0.08
+          : Math.abs(state.p - target) < 0.0005 && Math.abs(state.v) < 0.002;
       if (done) {
         state.p = target;
         state.v = 0;
       }
 
       render();
+    if (!settingsRef.current.open && state.p === 0) {
+      setShown(false);
+    }
       if (done && target === 0) setShown(false);
       if (!done) raf = requestAnimationFrame(tick);
     };
@@ -365,14 +374,25 @@ export const CardNav: React.FC<CardNavProps> = ({
       refresh: () => {
         state.height = content.offsetHeight;
         render();
+    if (!settingsRef.current.open && state.p === 0) {
+      setShown(false);
+    }
       }
     };
 
     render();
+    if (settingsRef.current.open) {
+      wake();
+    } else if (state.p === 0) {
+      setShown(false);
+    }
 
     const observer = new ResizeObserver(() => {
       state.height = content.offsetHeight;
       render();
+      if (!settingsRef.current.open && state.p === 0) {
+        setShown(false);
+      }
     });
     observer.observe(content);
 
@@ -381,7 +401,7 @@ export const CardNav: React.FC<CardNavProps> = ({
       observer.disconnect();
       engineRef.current = null;
     };
-  }, [items.length, hasCta, narrow]);
+  }, [items.length, hasCta, narrow, isMounted]);
 
   useLayoutEffect(() => {
     if (open) setShown(true);
@@ -445,15 +465,22 @@ export const CardNav: React.FC<CardNavProps> = ({
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
 
     const width = panel.offsetWidth;
-    const height = panel.offsetHeight || 60;
-    const radius = parseFloat(getComputedStyle(panel).borderTopLeftRadius) || 18;
+    const radius = parseFloat(getComputedStyle(panel).borderTopLeftRadius) || 30;
 
     panel.animate(
       [
-        { clipPath: `inset(0px ${Math.max(0, (width - height) / 2)}px round ${height / 2}px)`, opacity: 0 },
-        { clipPath: `inset(0px 0px round ${radius}px)`, opacity: 1 }
+        {
+          clipPath: `inset(0px ${Math.max(0, width / 2 - 30)}px round ${radius}px)`,
+          transform: 'scale(0.92)',
+          opacity: 0
+        },
+        {
+          clipPath: `inset(0px 0px round ${radius}px)`,
+          transform: 'scale(1)',
+          opacity: 1
+        }
       ],
-      { duration: 720, easing: EASE_OUT, fill: 'backwards' }
+      { duration: 520, easing: EASE_OUT, fill: 'backwards' }
     );
 
     Array.from(barEl.children).forEach((child, index) => {
