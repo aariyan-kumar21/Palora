@@ -14,6 +14,9 @@ export const prefetchSearchPanel = () => {
 export const SearchPanelLazy: React.FC = () => {
   const { activePanel } = useUI();
   const isOpen = activePanel === 'search';
+  if (isOpen) {
+    prefetched = true;
+  }
 
   useEffect(() => {
     // Prefetch on idle

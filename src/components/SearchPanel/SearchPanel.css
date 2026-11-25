@@ -6,7 +6,17 @@
   width: 92vw;
   max-width: 820px;
   z-index: 500;
+  pointer-events: none;
+}
+
+.search-panel-wrap .card-nav[data-shown] {
   pointer-events: auto;
+}
+
+.search-panel-wrap .card-nav:not([data-shown]) {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
 }
 
 .card-nav .card-nav__bar {
@@ -72,13 +82,14 @@
   border: 1px solid rgba(114, 47, 55, 0.2);
   background: transparent;
   color: #5A1623;
-  font-family: var(--font-jost, sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 6px 14px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }

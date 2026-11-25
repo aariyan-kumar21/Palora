@@ -186,13 +186,26 @@ export const SearchPanel: React.FC = () => {
         aria-label="Close search"
         onClick={closePanel}
       >
-        Close
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
     </div>
   );
 
   return (
-    <div className="search-panel-wrap" style={{ display: isOpen ? 'block' : 'none' }}>
+    <div className="search-panel-wrap" aria-hidden={!isOpen}>
       <CardNav
         theme="palora"
         surface="solid"
@@ -201,11 +214,11 @@ export const SearchPanel: React.FC = () => {
         onOpenChange={open => {
           if (!open && activePanel === 'search') closePanel();
         }}
-        speed={1}
+        speed={1.2}
         bounce={0.2}
         stagger={0.12}
         maxWidth={820}
-        intro={false}
+        intro={true}
         bar={searchBar}
         items={items}
       >

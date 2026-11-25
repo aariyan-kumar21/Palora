@@ -1,0 +1,1 @@
+import{r as a}from"./index--U7s3tYi.js";function m(o,t,e){a.useEffect(()=>{if(document.title=o,t){let u=document.querySelector('meta[name="description"]');u&&u.setAttribute("content",t)}e&&document.body.setAttribute("data-page",e)},[o,t,e])}export{m as u};

@@ -441,11 +441,11 @@ export const CardNav: React.FC<CardNavProps> = ({
     const panel = panelRef.current;
     const barEl = barRef.current;
     if (!panel || !barEl || !introRef.current) return;
-    introRef.current = false;
+    if (!open) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
 
     const width = panel.offsetWidth;
-    const height = panel.offsetHeight;
+    const height = panel.offsetHeight || 60;
     const radius = parseFloat(getComputedStyle(panel).borderTopLeftRadius) || 18;
 
     panel.animate(
@@ -453,7 +453,7 @@ export const CardNav: React.FC<CardNavProps> = ({
         { clipPath: `inset(0px ${Math.max(0, (width - height) / 2)}px round ${height / 2}px)`, opacity: 0 },
         { clipPath: `inset(0px 0px round ${radius}px)`, opacity: 1 }
       ],
-      { duration: 820, easing: EASE_OUT, fill: 'backwards' }
+      { duration: 720, easing: EASE_OUT, fill: 'backwards' }
     );
 
     Array.from(barEl.children).forEach((child, index) => {
@@ -462,10 +462,10 @@ export const CardNav: React.FC<CardNavProps> = ({
           { opacity: 0, transform: 'translateY(8px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ],
-        { duration: 560, delay: 220 + index * 70, easing: EASE_OUT, fill: 'backwards' }
+        { duration: 500, delay: 160 + index * 60, easing: EASE_OUT, fill: 'backwards' }
       );
     });
-  }, []);
+  }, [open]);
 
   const hover = openOn === 'hover';
   const onPointerEnter = (event: React.PointerEvent) => {
