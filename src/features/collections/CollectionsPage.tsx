@@ -65,6 +65,25 @@ export const CollectionsPage: React.FC = () => {
   const [priceMax, setPriceMax] = useState(5000);
   const [sort, setSort] = useState<SortOption>('newest');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const sortWrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isSortOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.target instanceof Node && !sortWrapRef.current?.contains(e.target)) {
+        setIsSortOpen(false);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsSortOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isSortOpen]);
 
   // Sync state when URL params change externally
   useEffect(() => {
@@ -498,7 +517,7 @@ export const CollectionsPage: React.FC = () => {
                 : `${filteredProducts.length} Products`}
             </span>
 
-            <div className="custom-sort-wrap" id="customSortWrap">
+            <div ref={sortWrapRef} className="custom-sort-wrap" id="customSortWrap">
               <button
                 type="button"
                 className="custom-sort-trigger"
@@ -525,48 +544,48 @@ export const CollectionsPage: React.FC = () => {
                 </svg>
               </button>
 
-              {isSortOpen && (
-                <div
-                  className="custom-sort-dropdown"
-                  role="listbox"
-                  aria-label="Sort options"
-                >
-                  {(Object.keys(SORT_LABELS) as SortOption[]).map(key => {
-                    const isSelected = sort === key;
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        className={`custom-sort-item ${isSelected ? 'is-selected' : ''}`}
-                        role="option"
-                        aria-selected={isSelected}
-                        onClick={() => {
-                          setSort(key);
-                          setIsSortOpen(false);
-                        }}
-                      >
-                        <span className="custom-sort-item-text">{SORT_LABELS[key]}</span>
-                        {isSelected && (
-                          <svg
-                            className="custom-sort-item-check"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+              <div
+                className={`custom-sort-dropdown ${isSortOpen ? 'is-open' : ''}`}
+                role="listbox"
+                aria-label="Sort options"
+                aria-hidden={!isSortOpen}
+              >
+                {(Object.keys(SORT_LABELS) as SortOption[]).map(key => {
+                  const isSelected = sort === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`custom-sort-item ${isSelected ? 'is-selected' : ''}`}
+                      role="option"
+                      aria-selected={isSelected}
+                      tabIndex={isSortOpen ? 0 : -1}
+                      onClick={() => {
+                        setSort(key);
+                        setIsSortOpen(false);
+                      }}
+                    >
+                      <span className="custom-sort-item-text">{SORT_LABELS[key]}</span>
+                      {isSelected && (
+                        <svg
+                          className="custom-sort-item-check"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
