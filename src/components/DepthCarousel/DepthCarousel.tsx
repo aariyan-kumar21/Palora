@@ -39,18 +39,18 @@ export interface DepthCarouselProps {
 }
 
 export const DepthCarousel: React.FC<DepthCarouselProps> = ({
-  cardWidth = 310,
-  cardHeight = 410,
+  cardWidth = 350,
+  cardHeight = 460,
   radius = 18,
   tint = '#3A1018',
-  depth = 220,
-  spread = 90,
-  tilt = 22,
+  depth = 150,
+  spread = 225,
+  tilt = 16,
   tiltDirection = 'right',
-  perspective = 1400,
-  visibleCards = 4,
+  perspective = 1500,
+  visibleCards = 3,
   falloff = 0.2,
-  blur = 6,
+  blur = 4,
   duration = 700,
   ease = 'power3.out',
   autoplay = true,
@@ -148,21 +148,25 @@ export const DepthCarousel: React.FC<DepthCarouselProps> = ({
         if (d > n / 2) d -= n;
       }
 
-      const back = Math.max(0, d);
       const az = Math.abs(d);
-      const shown = az <= cfg.visibleCards + 0.5;
+      const shown = az <= cfg.visibleCards + 0.8;
 
-      const tz = -cfg.depth * d;
+      const tz = -cfg.depth * az;
       const tx = dir * cfg.spread * d;
-      const ry = dir * cfg.tilt * clamp(d, 0, 1);
+      const ry = -dir * cfg.tilt * clamp(d, -1, 1);
 
-      let opacity = d < 0 ? Math.max(0, 1 + d) : 1;
+      let opacity = 1;
+      if (az > cfg.visibleCards) {
+        opacity = Math.max(0, 1 - (az - cfg.visibleCards) * 1.25);
+      } else {
+        opacity = Math.max(0.35, 1 - az * 0.16);
+      }
       if (!shown) opacity = 0;
 
-      const brightness = Math.max(0.2, 1 - back * cfg.falloff);
+      const brightness = Math.max(0.45, 1 - az * cfg.falloff * 0.65);
       const blurPx =
-        cfg.blur > 0 ? Math.min(cfg.blur, (back / Math.max(1, cfg.visibleCards)) * cfg.blur) : 0;
-      const zi = Math.round(2000 - d * 20);
+        cfg.blur > 0 ? Math.min(cfg.blur, (az / Math.max(1, cfg.visibleCards)) * cfg.blur) : 0;
+      const zi = Math.round(2000 - az * 20);
 
       el.style.transform = `translate(-50%, -50%) scale(${sc}) translateX(${tx.toFixed(
         2
@@ -173,7 +177,7 @@ export const DepthCarousel: React.FC<DepthCarouselProps> = ({
       el.style.pointerEvents = shown && opacity > 0.05 ? 'auto' : 'none';
 
       const ov = overlayRefs.current[i];
-      if (ov) ov.style.opacity = clamp(back * cfg.falloff * 1.1, 0, 0.75).toFixed(3);
+      if (ov) ov.style.opacity = clamp(az * cfg.falloff * 0.7, 0, 0.55).toFixed(3);
     }
   }, []);
 
@@ -229,8 +233,8 @@ export const DepthCarousel: React.FC<DepthCarouselProps> = ({
     const ro = new ResizeObserver(entries => {
       const w = entries[0].contentRect.width;
       const cfg = cfgRef.current;
-      const needed = cfg.cardWidth + Math.abs(cfg.spread) * 2 + 120;
-      scaleRef.current = clamp(w / needed, 0.4, 1);
+      const needed = cfg.cardWidth + Math.abs(cfg.spread) * 2.5 + 120;
+      scaleRef.current = clamp(w / needed, 0.55, 1);
       layout(posRef.current);
     });
     ro.observe(root);

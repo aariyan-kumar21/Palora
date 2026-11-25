@@ -9,8 +9,8 @@
 .rb-depth-carousel {
   position: relative;
   width: 100%;
-  height: 500px;
-  min-height: 360px;
+  height: 540px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
