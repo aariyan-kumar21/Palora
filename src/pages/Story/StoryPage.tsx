@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Footer } from '../../components/Footer/Footer';
+import { AnimatedContent } from '../../components/AnimatedContent/AnimatedContent';
 import { Icon } from '../../components/Icon/Icon';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { hasWhatsApp, waLink } from '../../data/config';
@@ -40,15 +41,17 @@ export const StoryPage: React.FC = () => {
               <h2 id="story-why-heading" className="story-section-title">
                 Why we make what we make
               </h2>
-              <p>
-                Gifts are never really about the gift. They are about the moment, the person, and the small detail that shows you were thinking of them.
-              </p>
-              <p>
-                That is what we make at Palora: handmade pieces designed to be made personal, so that what you give carries a name, a message or a memory only you know.
-              </p>
-              <p>
-                From keychains and photo frames to bouquets, hampers and cards, every piece begins as an idea for a particular moment: a birthday, an anniversary, a festival, or no reason at all.
-              </p>
+              <AnimatedContent distance={36} duration={0.7} stagger={0.08} threshold={0.1}>
+                <p>
+                  Gifts are never really about the gift. They are about the moment, the person, and the small detail that shows you were thinking of them.
+                </p>
+                <p>
+                  That is what we make at Palora: handmade pieces designed to be made personal, so that what you give carries a name, a message or a memory only you know.
+                </p>
+                <p>
+                  From keychains and photo frames to bouquets, hampers and cards, every piece begins as an idea for a particular moment: a birthday, an anniversary, a festival, or no reason at all.
+                </p>
+              </AnimatedContent>
             </div>
             <div className="story-media-placeholder">
               <div className="story-media-watermark" aria-hidden="true">
@@ -86,7 +89,7 @@ export const StoryPage: React.FC = () => {
               How each piece comes to life
             </h2>
           </div>
-          <div className="story-process-grid">
+          <AnimatedContent className="story-process-grid" distance={45} duration={0.7} stagger={0.1} threshold={0.1}>
             <div className="story-process-card">
               <span className="story-process-num">01</span>
               <h3 className="story-process-card-title">Made to order</h3>
@@ -108,7 +111,7 @@ export const StoryPage: React.FC = () => {
                 Add a name, a message or a colour preference. We work with you on WhatsApp so every detail is right before we begin.
               </p>
             </div>
-          </div>
+          </AnimatedContent>
         </div>
       </section>
 
@@ -120,7 +123,7 @@ export const StoryPage: React.FC = () => {
               What we believe
             </h2>
           </div>
-          <div className="story-beliefs-grid">
+          <AnimatedContent className="story-beliefs-grid" distance={45} duration={0.7} stagger={0.08} threshold={0.1}>
             <div className="story-belief-card">
               <div className="story-belief-icon-box" aria-hidden="true">
                 <Icon name="leaf" size={26} strokeWidth={1.5} />
@@ -152,7 +155,7 @@ export const StoryPage: React.FC = () => {
               <h3 className="story-belief-card-title">Made to be cherished</h3>
               <p className="story-belief-card-body">We make things to be kept, displayed and remembered.</p>
             </div>
-          </div>
+          </AnimatedContent>
         </div>
       </section>
 
@@ -161,24 +164,26 @@ export const StoryPage: React.FC = () => {
         <div className="container">
           <div className="cta-band">
             <h2 className="cta-band__heading">Have something special in mind?</h2>
-            <p className="cta-band__text">
-              Tell us about the moment, and we will help you find or create the perfect gift.
-            </p>
-            <div className="cta-band__actions" id="storyCtaActions">
-              <Link to="/collections" className="btn btn-burgundy">
-                Explore Collections
-              </Link>
-              {hasWhatsApp() && (
-                <a
-                  href={waLink('Hi Palora! I have a gift in mind.')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-outline-burgundy"
-                >
-                  Chat on WhatsApp
-                </a>
-              )}
-            </div>
+            <AnimatedContent distance={30} duration={0.6} stagger={0.08} threshold={0.1}>
+              <p className="cta-band__text">
+                Tell us about the moment, and we will help you find or create the perfect gift.
+              </p>
+              <div className="cta-band__actions" id="storyCtaActions">
+                <Link to="/collections" className="btn btn-burgundy">
+                  Explore Collections
+                </Link>
+                {hasWhatsApp() && (
+                  <a
+                    href={waLink('Hi Palora! I have a gift in mind.')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline-burgundy"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                )}
+              </div>
+            </AnimatedContent>
           </div>
         </div>
       </section>

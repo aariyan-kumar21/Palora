@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { PRODUCTS, countInCategory, productsInCategory } from '../../data/products';
 import { CATEGORIES } from '../../data/categories';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
+import { AnimatedContent } from '../../components/AnimatedContent/AnimatedContent';
 import { Footer } from '../../components/Footer/Footer';
 import { Icon } from '../../components/Icon/Icon';
 import { usePageMeta } from '../../hooks/usePageMeta';
@@ -586,7 +587,15 @@ export const CollectionsPage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="catalogue-grid" id="catalogueGrid" aria-live="polite">
+            <AnimatedContent
+              className="catalogue-grid"
+              id="catalogueGrid"
+              aria-live="polite"
+              distance={40}
+              duration={0.6}
+              stagger={0.05}
+              trigger="mount"
+            >
               {filteredProducts.map((product, index) => (
                 <ProductCard
                   key={product.id}
@@ -595,7 +604,7 @@ export const CollectionsPage: React.FC = () => {
                   variant="catalogue"
                 />
               ))}
-            </div>
+            </AnimatedContent>
           )}
         </section>
       </div>

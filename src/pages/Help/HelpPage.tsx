@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from '../../components/Footer/Footer';
+import { AnimatedContent } from '../../components/AnimatedContent/AnimatedContent';
 import { Icon } from '../../components/Icon/Icon';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { hasWhatsApp, waLink, INSTAGRAM_URL, INSTAGRAM_HANDLE, EMAIL } from '../../data/config';
@@ -131,26 +132,28 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-how-to-order" className="help-section__heading">
                   How to order
                 </h2>
-                <ol className="help-steps">
-                  <li className="help-step">
-                    <span className="help-step__num">01</span>
-                    <p className="help-step__text">
-                      Choose the pieces you love and add them to your cart.
-                    </p>
-                  </li>
-                  <li className="help-step">
-                    <span className="help-step__num">02</span>
-                    <p className="help-step__text">
-                      Add your personalization notes, such as a name, message or colour preference.
-                    </p>
-                  </li>
-                  <li className="help-step">
-                    <span className="help-step__num">03</span>
-                    <p className="help-step__text">
-                      Send your order on WhatsApp. We confirm the details, delivery time and payment with you before we begin.
-                    </p>
-                  </li>
-                </ol>
+                <AnimatedContent distance={40} duration={0.65} stagger={0.09} threshold={0.1}>
+                  <ol className="help-steps">
+                    <li className="help-step">
+                      <span className="help-step__num">01</span>
+                      <p className="help-step__text">
+                        Choose the pieces you love and add them to your cart.
+                      </p>
+                    </li>
+                    <li className="help-step">
+                      <span className="help-step__num">02</span>
+                      <p className="help-step__text">
+                        Add your personalization notes, such as a name, message or colour preference.
+                      </p>
+                    </li>
+                    <li className="help-step">
+                      <span className="help-step__num">03</span>
+                      <p className="help-step__text">
+                        Send your order on WhatsApp. We confirm the details, delivery time and payment with you before we begin.
+                      </p>
+                    </li>
+                  </ol>
+                </AnimatedContent>
               </section>
 
               {/* 2. Personalization */}
@@ -158,11 +161,11 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-personalization" className="help-section__heading">
                   Personalization
                 </h2>
-                <div className="page-copy">
+                <AnimatedContent className="page-copy" distance={32} duration={0.65} threshold={0.1}>
                   <p>
                     Many of our pieces can be personalized with names, messages or colour preferences. Look for the Personalizable badge, or add a note on any product in its quick view. If you would like something more custom, tell us on WhatsApp.
                   </p>
-                </div>
+                </AnimatedContent>
               </section>
 
               {/* 3. Shipping & delivery */}
@@ -170,11 +173,11 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-shipping" className="help-section__heading">
                   Shipping &amp; delivery
                 </h2>
-                <div className="page-copy">
+                <AnimatedContent className="page-copy" distance={32} duration={0.65} threshold={0.1}>
                   <p>
                     We deliver across India. Every piece is made to order, so delivery timing depends on the piece and any personalization. We confirm the timing with you on WhatsApp when you place your order.
                   </p>
-                </div>
+                </AnimatedContent>
               </section>
 
               {/* 4. Returns & personalized orders */}
@@ -182,11 +185,11 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-returns" className="help-section__heading">
                   Returns &amp; personalized orders
                 </h2>
-                <div className="page-copy">
+                <AnimatedContent className="page-copy" distance={32} duration={0.65} threshold={0.1}>
                   <p>
                     Because each piece is made to order, please check your order details carefully before confirming. If your order arrives damaged or is not what you ordered, message us on WhatsApp with photos and we will find the best solution together.
                   </p>
-                </div>
+                </AnimatedContent>
               </section>
 
               {/* 5. Frequently asked questions */}
@@ -194,7 +197,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-faqs" className="help-section__heading">
                   Frequently asked questions
                 </h2>
-                <div className="help-faqs-list">
+                <AnimatedContent className="help-faqs-list" distance={35} duration={0.6} stagger={0.07} threshold={0.1}>
                   {FAQS.map(faq => (
                     <details key={faq.id} className="help-faq-item" id={faq.id}>
                       <summary className="help-faq-summary">
@@ -217,7 +220,7 @@ export const HelpPage: React.FC = () => {
                       </div>
                     </details>
                   ))}
-                </div>
+                </AnimatedContent>
               </section>
 
               {/* 6. Contact us */}
@@ -225,10 +228,11 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-contact" className="help-section__heading">
                   Contact us
                 </h2>
-                <div className="page-copy">
-                  <p>We are easiest to reach on WhatsApp or Instagram.</p>
-                </div>
-                <div className="contact-rows-list">
+                <AnimatedContent distance={30} duration={0.6} stagger={0.07} threshold={0.1}>
+                  <div className="page-copy">
+                    <p>We are easiest to reach on WhatsApp or Instagram.</p>
+                  </div>
+                  <div className="contact-rows-list">
                   {hasWhatsApp() && (
                     <div className="contact-row-item">
                       <a
@@ -283,6 +287,7 @@ export const HelpPage: React.FC = () => {
                     <span>Delivering across India</span>
                   </div>
                 </div>
+                </AnimatedContent>
               </section>
             </div>
           </div>
