@@ -4,6 +4,7 @@ import { PRODUCTS, countInCategory, productsInCategory } from '../../data/produc
 import { CATEGORIES } from '../../data/categories';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { AnimatedContent } from '../../components/AnimatedContent/AnimatedContent';
+import { JellyRadio, JellyRadioItem } from '../../components/JellyRadio/JellyRadio';
 import { Footer } from '../../components/Footer/Footer';
 import { Icon } from '../../components/Icon/Icon';
 import { usePageMeta } from '../../hooks/usePageMeta';
@@ -315,57 +316,61 @@ export const CollectionsPage: React.FC = () => {
           <div
             className="collection-pills"
             ref={pillsRef}
-            role="toolbar"
-            aria-label="Categories"
             onPointerDown={handlePillPointerDown}
             onPointerMove={handlePillPointerMove}
             onPointerUp={handlePillPointerUp}
             onPointerCancel={handlePillPointerUp}
           >
-            {/* All categories pill */}
-            <button
-              type="button"
-              className={`pill ${selectedCategories.size === 0 && !selectedCollection ? 'active' : ''}`}
-              aria-pressed={selectedCategories.size === 0 && !selectedCollection}
-              onClick={() => handlePillClick('all')}
-            >
-              <svg
-                className="pill-icon"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                <rect x="14" y="14" width="7" height="7" rx="1.5" />
-              </svg>
-              <span>All categories</span>
-            </button>
-
-            {/* 11 Categories pills */}
-            {CATEGORIES.map(cat => {
-              const isActive = selectedCategories.has(cat.slug);
-              const iconName = PILL_ICONS[cat.slug] || 'gift';
-              return (
-                <button
-                  key={cat.slug}
-                  type="button"
-                  className={`pill ${isActive ? 'active' : ''}`}
-                  aria-pressed={isActive}
-                  onClick={() => handlePillClick(cat.slug)}
-                >
-                  <Icon name={iconName as any} size={18} strokeWidth={1.8} className="pill-icon" />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
+            <JellyRadio
+              ariaLabel="Categories"
+              value={selectedCategories.size === 1 && !selectedCollection ? Array.from(selectedCategories)[0] : 'all'}
+              onChange={val => handlePillClick(val)}
+              chipColor="#FFF8F4"
+              activeColor="#722F37"
+              textColor="#5A1623"
+              activeTextColor="#FFF7F2"
+              size="lg"
+              gap={12}
+              radius={22}
+              swell={0.14}
+              barge={6}
+              shrink={0.04}
+              jelly={1}
+              bounce={0.25}
+              stagger={22}
+              stiffness={580}
+              items={
+                [
+                  {
+                    value: 'all',
+                    label: 'All categories',
+                    icon: (
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                      </svg>
+                    )
+                  },
+                  ...CATEGORIES.map(cat => ({
+                    value: cat.slug,
+                    label: cat.label,
+                    icon: <Icon name={(PILL_ICONS[cat.slug] || 'gift') as any} size={18} strokeWidth={1.8} />
+                  }))
+                ] as JellyRadioItem[]
+              }
+            />
           </div>
 
           <button

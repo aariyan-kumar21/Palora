@@ -28,6 +28,22 @@ async function main() {
     await page.goto('http://127.0.0.1:4173/collections', { waitUntil: 'networkidle' });
     await page.waitForTimeout(400);
 
+    // 0. Verify JellyRadio category chips
+    const jellyCount = await page.locator('.jelly-radio__chip').count();
+    await page.locator('.jelly-radio__chip', { hasText: 'Keychains' }).click();
+    await page.waitForTimeout(300);
+    const keychainsState = await page.evaluate(() => ({
+      jellyCount: document.querySelectorAll('.jelly-radio__chip').length,
+      keychainsOn: document.querySelector('.jelly-radio__chip[data-on="true"]')?.textContent?.trim(),
+      filteredText: document.querySelector('#resultsCount')?.textContent?.trim()
+    }));
+    console.log('JellyRadio filter:', keychainsState);
+    if (jellyCount !== 12 || keychainsState.keychainsOn !== 'Keychains') {
+      throw new Error('JellyRadio category selection failed!');
+    }
+    await page.locator('.jelly-radio__chip', { hasText: 'All categories' }).click();
+    await page.waitForTimeout(300);
+
     // 1. Open sort dropdown
     await page.locator('.custom-sort-trigger').click();
     await page.waitForTimeout(250);
