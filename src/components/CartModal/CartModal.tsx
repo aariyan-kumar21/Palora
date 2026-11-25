@@ -50,7 +50,9 @@ export const CartModal: React.FC = () => {
 
     let grandTotal = 0;
     const messageLines = [
-      `*🎁 NEW ORDER INQUIRY - PALORA HANDMADE*`,
+      `_Hello Palora! I would like to place this handmade order. Please confirm availability and share payment details._`,
+      ``,
+      `*NEW ORDER INQUIRY - PALORA HANDMADE*`,
       `--------------------------------------`,
       `*Customer:* ${cName}`,
       `*Delivery Address:* ${cAddress}`,
@@ -62,19 +64,20 @@ export const CartModal: React.FC = () => {
     cart.forEach((item, index) => {
       const lineTotal = item.price * item.quantity;
       grandTotal += lineTotal;
+      const hasCustomNote =
+        item.note && item.note !== 'Standard (No custom text requested)' && item.note.trim() !== '';
+      const noteText = hasCustomNote ? item.note : 'No customizations needed';
       messageLines.push(
         `\n*${index + 1}. ${item.name}*`,
         `• Qty: ${item.quantity} × ₹${item.price.toLocaleString('en-IN')} = ₹${lineTotal.toLocaleString('en-IN')}`,
-        `• *Personalization:* "${item.note}"`
+        `• *Personalization:* "${noteText}"`
       );
     });
 
     messageLines.push(
       `--------------------------------------`,
       `*ESTIMATED TOTAL: ₹${grandTotal.toLocaleString('en-IN')}*`,
-      `_(Excluding shipping; verified via chat)_`,
-      ``,
-      `✨ _Hello Palora! I would like to place this handmade order. Please confirm availability and share payment details._`
+      `_(Excluding shipping; verified via chat)_`
     );
 
     const fullMessage = messageLines.join('\n');
