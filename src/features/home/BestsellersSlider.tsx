@@ -11,13 +11,15 @@ export const BestsellersSlider: React.FC = () => {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
   const hasDragged = useRef(false);
+  const hasCaptured = useRef(false);
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest('button')) return;
     isDown.current = true;
     hasDragged.current = false;
+    hasCaptured.current = false;
     startX.current = e.pageX - (trackRef.current?.offsetLeft || 0);
     scrollLeft.current = trackRef.current?.scrollLeft || 0;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -27,6 +29,12 @@ export const BestsellersSlider: React.FC = () => {
     if (Math.abs(walk) > 6) {
       hasDragged.current = true;
       trackRef.current.classList.add('is-dragging');
+      if (!hasCaptured.current) {
+        try {
+          (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+          hasCaptured.current = true;
+        } catch (_) {}
+      }
     }
     trackRef.current.scrollLeft = scrollLeft.current - walk;
   };
@@ -34,12 +42,23 @@ export const BestsellersSlider: React.FC = () => {
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDown.current) return;
     isDown.current = false;
+    if (hasCaptured.current) {
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch (_) {}
+      hasCaptured.current = false;
+    }
     setTimeout(() => {
+      hasDragged.current = false;
       trackRef.current?.classList.remove('is-dragging');
     }, 50);
-    try {
-      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch (_) {}
+  };
+
+  const handleClickCapture = (e: React.MouseEvent) => {
+    if (hasDragged.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
 
   return (
@@ -67,6 +86,7 @@ export const BestsellersSlider: React.FC = () => {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
+            onClickCapture={handleClickCapture}
           >
             {featuredProducts.map((product, idx) => (
               <ProductCard key={product.id} product={product} index={idx} variant="slider" />

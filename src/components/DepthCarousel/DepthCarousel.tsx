@@ -28,6 +28,7 @@ export const DepthCarousel: React.FC = () => {
   const dragStartX = useRef(0);
   const dragDeltaX = useRef(0);
   const hasDragged = useRef(false);
+  const hasCaptured = useRef(false);
 
   const reducedMotion =
     typeof window !== 'undefined' &&
@@ -93,9 +94,9 @@ export const DepthCarousel: React.FC = () => {
     if (e.button !== 0) return;
     setIsDragging(true);
     hasDragged.current = false;
+    hasCaptured.current = false;
     dragStartX.current = e.clientX;
     dragDeltaX.current = 0;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -103,6 +104,12 @@ export const DepthCarousel: React.FC = () => {
     dragDeltaX.current = e.clientX - dragStartX.current;
     if (Math.abs(dragDeltaX.current) > 10) {
       hasDragged.current = true;
+      if (!hasCaptured.current) {
+        try {
+          (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+          hasCaptured.current = true;
+        } catch (_) {}
+      }
     }
     if (Math.abs(dragDeltaX.current) >= 90) {
       if (dragDeltaX.current > 0) {
@@ -118,9 +125,12 @@ export const DepthCarousel: React.FC = () => {
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDragging) return;
     setIsDragging(false);
-    try {
-      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch (_) {}
+    if (hasCaptured.current) {
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch (_) {}
+      hasCaptured.current = false;
+    }
     setTimeout(() => {
       hasDragged.current = false;
     }, 50);

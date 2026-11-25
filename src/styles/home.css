@@ -355,11 +355,11 @@
 }
 
 .bestsellers__footer {
-  text-align: center;
+  text-align: left;
   display: flex;
-  justify-content: center;
-  margin-top: 36px;
-  padding-left: 0;
+  justify-content: flex-start;
+  margin-top: 28px;
+  padding-left: 4px;
 }
 
 /* --------------------------------------------------------------------------
