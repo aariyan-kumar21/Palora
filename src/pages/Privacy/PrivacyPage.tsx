@@ -99,60 +99,60 @@ export const PrivacyPage: React.FC = () => {
               <AnimatedContent distance={30} duration={0.65} stagger={0.07} threshold={0.1}>
                 <p>We are easiest to reach on WhatsApp or Instagram.</p>
                 <div className="contact-rows-list">
-                {hasWhatsApp() && (
-                  <div className="contact-row-item">
-                    <a
-                      href={waLink('Hi Palora! I have a question regarding privacy.')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-burgundy"
-                    >
-                      <Icon name="whatsapp" size={20} />
-                      <span>Chat on WhatsApp</span>
-                    </a>
-                  </div>
-                )}
-
-                {INSTAGRAM_URL && (
-                  <div className="contact-row-item">
-                    <span className="contact-row-icon" aria-hidden="true">
-                      <Icon name="instagram" size={24} />
-                    </span>
-                    <span>
-                      Instagram:{' '}
+                  {hasWhatsApp() && (
+                    <div className="contact-row-item">
                       <a
-                        href={INSTAGRAM_URL}
+                        href={waLink('Hi Palora! I have a question regarding privacy.')}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="contact-row-link"
+                        className="btn btn-burgundy"
                       >
-                        @{INSTAGRAM_HANDLE}
+                        <Icon name="whatsapp" size={20} />
+                        <span>Chat on WhatsApp</span>
                       </a>
-                    </span>
-                  </div>
-                )}
+                    </div>
+                  )}
 
-                {EMAIL && (
+                  {INSTAGRAM_URL && (
+                    <div className="contact-row-item">
+                      <span className="contact-row-icon" aria-hidden="true">
+                        <Icon name="instagram" size={24} />
+                      </span>
+                      <span>
+                        Instagram:{' '}
+                        <a
+                          href={INSTAGRAM_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="contact-row-link"
+                        >
+                          @{INSTAGRAM_HANDLE}
+                        </a>
+                      </span>
+                    </div>
+                  )}
+
+                  {EMAIL && (
+                    <div className="contact-row-item">
+                      <span className="contact-row-icon" aria-hidden="true">
+                        <Icon name="mail" size={24} />
+                      </span>
+                      <span>
+                        Email:{' '}
+                        <a href={`mailto:${EMAIL}`} className="contact-row-link">
+                          {EMAIL}
+                        </a>
+                      </span>
+                    </div>
+                  )}
+
                   <div className="contact-row-item">
                     <span className="contact-row-icon" aria-hidden="true">
-                      <Icon name="mail" size={24} />
+                      <Icon name="truck" size={24} />
                     </span>
-                    <span>
-                      Email:{' '}
-                      <a href={`mailto:${EMAIL}`} className="contact-row-link">
-                        {EMAIL}
-                      </a>
-                    </span>
+                    <span>Delivering across India</span>
                   </div>
-                )}
-
-                <div className="contact-row-item">
-                  <span className="contact-row-icon" aria-hidden="true">
-                    <Icon name="truck" size={24} />
-                  </span>
-                  <span>Delivering across India</span>
                 </div>
-              </div>
               </AnimatedContent>
             </section>
 

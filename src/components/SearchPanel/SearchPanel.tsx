@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useUI } from '../../context/UIContext';
 import { PRODUCTS } from '../../data/products';
 import { Product } from '../../data/types';
+import AnimatedList, { AnimatedListItemObject } from '../AnimatedList/AnimatedList';
 import './SearchPanel.css';
 
 const inrFormatter = new Intl.NumberFormat('en-IN');
@@ -213,46 +214,58 @@ export const SearchPanel: React.FC = () => {
           {q && matchedProducts.length === 0 ? (
             <div className="search-no-results">No pieces match your search.</div>
           ) : (
-            <ul className="search-results-list">
-              {displayProducts.map((product, idx) => {
-                const toneNum = (idx % 4) + 1;
+            <AnimatedList<AnimatedListItemObject & { product: Product; toneNum: number }>
+              items={displayProducts.map((product, idx) => ({
+                id: `${q ? 'search' : 'trend'}-${product.id}`,
+                title: product.name,
+                product,
+                toneNum: (idx % 4) + 1
+              }))}
+              animation="pop"
+              theme="light"
+              frame={false}
+              accentColor="#722F37"
+              stagger={0.05}
+              showGradients={true}
+              fadeSize={36}
+              width="100%"
+              maxHeight={400}
+              radius={14}
+              gap={6}
+              className="search-animated-list"
+              itemClassName={`search-product-row ${q ? 'is-detailed' : ''}`}
+              onItemSelect={item => handleProductClick(item.product)}
+              renderItem={item => {
+                const { product, toneNum } = item;
                 return (
-                  <li key={product.id}>
-                    <button
-                      type="button"
-                      className={`search-product-row ${q ? 'is-detailed' : ''}`}
-                      onClick={() => handleProductClick(product)}
-                    >
-                      <div className={`search-product-thumb product-card__img-box--tone-${toneNum}`}>
-                        {GIFT_WATERMARK_SVG}
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          loading="lazy"
-                          onError={e => {
-                            (e.target as HTMLElement).style.display = 'none';
-                          }}
-                        />
-                      </div>
+                  <>
+                    <div className={`search-product-thumb product-card__img-box--tone-${toneNum}`}>
+                      {GIFT_WATERMARK_SVG}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        loading="lazy"
+                        onError={e => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
 
-                      <div className="search-product-info">
-                        <div className="search-product-top">
-                          <span className="search-product-name">{product.name}</span>
-                          <span className="search-product-badge">{product.badge}</span>
-                        </div>
-                        {q && (
-                          <p className="search-product-desc">{product.description}</p>
-                        )}
+                    <div className="search-product-info">
+                      <div className="search-product-top">
+                        <span className="search-product-name">{product.name}</span>
+                        <span className="search-product-badge">{product.badge}</span>
                       </div>
+                      {q && <p className="search-product-desc">{product.description}</p>}
+                    </div>
 
-                      <span className="search-product-price">
-                        ₹{inrFormatter.format(product.price)}
-                      </span>
-                    </button>
-                  </li>
+                    <span className="search-product-price">
+                      ₹{inrFormatter.format(product.price)}
+                    </span>
+                  </>
                 );
-              })}
-            </ul>
+              }}
+            />
           )}
         </div>
       </div>
