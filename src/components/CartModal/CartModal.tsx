@@ -348,7 +348,7 @@ export const CartModal: React.FC = () => {
                     ₹{inrFormatter.format(totalAmount)}
                   </span>
                 </div>
-                <p className="cart-shipping-note">✨ Standard shipping calculated &amp; finalized via WhatsApp</p>
+                <p className="cart-shipping-note">Standard shipping calculated &amp; finalized via WhatsApp</p>
               </div>
 
               {/* 4. Action CTA */}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useUI } from '../../context/UIContext';
 import { useCart } from '../../context/CartContext';
@@ -14,6 +14,46 @@ export const Header: React.FC = () => {
 
   const isHome = location.pathname === '/' || location.pathname === '/index.html';
   const [scrolled, setScrolled] = useState(!isHome);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number; opacity: number }>({
+    left: 0,
+    width: 0,
+    opacity: 0
+  });
+
+  const navListRef = useRef<HTMLUListElement>(null);
+
+  const updateIndicator = useCallback(() => {
+    const listEl = navListRef.current;
+    if (!listEl) return;
+
+    let targetEl: HTMLElement | null = null;
+    if (hoveredPath) {
+      targetEl = listEl.querySelector(`a[data-nav-path="${hoveredPath}"]`);
+    }
+    if (!targetEl) {
+      targetEl = listEl.querySelector('a.nav-link.active');
+    }
+
+    if (targetEl) {
+      setIndicator({
+        left: targetEl.offsetLeft,
+        width: targetEl.offsetWidth,
+        opacity: 1
+      });
+    } else {
+      setIndicator(prev => ({ ...prev, opacity: 0 }));
+    }
+  }, [hoveredPath]);
+
+  useEffect(() => {
+    updateIndicator();
+  }, [updateIndicator, location.pathname]);
+
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [updateIndicator]);
 
   useEffect(() => {
     if (!isHome) {
@@ -40,11 +80,19 @@ export const Header: React.FC = () => {
       <div className="container header-inner">
         {/* Navigation Links (Left) */}
         <nav className="nav-menu" id="navMenu" aria-label="Main Navigation">
-          <ul className="nav-list">
+          <ul
+            ref={navListRef}
+            className="nav-list"
+            onMouseLeave={() => setHoveredPath(null)}
+          >
             <li>
               <NavLink
                 to="/"
+                data-nav-path="/"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onMouseEnter={() => setHoveredPath('/')}
+                onFocus={() => setHoveredPath('/')}
+                onBlur={() => setHoveredPath(null)}
                 end
               >
                 HOME
@@ -53,11 +101,15 @@ export const Header: React.FC = () => {
             <li>
               <NavLink
                 to="/collections"
+                data-nav-path="/collections"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onMouseEnter={() => {
+                  setHoveredPath('/collections');
                   // Prefetch collections chunk
                   import('../../features/collections/CollectionsPage');
                 }}
+                onFocus={() => setHoveredPath('/collections')}
+                onBlur={() => setHoveredPath(null)}
               >
                 COLLECTIONS
               </NavLink>
@@ -65,11 +117,24 @@ export const Header: React.FC = () => {
             <li>
               <NavLink
                 to="/story"
+                data-nav-path="/story"
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                onMouseEnter={() => setHoveredPath('/story')}
+                onFocus={() => setHoveredPath('/story')}
+                onBlur={() => setHoveredPath(null)}
               >
                 OUR STORY
               </NavLink>
             </li>
+            <li
+              aria-hidden="true"
+              className={`nav-indicator ${hoveredPath ? 'is-hovering' : ''}`}
+              style={{
+                left: `${indicator.left}px`,
+                width: `${indicator.width}px`,
+                opacity: indicator.opacity
+              }}
+            />
           </ul>
         </nav>
 
