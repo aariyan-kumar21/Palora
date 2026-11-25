@@ -289,7 +289,7 @@ export const DepthCarousel: React.FC<DepthCarouselProps> = ({
         drag.moved = true;
         try {
           rootRef.current?.setPointerCapture(drag.id);
-        } catch (_) {}
+        } catch (_) { }
       }
       if (!drag.moved) return;
       const now = performance.now();
@@ -310,7 +310,7 @@ export const DepthCarousel: React.FC<DepthCarouselProps> = ({
     if (wasMoved) {
       try {
         rootRef.current?.releasePointerCapture(drag.id);
-      } catch (_) {}
+      } catch (_) { }
     }
     dragRef.current = null;
     if (!wasMoved) return;
