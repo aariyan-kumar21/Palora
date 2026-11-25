@@ -2267,20 +2267,48 @@ aside#cartModal.is-open,
   font-weight: 600;
 }
 
+.quickview__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
 .quickview__add-btn {
+  flex: 1;
   background-color: var(--burgundy);
   color: var(--icon-cream);
   min-height: 48px;
   border-radius: 10px;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.15rem;
-  margin-top: 8px;
-  transition: background-color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .quickview__add-btn:hover {
   background-color: var(--burgundy-hover);
+}
+
+.quickview__wish-btn {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(114, 47, 55, 0.25);
+  background-color: #FFFBF8;
+  color: #722F37;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.quickview__wish-btn:hover {
+  background-color: rgba(114, 47, 55, 0.06);
+  border-color: rgba(114, 47, 55, 0.45);
+  transform: scale(1.04);
 }
 
 /* --------------------------------------------------------------------------

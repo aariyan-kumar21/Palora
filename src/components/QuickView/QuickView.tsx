@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useUI } from '../../context/UIContext';
 import { useCart } from '../../context/CartContext';
+import { useSaved } from '../../context/SavedContext';
 import { SparkProvider, useSpark } from '../ClickSpark/SparkContext';
 import { PRODUCTS } from '../../data/products';
 
@@ -18,11 +19,13 @@ const GIFT_WATERMARK_SVG = (
 const QuickViewContent: React.FC = () => {
   const { quickViewProduct, closeQuickView } = useUI();
   const { addItem } = useCart();
+  const { isSaved, toggleSaved } = useSaved();
   const { fire } = useSpark();
 
   const [note, setNote] = useState('');
   const [quantity, setQuantity] = useState(1);
   const addBtnRef = useRef<HTMLButtonElement>(null);
+  const wishBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setNote('');
@@ -32,6 +35,7 @@ const QuickViewContent: React.FC = () => {
   if (!quickViewProduct) return null;
 
   const toneNum = ((PRODUCTS.findIndex(p => p.id === quickViewProduct.id) % 4) + 1) || 1;
+  const wishlisted = isSaved(quickViewProduct.id);
 
   const handleAddToCart = () => {
     if (addBtnRef.current) {
@@ -42,6 +46,14 @@ const QuickViewContent: React.FC = () => {
     setTimeout(() => {
       closeQuickView();
     }, 450);
+  };
+
+  const handleWishToggle = () => {
+    if (!wishlisted && wishBtnRef.current) {
+      const rect = wishBtnRef.current.getBoundingClientRect();
+      fire(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
+    toggleSaved(quickViewProduct.id);
   };
 
   return (
@@ -142,15 +154,64 @@ const QuickViewContent: React.FC = () => {
             </div>
           </div>
 
-          <button
-            ref={addBtnRef}
-            type="button"
-            className="quickview__add-btn"
-            id="qvAddBtn"
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </button>
+          <div className="quickview__actions">
+            <button
+              ref={addBtnRef}
+              type="button"
+              className="quickview__add-btn"
+              id="qvAddBtn"
+              aria-label="Add to Cart"
+              title="Add to Cart"
+              onClick={handleAddToCart}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="9" cy="20" r="1.3" />
+                <circle cx="17" cy="20" r="1.3" />
+                <path d="M2 3h3l2.2 11.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.95-1.56L21 7H6" />
+                <path d="M13.5 9.5v4" />
+                <path d="M11.5 11.5h4" />
+              </svg>
+            </button>
+
+            <button
+              ref={wishBtnRef}
+              type="button"
+              className={`quickview__wish-btn ${wishlisted ? 'is-saved' : ''}`}
+              id="qvWishBtn"
+              aria-pressed={wishlisted}
+              aria-label={
+                wishlisted
+                  ? `Remove ${quickViewProduct.name} from wishlist`
+                  : `Save ${quickViewProduct.name} to wishlist`
+              }
+              title={wishlisted ? 'Saved to wishlist' : 'Save to wishlist'}
+              onClick={handleWishToggle}
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill={wishlisted ? '#722F37' : 'none'}
+                stroke="#722F37"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

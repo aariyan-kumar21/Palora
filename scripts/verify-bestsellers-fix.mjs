@@ -71,17 +71,33 @@ async function main() {
     await page.waitForTimeout(150);
     const qvState = await page.evaluate(() => {
       const dialog = document.getElementById('quickViewDialog');
+      const addBtn = document.getElementById('qvAddBtn');
+      const wishBtn = document.getElementById('qvWishBtn');
       return {
         open: dialog?.open,
         title: document.getElementById('qv-title')?.textContent,
         price: document.getElementById('qvPrice')?.textContent,
         desc: document.getElementById('qvDesc')?.textContent,
-        hasAddBtn: Boolean(document.getElementById('qvAddBtn'))
+        hasAddBtn: Boolean(addBtn),
+        addBtnText: addBtn?.textContent?.trim(),
+        hasAddSvg: Boolean(addBtn?.querySelector('svg')),
+        hasWishBtn: Boolean(wishBtn),
+        hasWishSvg: Boolean(wishBtn?.querySelector('svg'))
       };
     });
     console.log('QuickView state:', JSON.stringify(qvState));
-    if (!qvState.open || !qvState.title || !qvState.hasAddBtn) {
-      throw new Error('QuickView did not open properly on bestseller card click!');
+    if (!qvState.open || !qvState.title || !qvState.hasAddBtn || !qvState.hasAddSvg || qvState.addBtnText !== '' || !qvState.hasWishBtn || !qvState.hasWishSvg) {
+      throw new Error('QuickView did not open properly or missing cart-plus / heart buttons!');
+    }
+
+    // 3b. Click QuickView heart button -> toggles saved state
+    const qvWishBefore = await page.locator('#qvWishBtn').getAttribute('aria-pressed');
+    await page.locator('#qvWishBtn').click();
+    await page.waitForTimeout(80);
+    const qvWishAfter = await page.locator('#qvWishBtn').getAttribute('aria-pressed');
+    console.log('QuickView heart toggle:', { qvWishBefore, qvWishAfter });
+    if (qvWishBefore === qvWishAfter) {
+      throw new Error('QuickView heart button did not toggle!');
     }
 
     // 4. Click Add to Cart -> ClickSpark canvas spawns and cart updates
