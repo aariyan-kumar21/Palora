@@ -137,18 +137,18 @@ export const Footer: React.FC = () => {
           {/* Column 5: Get in touch */}
           <div className="footer-col footer-col--contact">
             <h3 className="footer-col-heading">Get in touch</h3>
-            {hasWhatsApp() && (
-              <a
-                href={waLink("Hi Palora! I'd like to order a handmade gift.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-wa-btn"
-              >
-                <Icon name="whatsapp" size={18} strokeWidth={1.5} />
-                <span>Order on WhatsApp</span>
-              </a>
-            )}
             <div className="footer-contact-items">
+              {hasWhatsApp() && (
+                <a
+                  href={waLink("Hi Palora! I'd like to order a handmade gift.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-contact-link"
+                >
+                  <Icon name="whatsapp" size={18} strokeWidth={1.5} />
+                  <span>Order on WhatsApp</span>
+                </a>
+              )}
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
