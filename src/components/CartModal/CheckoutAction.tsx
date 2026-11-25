@@ -28,7 +28,7 @@ export const CheckoutAction: React.FC<CheckoutActionProps> = ({ onCheckout, disa
         speed={50}
         returnBounce={0.38}
         landingDip={0.026}
-        holdMs={1500}
+        holdMs={60000}
         disabled={isDisabled}
       />
     </div>
