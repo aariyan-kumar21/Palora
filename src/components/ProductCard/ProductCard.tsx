@@ -40,9 +40,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleHeartClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     const btn = e.currentTarget;
-    // Fire sparks from the center of the heart button
-    const rect = btn.getBoundingClientRect();
-    fire(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    if (!wishlisted) {
+      // Fire sparks only when adding to wishlist (heart was blank)
+      const rect = btn.getBoundingClientRect();
+      fire(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
     toggleSaved(product.id);
   };
 
