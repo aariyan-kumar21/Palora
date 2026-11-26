@@ -424,8 +424,7 @@
 
   .contact-row-link {
     color: #722F37;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    text-decoration: none;
     transition: color 0.15s ease;
   }
 

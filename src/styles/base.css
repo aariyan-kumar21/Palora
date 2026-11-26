@@ -832,9 +832,7 @@ body:not([data-page="home"]) .site-header {
 }
 
 .md-row span {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+  text-decoration: none;
 }
 
 .md-foot {
@@ -860,9 +858,7 @@ body:not([data-page="home"]) .site-header {
   font-size: 14px;
   line-height: 18px;
   color: #F9DCDF;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+  text-decoration: none;
   transition: color 200ms ease;
 }
 
