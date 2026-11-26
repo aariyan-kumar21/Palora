@@ -132,7 +132,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-how-to-order" className="help-section__heading">
                   How to order
                 </h2>
-                <AnimatedContent distance={90} duration={0.8} stagger={0.09} threshold={0.1} once={false}>
+                <AnimatedContent distance={63} duration={0.8} stagger={0.09} threshold={0.1} once={false}>
                   <ol className="help-steps">
                     <li className="help-step">
                       <span className="help-step__num">01</span>
@@ -161,7 +161,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-personalization" className="help-section__heading">
                   Personalization
                 </h2>
-                <AnimatedContent className="page-copy" distance={85} duration={0.75} threshold={0.1} once={false}>
+                <AnimatedContent className="page-copy" distance={60} duration={0.75} threshold={0.1} once={false}>
                   <p>
                     Many of our pieces can be personalized with names, messages or colour preferences. Look for the Personalizable badge, or add a note on any product in its quick view. If you would like something more custom, tell us on WhatsApp.
                   </p>
@@ -173,7 +173,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-shipping" className="help-section__heading">
                   Shipping &amp; delivery
                 </h2>
-                <AnimatedContent className="page-copy" distance={85} duration={0.75} threshold={0.1} once={false}>
+                <AnimatedContent className="page-copy" distance={60} duration={0.75} threshold={0.1} once={false}>
                   <p>
                     We deliver across India. Every piece is made to order, so delivery timing depends on the piece and any personalization. We confirm the timing with you on WhatsApp when you place your order.
                   </p>
@@ -185,7 +185,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-returns" className="help-section__heading">
                   Returns &amp; personalized orders
                 </h2>
-                <AnimatedContent className="page-copy" distance={85} duration={0.75} threshold={0.1} once={false}>
+                <AnimatedContent className="page-copy" distance={60} duration={0.75} threshold={0.1} once={false}>
                   <p>
                     Because each piece is made to order, please check your order details carefully before confirming. If your order arrives damaged or is not what you ordered, message us on WhatsApp with photos and we will find the best solution together.
                   </p>
@@ -197,7 +197,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-faqs" className="help-section__heading">
                   Frequently asked questions
                 </h2>
-                <AnimatedContent className="help-faqs-list" distance={90} duration={0.8} stagger={0.07} threshold={0.1} once={false}>
+                <AnimatedContent className="help-faqs-list" distance={63} duration={0.8} stagger={0.07} threshold={0.1} once={false}>
                   {FAQS.map(faq => (
                     <details key={faq.id} className="help-faq-item" id={faq.id}>
                       <summary className="help-faq-summary">
@@ -228,7 +228,7 @@ export const HelpPage: React.FC = () => {
                 <h2 id="heading-contact" className="help-section__heading">
                   Contact us
                 </h2>
-                <AnimatedContent distance={85} duration={0.75} stagger={0.07} threshold={0.1} once={false}>
+                <AnimatedContent distance={60} duration={0.75} stagger={0.07} threshold={0.1} once={false}>
                   <div className="page-copy">
                     <p>We are easiest to reach on WhatsApp or Instagram.</p>
                   </div>

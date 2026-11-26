@@ -615,7 +615,7 @@ export const CollectionsPage: React.FC = () => {
               className="catalogue-grid"
               id="catalogueGrid"
               aria-live="polite"
-              distance={95}
+              distance={66}
               duration={0.8}
               stagger={0.06}
               threshold={0.08}

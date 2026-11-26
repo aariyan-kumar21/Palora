@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
     <footer className="site-footer" id="site-footer">
       {/* 5 Columns Grid */}
       <div className="container footer-main-container">
-        <AnimatedContent className="footer-grid" distance={85} duration={0.8} stagger={0.07} threshold={0.05} once={false}>
+        <AnimatedContent className="footer-grid" distance={60} duration={0.8} stagger={0.07} threshold={0.05} once={false}>
           {/* Column 1: Brand */}
           <div className="footer-col footer-col--brand">
             <div className="footer-brand-title">PALORA</div>

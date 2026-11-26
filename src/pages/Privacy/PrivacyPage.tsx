@@ -37,7 +37,7 @@ export const PrivacyPage: React.FC = () => {
           <div className="privacy-container page-copy">
             <section className="privacy-section">
               <h2 className="privacy-section__heading">The short version</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>
                   This website does not ask you to create an account and does not collect payments. We only receive what you choose to send us when you place an order or message us.
                 </p>
@@ -46,7 +46,7 @@ export const PrivacyPage: React.FC = () => {
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">What stays in your browser</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>
                   Your cart and the products you save are stored in your own browser so they are still there when you come back. They are not sent to us. You can clear them at any time by clearing your browser data.
                 </p>
@@ -55,7 +55,7 @@ export const PrivacyPage: React.FC = () => {
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">What we receive when you order</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>
                   When you send an order on WhatsApp, we receive the message you send, which can include your name, address, contact details and personalization notes. We use it only to prepare, confirm and deliver your order and to reply to you.
                 </p>
@@ -64,14 +64,14 @@ export const PrivacyPage: React.FC = () => {
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">Payments</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>This website does not process or store payment details.</p>
               </AnimatedContent>
             </section>
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">Third-party services</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>
                   Ordering and messaging happen on WhatsApp and Instagram, which have their own privacy policies. The fonts on this website are loaded from Google Fonts.
                 </p>
@@ -80,14 +80,14 @@ export const PrivacyPage: React.FC = () => {
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">Cookies and tracking</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>We do not use advertising or tracking cookies on this website.</p>
               </AnimatedContent>
             </section>
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">Your choices</h2>
-              <AnimatedContent distance={85} duration={0.75} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} threshold={0.1} once={false}>
                 <p>
                   To ask us to delete the details you have shared with us, message us on WhatsApp or Instagram.
                 </p>
@@ -96,7 +96,7 @@ export const PrivacyPage: React.FC = () => {
 
             <section className="privacy-section">
               <h2 className="privacy-section__heading">Contact</h2>
-              <AnimatedContent distance={85} duration={0.75} stagger={0.07} threshold={0.1} once={false}>
+              <AnimatedContent distance={60} duration={0.75} stagger={0.07} threshold={0.1} once={false}>
                 <p>We are easiest to reach on WhatsApp or Instagram.</p>
                 <div className="contact-rows-list">
                   {hasWhatsApp() && (

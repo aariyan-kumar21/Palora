@@ -72,7 +72,7 @@ export const BestsellersSlider: React.FC = () => {
           </h2>
         </div>
 
-        <AnimatedContent distance={95} duration={0.85} threshold={0.1} once={false}>
+        <AnimatedContent distance={66} duration={0.85} threshold={0.1} once={false}>
           <div
             className="bestsellers__slider"
             role="region"

@@ -6,7 +6,7 @@ export const PersonalizeBanner: React.FC = () => {
   return (
     <section className="personalize" id="personalize" aria-labelledby="personalize-title">
       <div className="container">
-        <AnimatedContent distance={95} duration={0.85} stagger={0.1} threshold={0.1} once={false}>
+        <AnimatedContent distance={66} duration={0.85} stagger={0.1} threshold={0.1} once={false}>
           <div className="callout">
           <div className="callout__text">
             <h2 id="personalize-title">Make It Truly Yours</h2>
