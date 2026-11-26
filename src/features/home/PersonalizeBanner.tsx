@@ -36,6 +36,8 @@ export const PersonalizeBanner: React.FC = () => {
             <img
               src="/assets/personalization.jpg"
               alt="Gift tag with the Palora monogram on a burgundy ribbon"
+              loading="lazy"
+              decoding="async"
               onError={e => {
                 const img = e.target as HTMLImageElement;
                 img.onerror = null;

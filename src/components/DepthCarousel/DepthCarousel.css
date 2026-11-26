@@ -115,3 +115,26 @@
     transition: none;
   }
 }
+
+@media (max-width: 767.98px) {
+  .rb-depth-carousel {
+    height: 360px;
+    min-height: 320px;
+  }
+
+  .rb-depth-carousel__dots {
+    margin-top: 16px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .rb-depth-carousel__dot {
+    position: relative;
+  }
+
+  .rb-depth-carousel__dot::after {
+    content: '';
+    position: absolute;
+    inset: -18px -6px;
+  }
+}

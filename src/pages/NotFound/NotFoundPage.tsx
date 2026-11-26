@@ -25,11 +25,11 @@ export const NotFoundPage: React.FC = () => {
       </section>
 
       <section className="page-section">
-        <div className="container" style={{ textAlign: 'center', padding: '60px 0' }}>
-          <p style={{ fontSize: '1.25rem', color: '#572E2E', marginBottom: '32px' }}>
+        <div className="container notfound-body">
+          <p className="notfound-lead">
             Looking for thoughtful, customizable handmade gifts?
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <div className="notfound-actions">
             <Link to="/" className="btn btn-burgundy">
               Return Home
             </Link>

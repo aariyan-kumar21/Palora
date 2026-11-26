@@ -33,6 +33,8 @@ export const Hero: React.FC = () => {
       <img
         className="hero__bg"
         src="/assets/hero.png"
+        srcSet="/assets/hero-mobile.jpg 800w, /assets/hero.png 1615w"
+        sizes="(max-width: 767.98px) 100vw, 85vw"
         alt="Gift box with a burgundy satin ribbon and a Palora monogram tag, beside a candle and flowers"
         width={1615}
         height={868}

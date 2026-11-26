@@ -8,7 +8,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "parity": "node scripts/parity.mjs",
-    "size-check": "node scripts/size-check.mjs"
+    "size-check": "node scripts/size-check.mjs",
+    "responsive-check": "node scripts/responsive-check.mjs",
+    "laptop-lock": "node scripts/laptop-lock.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.4.0",

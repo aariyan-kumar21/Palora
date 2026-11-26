@@ -84,6 +84,27 @@ export const SearchPanel: React.FC = () => {
     return () => clearTimeout(timer);
   }, [isOpen]);
 
+  // Adapt max-height to on-screen keyboard via visualViewport on mobile
+  useEffect(() => {
+    if (!isOpen) {
+      document.documentElement.style.removeProperty('--vv-height');
+      return;
+    }
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const syncViewport = () => {
+      document.documentElement.style.setProperty('--vv-height', `${vv.height}px`);
+    };
+    syncViewport();
+    vv.addEventListener('resize', syncViewport, { passive: true });
+    vv.addEventListener('scroll', syncViewport, { passive: true });
+    return () => {
+      vv.removeEventListener('resize', syncViewport);
+      vv.removeEventListener('scroll', syncViewport);
+      document.documentElement.style.removeProperty('--vv-height');
+    };
+  }, [isOpen]);
+
   // Close on Escape key
   useEffect(() => {
     if (!isOpen) return;

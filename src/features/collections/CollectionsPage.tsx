@@ -66,7 +66,59 @@ export const CollectionsPage: React.FC = () => {
   const [priceMax, setPriceMax] = useState(5000);
   const [sort, setSort] = useState<SortOption>('newest');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const sortWrapRef = useRef<HTMLDivElement>(null);
+  const filtersTriggerRef = useRef<HTMLButtonElement>(null);
+  const filtersAsideRef = useRef<HTMLElement>(null);
+
+  const closeMobileFilters = useCallback(() => {
+    setMobileFiltersOpen(false);
+    requestAnimationFrame(() => filtersTriggerRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!mobileFiltersOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const asideEl = filtersAsideRef.current;
+    const focusFirst = setTimeout(() => {
+      const first = asideEl?.querySelector<HTMLElement>('button, input, [tabindex]:not([tabindex="-1"])');
+      first?.focus();
+    }, 60);
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMobileFilters();
+        return;
+      }
+      if (e.key === 'Tab' && asideEl) {
+        const focusables = Array.from(
+          asideEl.querySelectorAll<HTMLElement>(
+            'button:not(:disabled), input:not(:disabled), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      clearTimeout(focusFirst);
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [mobileFiltersOpen, closeMobileFilters]);
 
   useEffect(() => {
     if (!isSortOpen) return;
@@ -398,8 +450,19 @@ export const CollectionsPage: React.FC = () => {
 
       {/* Main Filters & Products Grid Layout */}
       <div className="catalogue-wrap">
-        {/* Left Sticky Filters Sidebar */}
-        <aside className="filters" aria-label="Filters">
+        <div
+          className={`filters-sheet-backdrop ${mobileFiltersOpen ? 'is-open' : ''}`}
+          aria-hidden="true"
+          onClick={closeMobileFilters}
+        />
+
+        {/* Left Sticky Filters Sidebar (Bottom sheet below 1024px) */}
+        <aside
+          ref={filtersAsideRef}
+          className={`filters ${mobileFiltersOpen ? 'is-sheet-open' : ''}`}
+          id="filtersSheet"
+          aria-label="Filters"
+        >
           <div className="filters__header">
             <div className="filters__title-group">
               <svg
@@ -510,6 +573,23 @@ export const CollectionsPage: React.FC = () => {
               })}
             </div>
           </div>
+
+          <div className="filters__sheet-footer">
+            <button
+              type="button"
+              className="btn btn-outline-burgundy"
+              onClick={clearAllFilters}
+            >
+              Clear all
+            </button>
+            <button
+              type="button"
+              className="btn btn-burgundy"
+              onClick={closeMobileFilters}
+            >
+              Apply ({filteredProducts.length})
+            </button>
+          </div>
         </aside>
 
         {/* Right Products Grid & Results Section */}
@@ -522,7 +602,45 @@ export const CollectionsPage: React.FC = () => {
                 : `${filteredProducts.length} Products`}
             </span>
 
-            <div ref={sortWrapRef} className="custom-sort-wrap" id="customSortWrap">
+            <div className="catalogue-results-controls">
+              <button
+                ref={filtersTriggerRef}
+                type="button"
+                className="mobile-filters-btn"
+                aria-expanded={mobileFiltersOpen}
+                aria-controls="filtersSheet"
+                onClick={() => setMobileFiltersOpen(true)}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="4" y1="21" x2="4" y2="14" />
+                  <line x1="4" y1="10" x2="4" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12" y2="3" />
+                  <line x1="20" y1="21" x2="20" y2="16" />
+                  <line x1="20" y1="12" x2="20" y2="3" />
+                  <line x1="1" y1="14" x2="7" y2="14" />
+                  <line x1="9" y1="8" x2="15" y2="8" />
+                  <line x1="17" y1="16" x2="23" y2="16" />
+                </svg>
+                <span>Filters</span>
+                {(selectedCategories.size + (priceMin > 100 || priceMax < 5000 ? 1 : 0) + (customizableOnly ? 1 : 0)) > 0 && (
+                  <span className="mobile-filters-count">
+                    {selectedCategories.size + (priceMin > 100 || priceMax < 5000 ? 1 : 0) + (customizableOnly ? 1 : 0)}
+                  </span>
+                )}
+              </button>
+
+              <div ref={sortWrapRef} className="custom-sort-wrap" id="customSortWrap">
               <button
                 type="button"
                 className="custom-sort-trigger"
@@ -591,6 +709,7 @@ export const CollectionsPage: React.FC = () => {
                   );
                 })}
               </div>
+            </div>
             </div>
           </div>
 

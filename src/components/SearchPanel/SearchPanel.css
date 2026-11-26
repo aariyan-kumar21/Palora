@@ -270,3 +270,38 @@
   font-size: 18px;
   font-style: italic;
 }
+
+@media (max-width: 1023.98px) {
+  .search-panel-wrap {
+    width: calc(100vw - 16px);
+    top: calc(var(--nav-h) + 8px);
+  }
+
+  .search-results-card {
+    max-height: calc(var(--vv-height, 100dvh) - var(--nav-h) - 88px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .search-bar-close-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .search-results-heading,
+  .search-product-badge {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .search-pill-bar {
+    height: 54px;
+    padding: 0 14px;
+    gap: 8px;
+  }
+
+  .search-product-row {
+    padding: 12px;
+  }
+}

@@ -39,7 +39,34 @@
   --shadow-elevated: 0 16px 36px rgba(114, 47, 55, 0.14);
   --shadow-drawer: -8px 0 32px rgba(87, 46, 46, 0.25);
 
+  /* Breakpoint Scale (documented constants; CSS @media uses literal px)
+   * - Small phone:   320px - 479px   (@media (max-width: 479.98px))
+   * - Large phone:   480px - 767px   (@media (max-width: 767.98px))
+   * - Tablet:        768px - 1023px  (@media (max-width: 1023.98px))
+   * - Laptop:        1024px - 1919px (LOCKED)
+   * - Large screens: 1920px+         (@media (min-width: 1920px))
+   * - Phone landscape: (max-height: 500px) and (orientation: landscape)
+   */
+  --bp-small-phone: 320px;
+  --bp-large-phone: 480px;
+  --bp-tablet: 768px;
+  --bp-laptop: 1024px;
+  --bp-large: 1920px;
+  --content-max-w: 1680px;
+
   /* Transitions */
   --transition-fast: 200ms ease;
   --transition-smooth: 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (max-width: 1023.98px) {
+  :root {
+    --nav-h: 72px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --nav-h: 64px;
+  }
 }

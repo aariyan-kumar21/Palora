@@ -110,3 +110,10 @@
     transform: none;
   }
 }
+
+@media (hover: none) and (pointer: coarse) {
+  .jelly-radio__chip {
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+}
