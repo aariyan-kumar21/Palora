@@ -235,14 +235,16 @@ export const HelpPage: React.FC = () => {
                   <div className="contact-rows-list">
                   {hasWhatsApp() && (
                     <div className="contact-row-item">
+                      <span className="contact-row-icon" aria-hidden="true">
+                        <Icon name="whatsapp" size={24} />
+                      </span>
                       <a
                         href={waLink('Hi Palora! I have a question.')}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-burgundy"
+                        className="contact-row-link"
                       >
-                        <Icon name="whatsapp" size={20} />
-                        <span>Chat on WhatsApp</span>
+                        Chat on WhatsApp
                       </a>
                     </div>
                   )}
