@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CATEGORIES } from '../../data/categories';
 import { hasWhatsApp, waLink, INSTAGRAM_URL, INSTAGRAM_HANDLE, EMAIL } from '../../data/config';
+import { AnimatedContent } from '../AnimatedContent/AnimatedContent';
 import { Icon } from '../Icon/Icon';
 
 export const Footer: React.FC = () => {
@@ -18,7 +19,7 @@ export const Footer: React.FC = () => {
     <footer className="site-footer" id="site-footer">
       {/* 5 Columns Grid */}
       <div className="container footer-main-container">
-        <div className="footer-grid">
+        <AnimatedContent className="footer-grid" distance={85} duration={0.8} stagger={0.07} threshold={0.05} once={false}>
           {/* Column 1: Brand */}
           <div className="footer-col footer-col--brand">
             <div className="footer-brand-title">PALORA</div>
@@ -173,7 +174,7 @@ export const Footer: React.FC = () => {
               Every piece is made to order. Delivery timing is confirmed on WhatsApp when you place your order.
             </p>
           </div>
-        </div>
+        </AnimatedContent>
       </div>
 
       {/* Faint Giant Watermark */}

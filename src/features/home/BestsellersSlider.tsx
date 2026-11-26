@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PRODUCTS } from '../../data/products';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
+import { AnimatedContent } from '../../components/AnimatedContent/AnimatedContent';
 
 export const BestsellersSlider: React.FC = () => {
   const featuredProducts = PRODUCTS.filter(p => p.featured);
@@ -71,28 +72,30 @@ export const BestsellersSlider: React.FC = () => {
           </h2>
         </div>
 
-        <div
-          className="bestsellers__slider"
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="Bestselling products"
-        >
+        <AnimatedContent distance={95} duration={0.85} threshold={0.1} once={false}>
           <div
-            ref={trackRef}
-            className="bestsellers__track"
-            id="bestsellerTrack"
-            tabIndex={0}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-            onClickCapture={handleClickCapture}
+            className="bestsellers__slider"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Bestselling products"
           >
-            {featuredProducts.map((product, idx) => (
-              <ProductCard key={product.id} product={product} index={idx} variant="slider" />
-            ))}
+            <div
+              ref={trackRef}
+              className="bestsellers__track"
+              id="bestsellerTrack"
+              tabIndex={0}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              onClickCapture={handleClickCapture}
+            >
+              {featuredProducts.map((product, idx) => (
+                <ProductCard key={product.id} product={product} index={idx} variant="slider" />
+              ))}
+            </div>
           </div>
-        </div>
+        </AnimatedContent>
 
         {/* Centered View All Link below Slider */}
         <div className="bestsellers__footer">

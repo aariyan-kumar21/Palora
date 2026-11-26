@@ -27,19 +27,19 @@ async function main() {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    for (const path of ['/collections', '/story', '/help', '/privacy']) {
+    for (const path of ['/', '/collections', '/story', '/help', '/privacy']) {
       await page.goto(`http://127.0.0.1:4173${path}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(400);
       // Scroll through page to trigger ScrollTrigger animations
       const totalHeight = await page.evaluate(() => document.body.scrollHeight);
       for (let y = 0; y <= totalHeight; y += 500) {
         await page.evaluate(pos => window.scrollTo(0, pos), y);
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(250);
       }
-      await page.waitForTimeout(900);
+      await page.waitForTimeout(1000);
       const summary = await page.evaluate(() => {
         const cards = Array.from(
-          document.querySelectorAll('.product-card--catalogue, .story-process-card, .story-belief-card, .help-step, .help-faq-item, .privacy-section p')
+          document.querySelectorAll('.bestsellers__slider, .callout, .footer-col, .product-card--catalogue, .story-process-card, .story-belief-card, .help-step, .help-faq-item, .privacy-section p')
         );
         const hidden = cards.filter(c => parseFloat(getComputedStyle(c).opacity) < 0.99);
         return { total: cards.length, hidden: hidden.length };

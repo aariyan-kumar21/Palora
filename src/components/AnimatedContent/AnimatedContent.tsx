@@ -48,10 +48,10 @@ export interface AnimatedContentProps extends React.HTMLAttributes<HTMLDivElemen
 export const AnimatedContent: React.FC<AnimatedContentProps> = ({
   children,
   container,
-  distance = 60,
+  distance = 95,
   direction = 'vertical',
   reverse = false,
-  duration = 0.7,
+  duration = 0.8,
   ease = 'power3.out',
   initialOpacity = 0,
   animateOpacity = true,
@@ -192,12 +192,13 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
         return;
       }
 
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: el,
         scroller: scroller || undefined,
         start,
         once,
         onEnter: () => tl.play(),
+        onEnterBack: once ? undefined : () => tl.play(),
         onLeaveBack: once
           ? undefined
           : () => {
@@ -205,6 +206,10 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
               tl.reverse();
             }
       });
+
+      if (st.isActive) {
+        tl.play();
+      }
     }, el);
 
     return () => ctx.revert();

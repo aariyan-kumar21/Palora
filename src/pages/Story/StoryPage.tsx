@@ -41,7 +41,7 @@ export const StoryPage: React.FC = () => {
               <h2 id="story-why-heading" className="story-section-title">
                 Why we make what we make
               </h2>
-              <AnimatedContent distance={36} duration={0.7} stagger={0.08} threshold={0.1}>
+              <AnimatedContent distance={90} duration={0.8} stagger={0.08} threshold={0.1} once={false}>
                 <p>
                   Gifts are never really about the gift. They are about the moment, the person, and the small detail that shows you were thinking of them.
                 </p>
@@ -89,7 +89,7 @@ export const StoryPage: React.FC = () => {
               How each piece comes to life
             </h2>
           </div>
-          <AnimatedContent className="story-process-grid" distance={45} duration={0.7} stagger={0.1} threshold={0.1}>
+          <AnimatedContent className="story-process-grid" distance={95} duration={0.8} stagger={0.1} threshold={0.1} once={false}>
             <div className="story-process-card">
               <span className="story-process-num">01</span>
               <h3 className="story-process-card-title">Made to order</h3>
@@ -123,7 +123,7 @@ export const StoryPage: React.FC = () => {
               What we believe
             </h2>
           </div>
-          <AnimatedContent className="story-beliefs-grid" distance={45} duration={0.7} stagger={0.08} threshold={0.1}>
+          <AnimatedContent className="story-beliefs-grid" distance={95} duration={0.8} stagger={0.08} threshold={0.1} once={false}>
             <div className="story-belief-card">
               <div className="story-belief-icon-box" aria-hidden="true">
                 <Icon name="leaf" size={26} strokeWidth={1.5} />
@@ -164,7 +164,7 @@ export const StoryPage: React.FC = () => {
         <div className="container">
           <div className="cta-band">
             <h2 className="cta-band__heading">Have something special in mind?</h2>
-            <AnimatedContent distance={30} duration={0.6} stagger={0.08} threshold={0.1}>
+            <AnimatedContent distance={85} duration={0.75} stagger={0.08} threshold={0.1} once={false}>
               <p className="cta-band__text">
                 Tell us about the moment, and we will help you find or create the perfect gift.
               </p>
