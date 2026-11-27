@@ -626,6 +626,15 @@ body[data-page="catalogue"] .catalogue-main {
   gap: 24px;
 }
 
+.catalogue-card-anim {
+  display: flex;
+  height: 100%;
+}
+
+.catalogue-card-anim > .product-card--catalogue {
+  width: 100%;
+}
+
 /* Catalogue Variant Product Card */
 .product-card--catalogue {
   cursor: pointer;

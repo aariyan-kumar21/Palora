@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PRODUCTS, countInCategory, productsInCategory } from '../../data/products';
 import { CATEGORIES } from '../../data/categories';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
@@ -320,6 +321,11 @@ export const CollectionsPage: React.FC = () => {
   // Dual handle range slider percentage calculation
   const minPercent = ((priceMin - 100) / (5000 - 100)) * 100;
   const maxPercent = ((priceMax - 100) / (5000 - 100)) * 100;
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(id);
+  }, [filteredProducts.length]);
 
   return (
     <main className="catalogue-main" id="main">
@@ -734,25 +740,25 @@ export const CollectionsPage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <AnimatedContent
-              className="catalogue-grid"
-              id="catalogueGrid"
-              aria-live="polite"
-              distance={66}
-              duration={0.8}
-              stagger={0.06}
-              threshold={0.08}
-              once={false}
-            >
+            <div className="catalogue-grid" id="catalogueGrid" aria-live="polite">
               {filteredProducts.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  index={index}
-                  variant="catalogue"
-                />
+                <AnimatedContent
+                  key={`${product.id}-${filteredProducts.length}`}
+                  className="catalogue-card-anim"
+                  distance={66}
+                  duration={0.8}
+                  delay={(index % 4) * 0.06}
+                  threshold={0.08}
+                  once={false}
+                >
+                  <ProductCard
+                    product={product}
+                    index={index}
+                    variant="catalogue"
+                  />
+                </AnimatedContent>
               ))}
-            </AnimatedContent>
+            </div>
           )}
         </section>
       </div>

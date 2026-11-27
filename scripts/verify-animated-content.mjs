@@ -39,7 +39,7 @@ async function main() {
       await page.waitForTimeout(1000);
       const summary = await page.evaluate(() => {
         const cards = Array.from(
-          document.querySelectorAll('.bestsellers__slider, .callout, .footer-col, .product-card--catalogue, .story-process-card, .story-belief-card, .help-step, .help-faq-item, .privacy-section p')
+          document.querySelectorAll('.bestsellers__slider, .callout, .footer-col, .catalogue-card-anim, .product-card--catalogue, .story-process-card, .story-belief-card, .help-step, .help-faq-item, .privacy-section p')
         );
         const hidden = cards.filter(c => parseFloat(getComputedStyle(c).opacity) < 0.99);
         return { total: cards.length, hidden: hidden.length };
