@@ -123,7 +123,7 @@ body[data-page="catalogue"] .catalogue-main {
   scroll-behavior: smooth;
   scrollbar-width: none; /* Hide scrollbar for clean horizontal minus-scroll */
   -ms-overflow-style: none;
-  padding: 6px 4px;
+  padding: 8px 6px;
   cursor: grab;
   user-select: none;
   -webkit-overflow-scrolling: touch;
@@ -208,9 +208,9 @@ body[data-page="catalogue"] .catalogue-main {
 }
 
 .pill:hover {
-  background-color: #F9ECE6;
-  border-color: rgba(106, 31, 44, 0.3);
-  transform: translateY(-1px);
+  background-color: #E8E3E0;
+  border-color: rgba(106, 31, 44, 0.28);
+  transform: scale(1.06);
 }
 
 .pill:focus-visible {
@@ -218,10 +218,12 @@ body[data-page="catalogue"] .catalogue-main {
   outline-offset: 2px;
 }
 
-.pill.active {
+.pill.active,
+.pill.active:hover {
   background-color: #722F37;
   border-color: #722F37;
   color: #FFF7F2;
+  transform: scale(1.06);
   box-shadow: 0 4px 12px rgba(114, 47, 55, 0.22);
 }
 
